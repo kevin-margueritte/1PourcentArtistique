@@ -1,0 +1,136 @@
+{
+	"type": "FeatureCollection",
+	                                                                                
+	"features": [
+		{ 
+			"type": "Feature", "properties": { 
+				"informations_generales": { 
+					"TITRE": "Portrait de l'artiste", "ANNEE": "1989", "TYPE": "peinture", "MATERIAU": "NOSE", "ARCHITECTE": "NOSE"
+				}, 
+				"biographies": {
+					"NOM": "VAN GOGH", "PRENOM": "Vincent"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.862841, 43.632798 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": { 
+				"informations_generales": { 
+					"TITRE": "AA", "ANNEE": "1989", "TYPE": "peinture", "MATERIAU": "NOSE", "ARCHITECTE": "NOSE"
+				}, 
+				"biographies": {
+					"NOM": "VAN GOGH", "PRENOM": "Vincent"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.242425, 43.342016 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "Colonnes", "ANNEE": "1974", "TYPE": "sculpture", "MATERIAU": "Acier Corten, ciment, plomb", "ARCHITECTE": "René Egger, Philippe Jaulmes, Jean de Richemond"
+				}, 
+				"biographies": {
+					"NOM": "BURY", "PRENOM": "Pol"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.861592, 43.631507 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestArchitecture", "ANNEE": "TestArchitecture", "TYPE": "architecture", "MATERIAU": "TestArchitecture", "ARCHITECTE": "TestArchitecture"
+				}, 
+				"biographies": {
+					"NOM": "TestArchitecture", "PRENOM": "TestArchitecture"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.844963, 43.63401 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestArts décoratifs", "ANNEE": "TestArts décoratifs", "TYPE": "art décoratif", "MATERIAU": "TestArts décoratifs", "ARCHITECTE": "TestArts décoratifs"
+				}, 
+				"biographies": {
+					"NOM": "TestArts décoratifs", "PRENOM": "TestArts décoratifs"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.242425, 43.342016 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestArts numériques", "ANNEE": "TestArts numériques", "TYPE": "art numérique", "MATERIAU": "TestArts numériques", "ARCHITECTE": "TestArts numériques"
+				}, 
+				"biographies": {
+					"NOM": "TestArts numériques", "PRENOM": "TestArts numériques"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.239954, 43.335158 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestCinéma", "ANNEE": "TestCinéma", "TYPE": "cinéma", "MATERIAU": "TestCinéma", "ARCHITECTE": "TestCinéma"
+				}, 
+				"biographies": {
+					"NOM": "TestCinéma", "PRENOM": "TestCinéma"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.223651, 43.352154 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestMusique", "ANNEE": "TestMusique", "TYPE": "musique", "MATERIAU": "TestMusique", "ARCHITECTE": "TestMusique"
+				}, 
+				"biographies": {
+					"NOM": "TestMusique", "PRENOM": "TestMusique"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.88188, 43.614333 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "Test", "ANNEE": "Test", "TYPE": "photographie", "MATERIAU": "TestPhotographie", "ARCHITECTE": "TestPhotographie"
+				}, 
+				"biographies": {
+					"NOM": "TestPhotographie", "PRENOM": "TestPhotographie"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.933493, 43.528906 ] 
+			}
+		},
+		{ 
+			"type": "Feature", "properties": {
+				"informations_generales": {
+					"TITRE": "TestCinéma", "ANNEE": "TestCinéma", "TYPE": "cinéma", "MATERIAU": "TestCinéma", "ARCHITECTE": "TestCinéma"
+				}, 
+				"biographies": {
+					"NOM": "TestCinéma", "PRENOM": "TestCinéma"
+				}
+			}, 
+			"geometry": { 
+				"type": "Point", "coordinates": [ 3.223651, 43.652154 ] 
+			}
+		}
+	]
+}

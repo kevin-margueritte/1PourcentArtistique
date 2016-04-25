@@ -423,3 +423,122 @@
   background: inherit !important;
   background-color: #27ae60 !important;
 }
+/*PAGE ACCUEIL*/
+/*Nom et prénom de l'artiste dans la popup en gras*/
+div#nom-prenom-artiste
+{
+    font-weight: bold;
+}
+/*Nom de l'oeuvre et + infos dans la popup en italic*/
+div#nom-oeuvre,
+div#plus-infos {
+  font-style: italic;
+}
+/*Met l'image dans la popup a gauche*/
+div#image
+{
+    float: left;
+
+    width: 105px;
+}
+/*Met le texte dans la popup a droite*/
+div#texte
+{
+    margin-left: 105px;
+}
+/*Menu filtres lorsqu'il est non selectionné*/
+#menu-ui {
+  position: absolute;
+  z-index: 1;
+  top: 100px;
+  left: 15px;
+  width: 170px;
+  height: 35px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 3px;
+  background: #fff;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+/*Menu filtre lorsqu'il est selectionné*/
+#menu-ui.selectionner
+{
+    position: absolute;
+    z-index: 1;
+    top: 100px;
+    left: 15px;
+
+    width: 170px;
+    height: auto;
+    margin: 0;
+    padding: 0;
+
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px;
+    background: #fff;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+/*Enlever les points du radio button dans le formulaire*/
+#menu-ui input
+{
+    margin: 0;
+    padding: 0;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+/*Enleve le soulignement sour le lien du menu*/
+#menu-ui a
+{
+    text-decoration: none;
+}
+/*Effet pour le titre "Filtres"*/
+a#filtre
+{
+    font-size: 25px;
+    font-weight: bold;
+
+    margin-top: 10px;
+    margin-left: 10px;
+
+    text-align: left;
+
+    color: #2c3e50;
+}
+/*Effet de mise en avant pour l'element selectionné*/
+div.radio label > input:checked + div {
+  font-size: 17px;
+  font-weight: bold;
+  opacity: 1;
+}
+/*Effet de mise en retrait pour les autres elements non selectionnés*/
+div.radio label > input:not(:checked) + div {
+  opacity: .33;
+}
+/*Rajoute bordure de separation entre chaque type d'oeuvre*/
+div.radio
+{
+    border-top: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px;
+}
+/*Rajoute une petite marge pour chaque texte*/
+div#texteFiltre
+{
+    margin-top: 4px;
+}
+/*Masque les filtres au demarrage*/
+#cacher
+{
+    visibility: hidden;
+}
+/*Centre l'image du filtre*/
+img.menu {
+  margin-bottom: 5px;
+}

@@ -135,6 +135,7 @@ myApp.controller('edit', function ($scope, $http) {
   }
 
   angular.element(document).ready(function () {
+    $('#modal-title').modal('show');
     $("#dropzoneDescription").dropzone({
       url: '/php/manager/uploadFile.php',
       paramName: 'file',
@@ -176,6 +177,12 @@ $( document ).ready(function() {
 function initMap() {
 
   var placeSearch;
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 43.602272978692746, lng: 3.8836669921875},
+    zoom: 13
+  });
+
   var geocoder = new google.maps.Geocoder();
   var autocomplete = new google.maps.places.Autocomplete(
       (document.getElementById('oeuvre-adress')),{types: ['geocode']}
@@ -194,11 +201,6 @@ function initMap() {
       }
     });
   }
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 43.602272978692746, lng: 3.8836669921875},
-    zoom: 13
-  });
 
   function placeMarker(location) {
     if ( marker ) {
