@@ -1,0 +1,425 @@
+/* Colours */
+/* Fonts */
+@font-face {
+  font-family: 'openSans-Bold';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-BoldItalic';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-ExtraBold';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-ExtraBoldItalic';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-Italic';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-Light';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-LightItalic';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-Regular';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-Semibold';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-Semibold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'openSans-SemiboldItalic';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('/assets/fonts/OpenSans-SemiboldItalic.ttf') format('truetype');
+}
+/* MEDIA QUERIES */
+.oeuvre .title {
+  background-color: #ecf0f1;
+}
+
+.oeuvre .title h1 {
+  font-size: 50px;
+  padding-top: 10px;
+  color: #ff5660;
+}
+
+.oeuvre .title h2 {
+  padding-bottom: 10px;
+  color: #95a5a6;
+}
+
+.oeuvre .title h1,
+.oeuvre .title h2 {
+  font-family: 'openSans-Bold';
+  margin-top: inherit;
+  margin-bottom: inherit;
+  margin-left: 50px;
+}
+
+.oeuvre .overview {
+  padding-top: 20px;
+  background-color: #ecf0f1;
+}
+
+@media only screen and (min-width: 1200px) {
+  .oeuvre .overview .descriptions {
+    float: left;
+    width: 65%;
+    margin-top: 50px;
+  }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  .oeuvre .overview .descriptions {
+    float: left;
+    width: 65%;
+    margin-top: 12px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .oeuvre .overview .descriptions {
+    width: 100%;
+    padding-right: 50px;
+  }
+}
+
+.oeuvre .overview .descriptions .description {
+  margin-top: 18px;
+  padding-left: 50px;
+}
+
+.oeuvre .overview .descriptions .description .name {
+  font-family: 'openSans-Semibold';
+  font-size: 17px;
+  color: #34495e;
+}
+
+.oeuvre .overview .descriptions .description .entitled {
+  font-family: 'openSans-SemiboldItalic';
+  float: right;
+  width: 60%;
+  text-align: right;
+}
+
+.oeuvre .overview .photo {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 0;
+  margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 992px) {
+  .oeuvre .overview .photo {
+    padding: 18.25% 0 0 0;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .oeuvre .overview .photo {
+    margin-top: 15px;
+    padding: 38.25% 0 0 0;
+  }
+}
+
+.oeuvre .overview .photo img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+}
+
+.oeuvre .presentation {
+  padding-bottom: 15px;
+}
+
+.oeuvre .presentation h1 {
+  font-family: 'openSans-Bold';
+  margin-bottom: 30px;
+  margin-left: 50px;
+  color: #34495e;
+}
+
+.oeuvre .presentation span {
+  font-family: 'openSans-Regular';
+  display: block;
+  margin-right: 100px;
+  margin-left: 100px;
+  text-align: justify;
+  color: #2c3e50;
+}
+
+.oeuvre .presentation .video-js {
+  width: 60%;
+  height: 400px;
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.oeuvre .presentation .btn-next {
+  font-family: 'openSans-Regular';
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+  background-color: #ff5660;
+}
+
+.oeuvre .presentation audio {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.oeuvre .photograph {
+  padding-bottom: 30px;
+  background-color: #ecf0f1;
+}
+
+.oeuvre .photograph h1 {
+  font-family: 'openSans-Bold';
+  margin-bottom: 30px;
+  margin-left: 50px;
+  padding-top: 20px;
+  color: #34495e;
+}
+
+.oeuvre .photograph .carousel-photograph {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.oeuvre .photograph .carousel-photograph .item {
+  width: 400px;
+}
+
+.oeuvre .historic {
+  padding-bottom: 20px;
+}
+
+.oeuvre .historic h1 {
+  font-family: 'openSans-Bold';
+  margin-bottom: 30px;
+  margin-left: 50px;
+  padding-top: 20px;
+  color: #34495e;
+}
+
+.oeuvre .historic .carousel-historic {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.oeuvre .historic .carousel-historic .item {
+  width: 400px;
+}
+
+.oeuvre .historic span {
+  font-family: 'openSans-Regular';
+  display: block;
+  margin-top: 30px;
+  margin-right: 100px;
+  margin-left: 100px;
+  text-align: justify;
+  color: #2c3e50;
+}
+
+.edit {
+  margin-right: 5%;
+  margin-left: 5%;
+}
+
+.edit h1 {
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.edit h1,
+.edit label {
+  font-family: 'openSans-Bold';
+}
+
+.edit input,
+.edit td {
+  font-family: 'openSans-Regular';
+}
+
+.edit td,
+.edit th {
+  text-align: center;
+}
+
+.edit .btn {
+  color: white;
+}
+
+.edit .btn-add-author,
+.edit .btn-complete {
+  display: block;
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.edit .btn-removeAuthor {
+  background-color: #f39c12;
+}
+
+.edit .btn-add-author {
+  background-color: #2980b9;
+}
+
+.edit .btn-complete {
+  margin-bottom: 30px;
+  background-color: #ff5660;
+}
+
+.edit .dropzone span {
+  font-family: 'openSans-Bold';
+}
+
+.edition .title:hover {
+  -webkit-transition: opacity .25s ease;
+  -moz-transition: opacity .25s ease;
+  opacity: 1;
+  background: rgba(0, 0, 0, .4);
+  background-image: url('../assets/icon/edit.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+/*** FIX MAP GOOGLE BUG ***/
+#map {
+  position: relative;
+  overflow: hidden;
+  height: 0;
+  margin-right: 10px;
+  margin-bottom: 35px;
+  margin-left: 10px;
+  padding-top: 16px;
+  padding-bottom: 35.25%;
+  text-align: center;
+}
+
+.pac-container {
+  z-index: 2000;
+}
+/*** FIX MULTI MODAL BOOTSTRAP ***/
+.modal {
+  overflow-y: scroll;
+}
+/*** NAVBAR LEFT SOLUTION - EDIT  PAGE ***/
+@media (min-width: 768px) {
+  .navbar-collapse {
+    height: auto;
+    max-height: none;
+    padding-right: 0;
+    padding-left: 0;
+    border-top: 0;
+    box-shadow: none;
+  }
+
+  .navbar-collapse.collapse {
+    display: block !important;
+    overflow: visible !important;
+    width: auto !important;
+    padding-bottom: 0;
+  }
+
+  .navbar-collapse.in {
+    overflow-x: visible;
+  }
+
+  .navbar {
+    float: left;
+    max-width: 300px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .navbar-nav,
+    .navbar-nav > li,
+    .navbar-left,
+    .navbar-right,
+    .navbar-header {
+    float: none !important;
+  }
+
+  .navbar-right .dropdown-menu {
+    right: auto;
+    left: 0;
+  }
+
+  .navbar-collapse .navbar-nav.navbar-right:last-child {
+    margin-right: 0;
+  }
+}
+/*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/
+.tag-item {
+  font-family: 'openSans-Regular' !important;
+  background: inherit !important;
+  background-color: #27ae60 !important;
+}

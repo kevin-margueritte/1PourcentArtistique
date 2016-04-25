@@ -1,0 +1,476 @@
+/* Colours */
+@rouge_um: #FF5660;
+@bleu_de_soutien: #4BC2BC;
+@clouds: #ECF0F1;
+@silver: #BDC3C7;
+@concrete: #95A5A6;
+@asbestos: #7F8C8D;
+@wet_asphalt: #34495E;
+@midnight_blue: #2C3E50;
+@sun_flower: #F1C40F;
+@orange: #F39C12;
+@emerald: #2ECC71;
+@nephritis: #27AE60;
+@peter_river: #3498DB;
+@belize_hole: #2980B9;
+@amethyst: #9B59B6;
+@wisteria: #8E44AD;
+
+/* Fonts */
+@font-face {
+    font-family: 'openSans-Bold';
+    src: url('/assets/fonts/OpenSans-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-BoldItalic';
+    src: url('/assets/fonts/OpenSans-BoldItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-ExtraBold';
+    src: url('/assets/fonts/OpenSans-ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-ExtraBoldItalic';
+    src: url('/assets/fonts/OpenSans-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-Italic';
+    src: url('/assets/fonts/OpenSans-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-Light';
+    src: url('/assets/fonts/OpenSans-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-LightItalic';
+    src: url('/assets/fonts/OpenSans-LightItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-Regular';
+    src: url('/assets/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-Semibold';
+    src: url('/assets/fonts/OpenSans-Semibold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'openSans-SemiboldItalic';
+    src: url('/assets/fonts/OpenSans-SemiboldItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@openSans-Bold: 'openSans-Bold';
+@openSans-BoldItalic: 'openSans-BoldItalic';
+@openSans-ExtraBold: 'openSans-ExtraBold';
+@openSans-ExtraBoldItalic: 'openSans-ExtraBoldItalic';
+@openSans-Italic: 'openSans-Italic';
+@openSans-Light: 'openSans-Light';
+@openSans-LightItalic: 'openSans-LightItalic';
+@openSans-Regular: 'openSans-Regular';
+@openSans-Semibold: 'openSans-Semibold';
+@openSans-SemiboldItalic: 'openSans-SemiboldItalic';
+
+/* MEDIA QUERIES */
+@xs-min: 480px;
+@sm-min: 768px;
+@md-min: 992px;
+@lg-min: 1200px;
+
+@xs-max: (@sm-min - 1);
+@sm-max: (@md-min - 1);
+@md-max: (@lg-min - 1);
+
+@phone:          ~"only screen and (min-width: @{xs-min})";
+@phone-strict:   ~"only screen and (min-width: @{xs-min}) and (max-width: @{xs-max})";
+@tablet:         ~"only screen and (min-width: @{sm-min})";
+@tablet-strict:  ~"only screen and (min-width: @{sm-min}) and (max-width: @{sm-max})";
+@desktop-low:    ~"only screen and (max-width: @{md-min})";
+@desktop:        ~"only screen and (min-width: @{md-min})";
+@desktop-strict: ~"only screen and (min-width: @{md-min}) and (max-width: @{md-max})";
+@large:          ~"only screen and (min-width: @{lg-min})";
+
+.oeuvre {
+	
+	.title {
+
+		background-color: @clouds;
+
+		h1 {
+			color: @rouge_um;
+			padding-top: 10px;
+			font-size: 50px;		
+		}
+
+		h2 {
+			color: @concrete;
+			padding-bottom: 10px;
+		}
+
+		h1, h2 {
+			font-family: @openSans-Bold;
+			margin-left: 50px;
+			margin-top: inherit;
+			margin-bottom: inherit;
+		}
+
+	}
+
+	.overview {
+
+		background-color: @clouds;
+		padding-top: 20px;
+
+		.descriptions {
+
+			@media @large {
+				width: 65%;
+    			float: left;
+    			margin-top: 50px;
+    		}
+
+    		@media @desktop-strict {
+    			width: 65%;
+    			float: left;
+    			margin-top: 12px;
+    		}
+
+    		@media @desktop-low {
+    			width: 100%;
+    			padding-right: 50px;
+    		}
+
+			.description {
+
+				padding-left: 50px;
+				margin-top: 18px;
+
+				.name {
+					color: @wet_asphalt;
+					font-family: @openSans-Semibold;
+					font-size: 17px;
+				}
+
+				.entitled {
+					float: right;
+					font-family: @openSans-SemiboldItalic;
+					text-align: right;
+					width: 60%
+				}
+
+			}
+
+		}
+
+		.photo {
+
+			display: block;
+			position: relative;
+			height: 0;
+			overflow: hidden;
+			margin-bottom: 15px;
+
+			@media @desktop {
+    			padding: 18.25% 0 0 0;
+    		}
+
+    		@media @desktop-low {
+    			padding: 38.25% 0 0 0;
+    			margin-top: 15px;
+    		}
+
+			img {
+				position: absolute;
+				display: block;
+				max-width: 100%;
+				max-height: 100%;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				margin: auto;
+			}
+		}
+	}
+
+	.presentation {
+
+		padding-bottom: 15px;
+
+		h1 {
+			font-family: @openSans-Bold;
+			color: @wet_asphalt;
+			margin-left: 50px;
+			margin-bottom: 30px;
+		}
+
+		span {
+			font-family: @openSans-Regular;
+			color: @midnight_blue;
+			text-align: justify;
+    		display: block;
+    		margin-left: 100px;
+   			margin-right: 100px;
+		}
+
+		.video-js {
+			text-align: center;
+			margin: 0 auto;
+			width: 60%;
+			height: 400px;
+			margin-top: 20px;
+		}
+
+		.btn-next {
+			text-align: center;
+			margin: 0 auto;
+			display: block;
+			margin-top: 10px;
+			font-family: @openSans-Regular;
+			color: white;
+			background-color: @rouge_um;
+		}
+
+		audio {
+			margin: 0 auto;
+			text-align: center;
+			display: block;
+			margin-top: 15px;
+			width: 80%;
+		}
+	}
+
+	.photograph {
+
+		background-color: @clouds;
+		padding-bottom: 30px;
+
+		h1 {
+			font-family: @openSans-Bold;
+			color: @wet_asphalt;
+			margin-left: 50px;
+			margin-bottom: 30px;
+			padding-top: 20px;
+		}
+
+		.carousel-photograph {
+
+			width: 80%;
+			text-align: center;
+			margin: 0 auto;
+
+			.item {
+				width: 400px;
+			}
+		}
+	}
+
+	.historic {
+
+		padding-bottom: 20px;
+
+		h1 {
+			font-family: @openSans-Bold;
+			color: @wet_asphalt;
+			margin-left: 50px;
+			margin-bottom: 30px;
+			padding-top: 20px;
+		}
+
+		.carousel-historic {
+
+			width: 80%;
+			text-align: center;
+			margin: 0 auto;
+
+			.item {
+				width: 400px;
+			}
+		}
+
+		span {
+			font-family: @openSans-Regular;
+			color: @midnight_blue;
+			text-align: justify;
+    		display: block;
+    		margin-top: 30px;
+    		margin-left: 100px;
+   			margin-right: 100px;
+		}
+
+	}
+}
+
+.edit {
+
+	margin-left: 5%;
+    margin-right: 5%;
+
+	h1 {
+		color: @rouge_um;
+		font-size: 50px;
+		margin: 0 auto;
+		text-align: center;
+		margin-bottom: 10px;
+    	margin-top: 10px;
+	}
+
+	h1, label {
+		font-family: @openSans-Bold;
+	}
+
+	input, td {
+		font-family: @openSans-Regular;
+	}
+
+	td, th {
+		text-align: center;
+	}
+
+	.btn {
+		color: white;
+	}
+
+	.btn-add-author, .btn-complete {
+		text-align: center;
+	    margin: 0 auto;
+	    width: 30%;
+	    display: block;
+	    margin-top: 30px;
+	}
+
+	.btn-removeAuthor {
+		background-color: @orange;
+	}
+
+	.btn-add-author {
+		background-color: @belize_hole;
+	}
+
+	.btn-complete {
+		background-color: @rouge_um;
+		margin-bottom: 30px;
+	}
+
+	.dropzone {
+
+		span {
+			font-family: @openSans-Bold;
+		}
+
+	}
+}
+
+.edition {
+
+	.title:hover {
+	    opacity: 1;
+	    background: rgba(0,0,0,0.40);
+	    -webkit-transition: opacity .25s ease;
+	    -moz-transition: opacity .25s ease;
+	    background-image: url("../assets/icon/edit.png");
+	    background-repeat: no-repeat;
+	    background-position: center;
+	}
+}
+
+/*** FIX MAP GOOGLE BUG ***/
+#map {
+	position: relative;
+    padding-bottom: 35.25%;
+    padding-top: 16px;
+    height: 0;
+    overflow: hidden;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 35px;
+}
+
+.pac-container {
+	z-index: 2000;
+}
+
+/*** FIX MULTI MODAL BOOTSTRAP ***/
+
+.modal {
+	overflow-y: scroll;
+}
+
+/*** NAVBAR LEFT SOLUTION - EDIT  PAGE ***/
+@media (min-width: 768px) {
+	.navbar-collapse {
+		height: auto;
+		border-top: 0;
+		box-shadow: none;
+		max-height: none;
+		padding-left:0;
+		padding-right:0;
+	}
+
+	.navbar-collapse.collapse {
+		display: block !important;
+		width: auto !important;
+		padding-bottom: 0;
+		overflow: visible !important;
+	}
+
+	.navbar-collapse.in {
+		overflow-x: visible;
+	}
+
+	.navbar {
+		max-width:300px;
+		margin-right: 0;
+		margin-left: 0;
+		float: left;
+	}	
+
+	.navbar-nav,
+	.navbar-nav > li,
+	.navbar-left,
+	.navbar-right,
+	.navbar-header
+	{
+		float:none !important;
+	}
+
+	.navbar-right .dropdown-menu {left:0;right:auto;}
+	.navbar-collapse .navbar-nav.navbar-right:last-child {
+		margin-right: 0;
+	}
+}
+
+/*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/
+.tag-item {
+	background: inherit !important;
+	background-color: @nephritis !important;
+	font-family: @openSans-Regular !important;
+}
