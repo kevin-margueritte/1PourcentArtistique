@@ -19,24 +19,39 @@
 		private $latitude;
 
 		/**
-		Name of the art at this localisation
-		@var nameArt
-		*/
-		private $nameArt;
-
-		/**
 		Connection database
 		@var $db
 		*/
 		private $db;
 
-		public function __construct ($name, $longitude, $latitude, $nameArt)
+		public function __construct ($name, $longitude, $latitude)
 		{
 			$this->db = connection();
 			$this->name = $name;
 			$this->longitude = $longitude;
 			$this->latitude = $latitude;
-			$this->nameArt = $nameArt;
+		}
+
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO LOCATION(name, longitude, latitude) 
+				VALUES (?, ?, ?)");
+			return $insert->execute(array($this->name, $this->longitude, $this->latitude));
+		}
+
+		function update () {
+			$update = $this->db->prepare(
+				"UPDATE LOCATION SET
+					longitude = ?, 
+					latitude = ?
+				WHERE name = ?");
+			return $update->execute(array($this->longitude, $this->latitude, 
+				$this->name));
+		}
+
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE name = ? ");
+			$exist->execute(array($this->name));
+			return count($exist->fetchAll()) >= 1;
 		}
 
 	    /**
