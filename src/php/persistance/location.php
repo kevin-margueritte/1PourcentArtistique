@@ -24,8 +24,15 @@
 		*/
 		private $nameArt;
 
+		/**
+		Connection database
+		@var $db
+		*/
+		private $db;
+
 		public function __construct ($name, $longitude, $latitude, $nameArt)
 		{
+			$this->db = connection();
 			$this->name = $name;
 			$this->longitude = $longitude;
 			$this->latitude = $latitude;
