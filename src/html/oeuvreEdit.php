@@ -11,10 +11,11 @@
 	<link href="/lib/input-tags/ng-tags-input.min.css" rel="stylesheet">
 	<link href="/lib/dropzone/dropzone.min.css" rel="stylesheet">
 	<link href="/lib/dropzone/basic.min.css" rel="stylesheet">
+	<link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique - Création</title>
 </head>
-<body ng-app="oeuvre-edit" ng-controller="edit">
+<body ng-app="art-edit" ng-controller="edit">
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -43,7 +44,7 @@
 	<div class="oeuvre edition">
 		<div class="title">
 			<h1 id="name">
-				{{oeuvre.name}} - {{oeuvre.date}}
+				{{art.name}} - {{art.date}}
 			</h1>
 			<h2 id="name_author">{{authorsList}}</h2>
 		</div>
@@ -54,15 +55,32 @@
 						<h1>Créer une oeuvre</h1>
 						<div class="form-group">
 							<label>Nom de l'oeuvre</label>
-							<input ng-model="oeuvre.name" type="text" class="form-control" placeholder="Nom">
+							<input ng-model="art.name" type="text" class="form-control" placeholder="Nom">
 						</div>
 						<div class="form-group">
 							<label>Année de l'oeuvre</label>
-							<input ng-model="oeuvre.date" type="number" min="1" max="2500" class="form-control" placeholder="Année">
+							<input ng-model="art.date" type="number" min="1" max="2500" class="form-control" placeholder="Année">
+						</div>
+						<div class="form-group">
+							<label>test</label>
+							<input id="countries" ng-model="test">
+						</div>
+						<div class="form-group">
+							<label>Type de oeuvre</label>
+							<select class="form-control" ng-model="art.type">
+							    <option ng-selected="true" value="Architecture">Architecture</option>
+							    <option>Arts décoratifs</option>
+							    <option>Arts numériques</option>
+							    <option>Cinéma</option>
+							    <option>Musique</option>
+							    <option>Peinture</option>
+							    <option>Photographie</option>
+							    <option>Sculpture</option>
+							</select>
 						</div>
 						<div class="form-group">
 							<label>Adresse exacte de l'oeuvre</label>
-							<input type="text" class="form-control" id="oeuvre-adress" placeholder="Adresse">
+							<input type="text" class="form-control" id="art-adress" placeholder="Adresse">
 						</div>
 						<div id="map"></div>
 						<table class="table">
@@ -101,15 +119,15 @@
 						<h1>Ajouter un auteur</h1>
 						<div class="form-group">
 							<label>Nom de l'auteur</label>
-							<input ng-model="oeuvre.authors[nbAuthors].name" type="text" class="form-control" id="oeuvre-name" placeholder="Nom">
+							<input ng-model="art.authors[nbAuthors].name" type="text" class="form-control" id="oeuvre-name" placeholder="Nom">
 						</div>
 						<div class="form-group">
 							<label>Année de naissance</label>
-							<input ng-model="oeuvre.authors[nbAuthors].yearBirth" type="number" min="1" max="2500" class="form-control" id="oeuvre-name" placeholder="Année">
+							<input ng-model="art.authors[nbAuthors].yearBirth" type="number" min="1" max="2500" class="form-control" id="oeuvre-name" placeholder="Année">
 						</div>
 						<div class="form-group">
 							<label>Année de décès</label>
-							<input ng-model="oeuvre.authors[nbAuthors].yearDeath" type="number" min="1" max="2500" class="form-control" id="oeuvre-name" placeholder="Année">
+							<input ng-model="art.authors[nbAuthors].yearDeath" type="number" min="1" max="2500" class="form-control" id="oeuvre-name" placeholder="Année">
 						</div>
 						<button type="button" ng-click="completeAuthor()" class="btn btn-complete">Ajouter</button>
 					</div>
@@ -122,29 +140,16 @@
 					<div class="edit">
 						<h1>Créer une description</h1>
 						<div class="form-group">
-							<label>Type de oeuvre</label>
-							<select class="form-control" id="sel1" ng-model="oeuvre.type">
-							    <option>Architecture</option>
-							    <option>Arts décoratifs</option>
-							    <option>Arts numériques</option>
-							    <option>Cinéma</option>
-							    <option>Musique</option>
-							    <option>Peinture</option>
-							    <option>Photographie</option>
-							    <option>Sculpture</option>
-							</select>
-						</div>
-						<div class="form-group">
 							<label>Localisation de l'oeuvre</label>
-							<input ng-model="oeuvre.localisation" class="form-control" placeholder="Localisation">
+							<input ng-model="art.localisation" class="form-control" placeholder="Localisation">
 						</div>
 						<div class="form-group">
 							<label>Matériaux utilisés</label>
-							<tags-input ng-model="oeuvre.materials" placeholder="Ajouter un matériau"></tags-input>
+							<tags-input ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
 						</div>
 						<div class="form-group">
 							<label>Les architectes</label>
-							<tags-input ng-model="oeuvre.architects" placeholder="Ajouter un architecte"></tags-input>
+							<tags-input ng-model="art.architects" placeholder="Ajouter un architecte"></tags-input>
 						</div>
 						<form class="dropzone" id="dropzoneDescription"></form>
 						<button type="button" class="btn btn-complete" ng-click="completeDescription()">Modifier</button>
@@ -162,8 +167,8 @@
 			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 			<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 			<script src="/lib/dropzone/dropzone.js"></script>
-			<script src="/lib/fso/fso.min.js"></script>
 			<!-- <script src="/js/oeuvre.js"></script> -->
+			<script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
 			<script src="/js/oeuvreEdit.js"></script>
 			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap"
 			async defer></script>

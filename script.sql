@@ -23,7 +23,7 @@ CREATE TABLE ART (
 	creationDate NUMBER,
 	presentationHTMLFile VARCHAR(32),
 	historiqueHTMLFile VARCHAR(32),
-	sonFile VARCHAR(32),
+	soundFile VARCHAR(32),
 	isPublic NUMBER(1),
   type VARCHAR(32),
 	CONSTRAINT PK_Art PRIMARY KEY (name),
@@ -125,18 +125,3 @@ CREATE TABLE COMPOSE (
 	CONSTRAINT FK_Compose_Material FOREIGN KEY (nameMaterial) 
 		REFERENCES MATERIAL(name) ON DELETE CASCADE
 ); 
-
-CREATE TABLE MATERIAL (
-  name VARCHAR(32),
-  CONSTRAINT PK_Material PRIMARY KEY (name)
-);
-
-CREATE TABLE COMPOSE (
-  nameMaterial VARCHAR(32),
-  nameArt VARCHAR(150),
-  CONSTRAINT PK_Compose PRIMARY KEY (nameArt, nameMaterial),
-	CONSTRAINT FK_Compose_Art FOREIGN KEY (nameArt) 
-		REFERENCES ART(name) ON DELETE CASCADE,
-	CONSTRAINT FK_Compose_Material FOREIGN KEY (nameMaterial) 
-		REFERENCES MATERIAL(name) ON DELETE CASCADE
-);

@@ -1,29 +1,106 @@
-var myApp = angular.module('oeuvre-edit', ['ngTagsInput']);
+var myApp = angular.module('art-edit', ['ngTagsInput']);
 
 /** declare json **/
-var oeuvre = {};
-oeuvre.name = '';
-oeuvre.date = '';
-oeuvre.latitude ='';
-oeuvre.longitude = '';
-oeuvre.authors = [];
-oeuvre.materials = [];
-oeuvre.architects = [];
-var nameOeuvre;
-var dateOeuvre;
-var latitudeOeuvre;
-var longitudeOeuvre;
+var art = {};
+art.name = '';
+art.date = '';
+art.latitude ='';
+art.longitude = '';
+art.authors = [];
+art.materials = [];
+art.architects = [];
+art.presentationHTMLFile = '';
+art.historiqueHTMLFile = '';
+art.soundFile = '';
+art.type;
+var nameart;
+var dateart;
+var latitudeart;
+var longitudeart;
 var marker;
-/*var fso = new FSO(1024 * 1024 * 1024, false);*/
 
 myApp.controller('edit', function ($scope, $http) {
 
   $scope.nbAuthors = 0;
-  $scope.oeuvre = {};
+  $scope.art = {};
+  $scope.art.name = '';
   $scope.hideError = true;
-  $scope.oeuvre.authors = [];
-  $scope.oeuvre.architects = [];
-  $scope.oeuvre.materials = [];    
+  $scope.art.authors = [];
+  $scope.art.architects = [];
+  $scope.art.materials = [];
+  $scope.art.presentationHTMLFile = '';
+  $scope.art.type = 'Architecture'; //Fix bug angularJS - select
+
+  /** MODAL TITLE **/
+  $scope.openTitle = function($event) {
+    $('#modal-title').modal('show');
+  };
+
+  $scope.$watch("test", function(newValue, oldValue) {
+    $scope.art.name = newValue;
+  });
+
+  $scope.completeTitle = function() {
+    if (angular.isUndefined($scope.art.name)) {
+      $scope.titleError = "Veuillez saisir le nom de l'art";
+      $scope.hideError = false;
+    }
+    else if ($scope.art.date == 0 || !Number.isInteger($scope.art.date)) {
+      $scope.titleError = "Veuillez saisir une date";
+      $scope.hideError = false;
+    }
+    else if (angular.isUndefined(marker)) {
+      $scope.titleError = "Veuillez saisir le lieu de l'art";
+      $scope.hideError = false;
+    }
+    else {
+      $scope.hideError = true;
+
+      /**JSon**/
+      art.name = $scope.art.name;
+      art.date = $scope.art.date;
+      art.type = $scope.art.type;
+      art.latitude = marker.position.lat();
+      art.longitude = marker.position.lng();
+
+      /**Display**/
+      $scope.authorsList = '';
+      for( var i = 0; i < $scope.nbAuthors; i++ ) {
+        if (i != 0) {
+          $scope.authorsList += ", ";
+        }
+        $scope.authorsList += art.authors[i].name + " (" + art.authors[i].yearBirth; 
+        if ( Number.isInteger(art.authors[i].yearDeath) ) {
+          $scope.authorsList += " - " + art.authors[i].yearDeath;
+        }
+        $scope.authorsList += ")";
+      }
+      
+      console.log(art);
+      /*** Ajax - create art ***/
+      var rqt = {
+        method : 'POST',
+        url : '/php/manager/createArt.php',
+        data : $.param({name: art.name, presentationHTMLFile : art.presentationHTMLFile, historiqueHTMLFile: art.historiqueHTMLFile,
+         creationYear: art.date, isPublic: 0, type: art.type, soundFile: art.soundFile}),  
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
+      $http(rqt).success(function(data){
+        if (data.error) {
+          $scope.titleError = data.key;
+          $scope.hideError = false;
+        }
+        else {
+          $('#modal-title').modal('hide');
+        }
+      });
+    }
+  };
+
+  $scope.addAuthor = function() {
+     $('#modal-author').modal('show');
+     $scope.art.authors[$scope.nbAuthors] = {};
+  }
 
   $scope.removeAuthor = function(name) {
     var idx = -1;
@@ -34,108 +111,56 @@ myApp.controller('edit', function ($scope, $http) {
         break;
       }
     }
-    oeuvre.authors.splice( idx, 1 );
-    $scope.authorsArray = oeuvre.authors;
+    art.authors.splice( idx, 1 );
+    $scope.authorsArray = art.authors;
 
     $scope.nbAuthors--;
   };
 
-  $scope.completeTitle = function() {
-    if (angular.isUndefined($scope.oeuvre.name)) {
-      $scope.titleError = "Veuillez saisir le nom de l'oeuvre";
-      $scope.hideError = false;
-    }
-    else if ($scope.oeuvre.date == 0 || !Number.isInteger($scope.oeuvre.date)) {
-      $scope.titleError = "Veuillez saisir une date";
-      $scope.hideError = false;
-    }
-    else if (angular.isUndefined(marker)) {
-      $scope.titleError = "Veuillez saisir le lieu de l'oeuvre";
-      $scope.hideError = false;
-    }
-    else {
-      $scope.hideError = true;
-
-      /**JSon**/
-      oeuvre.name = $scope.oeuvre.name;
-      oeuvre.date = $scope.oeuvre.date;
-      oeuvre.latitude = marker.position.lat();
-      oeuvre.longitude = marker.position.lng();
-
-      /**Display**/
-      $('#modal-title').modal('hide');
-      $scope.authorsList = '';
-      for( var i = 0; i < $scope.nbAuthors; i++ ) {
-        if (i != 0) {
-          $scope.authorsList += ", ";
-        }
-        $scope.authorsList += oeuvre.authors[i].name + " (" + oeuvre.authors[i].yearBirth; 
-        if ( Number.isInteger(oeuvre.authors[i].yearDeath) ) {
-          $scope.authorsList += " - " + oeuvre.authors[i].yearDeath;
-        }
-        $scope.authorsList += ")";
-      }
-      
-      /*** Ajax - create folder ***/
-      var rqt = {
-        method : 'POST',
-        url : '/php/manager/createFolder.php',
-        data : $.param({nameFolder: $scope.oeuvre.name}),  
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-      };
-      $http(rqt).success(function(data){});
-    }
-  };
-
-  $scope.addAuthor = function() {
-     $('#modal-author').modal('show');
-     $scope.oeuvre.authors[$scope.nbAuthors] = {};
-  }
-
   $scope.completeAuthor = function() {
 
-  	$('#modal-title').focus();
+    $('#modal-title').focus();
 
-    if (!angular.isUndefined($scope.oeuvre.authors[$scope.nbAuthors].name) && 
-      Number.isInteger($scope.oeuvre.authors[$scope.nbAuthors].yearBirth)) {
+    if (!angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) && 
+      Number.isInteger($scope.art.authors[$scope.nbAuthors].yearBirth)) {
 
-      oeuvre.authors.push(
-        $scope.oeuvre.authors[$scope.nbAuthors]
+      art.authors.push(
+        $scope.art.authors[$scope.nbAuthors]
       );
 
-      $scope.authorsArray = oeuvre.authors;
+      $scope.authorsArray = art.authors;
       $scope.nbAuthors++;
       $('#modal-author').modal('hide');
 
     }
   };
 
-  $scope.openTitle = function($event) {
-    $('#modal-title').modal('show');
-  };
+  /** MODAL DESCRIPTION **/
 
   $scope.addDescription = function() {
     $('#modal-description').modal('show');
   };
 
   $scope.completeDescription = function() {
+  
     /**JSon**/
-    oeuvre.type = $scope.oeuvre.type;
-    oeuvre.localisation = $scope.oeuvre.localisation;
-    for( var i = 0; i < $scope.oeuvre.materials.length; i++ ) {
-      oeuvre.materials.push(
-        $scope.oeuvre.materials[i].text
+    art.localisation = $scope.art.localisation;
+    for( var i = 0; i < $scope.art.materials.length; i++ ) {
+      art.materials.push(
+        $scope.art.materials[i].text
       );
     }
-    for( var i = 0; i < $scope.oeuvre.architects.length; i++ ) {
-      oeuvre.architects.push(
-        $scope.oeuvre.architects[i].text
+    for( var i = 0; i < $scope.art.architects.length; i++ ) {
+      art.architects.push(
+        $scope.art.architects[i].text
       );
     }
   }
 
   angular.element(document).ready(function () {
     $('#modal-title').modal('show');
+
+    //DROPZONE DESCRIPTION
     $("#dropzoneDescription").dropzone({
       url: '/php/manager/uploadFile.php',
       paramName: 'file',
@@ -158,20 +183,30 @@ myApp.controller('edit', function ($scope, $http) {
       sending: function(file, xhr, formData) {
         formData.append("nameFolder", 'tyty');
       },
-      dictDefaultMessage: 'Ajouter une photo de l\'oeuvre'
+      dictDefaultMessage: 'Ajouter une photo de l\'art'
     });
+
+    //AUTOCOMPLETE TITLE
+    var options = {
+      data: [ 
+        {"name": "Afghanistan", "code": "AF"}, 
+        {"name": "Aland Islands", "code": "AX"}, 
+        {"name": "Albania", "code": "AL"}, 
+        {"name": "Algeria", "code": "DZ"}, 
+        {"name": "American Samoa", "code": "AS"}, 
+      ],
+
+      getValue: "name",
+
+    };
+
+      $("#countries").easyAutocomplete(options);
   });
 
 });
 
 $( document ).ready(function() {
- /* $('#modal-title').modal({backdrop: 'static', keyboard: false});
-	$('#modal-title').modal('show');*/
-
-  /*Dropzone.options.dropzoneDescription = {
-    paramName: "file", // The name that will be used to transfer the file
-    url: "../assets/oeuvres/test",
-  };*/
+     
 });
 
 function initMap() {
@@ -185,13 +220,13 @@ function initMap() {
 
   var geocoder = new google.maps.Geocoder();
   var autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('oeuvre-adress')),{types: ['geocode']}
+      (document.getElementById('art-adress')),{types: ['geocode']}
     );
 
   autocomplete.addListener('place_changed', adressEnter);
 
   function adressEnter() {
-    adress = document.getElementById('oeuvre-adress').value;
+    adress = document.getElementById('art-adress').value;
     geocoder.geocode({'address': adress}, function(results, status) {
       if (status === google.maps.GeocoderStatus.OK) {
         map.setCenter(results[0].geometry.location);
@@ -216,7 +251,7 @@ function initMap() {
   map.addListener('click', function(event) {
     placeMarker(event.latLng);
     geocoder.geocode({'location': event.latLng}, function(results, status) {
-      document.getElementById('oeuvre-adress').value = results[1].formatted_address;
+      document.getElementById('art-adress').value = results[1].formatted_address;
     });
   });
 
