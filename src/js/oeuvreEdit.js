@@ -59,19 +59,6 @@ myApp.controller('edit', function ($scope, $http) {
       art.latitude = marker.position.lat();
       art.longitude = marker.position.lng();
       art.location = $scope.art.location;
-
-      /**Display**/
-      $scope.authorsList = '';
-      for( var i = 0; i < $scope.nbAuthors; i++ ) {
-        if (i != 0) {
-          $scope.authorsList += ", ";
-        }
-        $scope.authorsList += art.authors[i].name + " (" + art.authors[i].yearBirth; 
-        if ( Number.isInteger(art.authors[i].yearDeath) ) {
-          $scope.authorsList += " - " + art.authors[i].yearDeath;
-        }
-        $scope.authorsList += ")";
-      }
       
       /*** Ajax - create art ***/
       var rqt = {
@@ -89,6 +76,28 @@ myApp.controller('edit', function ($scope, $http) {
         }
         else {
           $('#modal-title').modal('hide');
+
+          $scope.authorsList = '';
+          for( var i = 0; i < $scope.nbAuthors; i++ ) {
+            //DISPLAY
+            if (i != 0) {
+              $scope.authorsList += ", ";
+            }
+            $scope.authorsList += art.authors[i].name + " (" + art.authors[i].yearBirth; 
+            if ( Number.isInteger(art.authors[i].yearDeath) ) {
+              $scope.authorsList += " - " + art.authors[i].yearDeath;
+            }
+            $scope.authorsList += ")";
+            // Ajax - create author
+            var rqt = {
+              method : 'POST',
+              url : '/php/manager/createAuthor.php',
+              data : $.param({nameArt: art.name, fullName : art.authors[i].name, 
+                yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
+              headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+            };
+            $http(rqt);
+          }
         }
       });
     }
