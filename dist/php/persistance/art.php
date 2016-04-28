@@ -84,6 +84,32 @@
 			return count($exist->fetchAll()) >= 1;
 		}
 
+		function selectAllOeuvres()
+		{
+			$query = $this->db->prepare("SELECT name, creationYear, presentationHTMLFile, historiqueHTMLFile, soundFile, isPublic, type FROM Art");
+			$query->execute();
+			return $query->fetchAll();
+		}
+
+		function updateIsPublic () {
+			$query = $this->db->prepare(
+				"UPDATE ART SET isPublic = :isPublic where name = :name");
+			$query->execute(array(
+				'isPublic' => $this->isPublic,
+				'name' => $this->name
+				));
+			return $query;
+		}
+
+		function delete() {
+			$query = $this->db->prepare(
+				"DELETE FROM ART WHERE name = :name");
+			$query->execute(array(
+				'name' => $this->name
+				));
+			return $query;
+		}
+
 	    /**
 	     * Gets the value of name.
 	     *
