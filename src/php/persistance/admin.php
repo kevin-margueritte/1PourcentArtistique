@@ -73,6 +73,15 @@ require_once 'connectionDB.php';
 			return $query->fetchAll();
 		}
 
+		public function existByEmail()
+		{
+			$query = $this->db->prepare("SELECT id_admin, email_admin, mdp_admin, token_admin  FROM Admin WHERE email_admin = :email_admin");
+			$query->execute(array(
+				'email_admin' => $this->email_admin
+				));
+			return $query->fetchAll();
+		}
+
 		/* Changer le mot de passe de l'admin */
 		public function changerMotDePasse()
 		{
@@ -85,7 +94,7 @@ require_once 'connectionDB.php';
 		}
 
 		/* Changer le mot de passe de l'admin */
-		public function changerMotDePasseParMail()
+		public function changePasswordByMail()
 		{
 			$query = $this->db->prepare("UPDATE Admin SET mdp_admin = :mdp_admin WHERE email_admin = :email_admin");
 			$query->execute(array(

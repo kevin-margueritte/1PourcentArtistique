@@ -2,7 +2,7 @@ var myApp = angular.module('connexionAdmin', []);
 
 myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 
-	  $scope.hideError = true;
+	$scope.hideError = true;
 
 	/*** Test if the identifiers are valid in the database, if yes redirect to a new page, else display error message*/
 	$scope.boutonConnexion = function(email, password) {
@@ -28,7 +28,7 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 	    			$scope.hideError = false;
 		      	}
 		      	else {
-		      		$window.location.href = '/html/estConnecter.php';
+		      		//$window.location.href = '/html/connect.php';
 		      	}
 		      });
 		  }
@@ -36,7 +36,7 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 
   /*** Load a new page to enter email adress to change his password */
 	$scope.boutonMotDePasseOublier = function() {
-		$window.location.href = '/html/changerMotDePasse.php';
+		$window.location.href = '/html/changePassword.php';
   };
 
 });
