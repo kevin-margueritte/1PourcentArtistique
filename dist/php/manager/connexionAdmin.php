@@ -27,5 +27,5 @@
                 setcookie("id_admin", $idAdmin, 0, '/');
             }
         }
-        echo json_encode($res);
 	}
+	echo json_encode($res);
