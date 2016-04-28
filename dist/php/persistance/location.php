@@ -1,4 +1,7 @@
 <?php
+
+	require_once 'connectionDB.php';
+
 	class Location {
 		/**
 		Name of the localisation 
@@ -19,17 +22,51 @@
 		private $latitude;
 
 		/**
-		Name of the art at this localisation
-		@var nameArt
+		Connection database
+		@var $db
 		*/
-		private $nameArt;
+		private $db;
 
-		public function __construct ($name, $longitude, $latitude, $nameArt)
+		public function __construct ($name = null, $longitude = null, $latitude = null)
 		{
+			$this->db = connection();
 			$this->name = $name;
 			$this->longitude = $longitude;
 			$this->latitude = $latitude;
-			$this->nameArt = $nameArt;
+		}
+
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO LOCATION(name, longitude, latitude) 
+				VALUES (?, ?, ?)");
+			return $insert->execute(array($this->name, $this->longitude, $this->latitude));
+		}
+
+		function update () {
+			$update = $this->db->prepare(
+				"UPDATE LOCATION SET
+					longitude = ?, 
+					latitude = ?
+				WHERE name = ?");
+			return $update->execute(array($this->longitude, $this->latitude, 
+				$this->name));
+		}
+
+		function getAll() {
+			$get = $this->db->prepare("SELECT * FROM LOCATION");
+			$get->execute();
+			return $get->fetchAll();
+		}
+
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE name = ? ");
+			$exist->execute(array($this->name));
+			return count($exist->fetchAll()) >= 1;
+		}
+
+		function changed() {
+			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE longitude = ? AND  latitude = ?");
+			$exist->execute(array($this->longitude, $this->latitude));
+			return count($exist->fetchAll()) == 0;
 		}
 
 	    /**

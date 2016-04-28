@@ -51,7 +51,6 @@
               <h1>Créer une oeuvre</h1>
               <div class="form-group"> <label>Nom de l'oeuvre</label> <input ng-model="art.name" type="text" class="form-control" placeholder="Nom"> </div>
               <div class="form-group"> <label>Année de l'oeuvre</label> <input ng-model="art.date" type="number" min="1" max="2500" class="form-control" placeholder="Année"> </div>
-              <div class="form-group"> <label>test</label> <input id="countries" ng-model="test"> </div>
               <div class="form-group"> <label>Type de oeuvre</label> <select class="form-control" ng-model="art.type">
 							    <option ng-selected="true" value="Architecture">Architecture</option>
 							    <option>Arts décoratifs</option>
@@ -62,6 +61,7 @@
 							    <option>Photographie</option>
 							    <option>Sculpture</option>
 							</select> </div>
+              <div class="form-group"> <label>Localisation de l'oeuvre</label> <input id="artLocation" ng-model="art.location"> </div>
               <div class="form-group"> <label>Adresse exacte de l'oeuvre</label> <input type="text" class="form-control" id="art-adress" placeholder="Adresse"> </div>
               <div id="map"></div>
               <table class="table">
@@ -104,7 +104,6 @@
           <div class="modal-content">
             <div class="edit">
               <h1>Créer une description</h1>
-              <div class="form-group"> <label>Localisation de l'oeuvre</label> <input ng-model="art.localisation" class="form-control" placeholder="Localisation"> </div>
               <div class="form-group"> <label>Matériaux utilisés</label>
                 <tags-input ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
               </div>

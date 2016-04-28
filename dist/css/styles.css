@@ -342,6 +342,11 @@
   font-family: 'openSans-Bold';
 }
 
+.edit .easy-autocomplete,
+.edit .easy-autocomplete input {
+  width: 100% !important;
+}
+
 .edition .title:hover {
   -webkit-transition: opacity .25s ease;
   -moz-transition: opacity .25s ease;

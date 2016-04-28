@@ -36,10 +36,6 @@ myApp.controller('edit', function ($scope, $http) {
     $('#modal-title').modal('show');
   };
 
-  $scope.$watch("test", function(newValue, oldValue) {
-    $scope.art.name = newValue;
-  });
-
   $scope.completeTitle = function() {
     if (angular.isUndefined($scope.art.name)) {
       $scope.titleError = "Veuillez saisir le nom de l'art";
@@ -62,6 +58,7 @@ myApp.controller('edit', function ($scope, $http) {
       art.type = $scope.art.type;
       art.latitude = marker.position.lat();
       art.longitude = marker.position.lng();
+      art.location = $scope.art.location;
 
       /**Display**/
       $scope.authorsList = '';
@@ -76,13 +73,13 @@ myApp.controller('edit', function ($scope, $http) {
         $scope.authorsList += ")";
       }
       
-      console.log(art);
       /*** Ajax - create art ***/
       var rqt = {
         method : 'POST',
         url : '/php/manager/createArt.php',
         data : $.param({name: art.name, presentationHTMLFile : art.presentationHTMLFile, historiqueHTMLFile: art.historiqueHTMLFile,
-         creationYear: art.date, isPublic: 0, type: art.type, soundFile: art.soundFile}),  
+          creationYear: art.date, isPublic: 0, type: art.type, soundFile: art.soundFile, location: art.location, latitude: art.latitude,
+          longitude: art.longitude}),  
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
       };
       $http(rqt).success(function(data){
@@ -144,7 +141,6 @@ myApp.controller('edit', function ($scope, $http) {
   $scope.completeDescription = function() {
   
     /**JSon**/
-    art.localisation = $scope.art.localisation;
     for( var i = 0; i < $scope.art.materials.length; i++ ) {
       art.materials.push(
         $scope.art.materials[i].text
@@ -186,22 +182,68 @@ myApp.controller('edit', function ($scope, $http) {
       dictDefaultMessage: 'Ajouter une photo de l\'art'
     });
 
-    //AUTOCOMPLETE TITLE
-    var options = {
-      data: [ 
-        {"name": "Afghanistan", "code": "AF"}, 
-        {"name": "Aland Islands", "code": "AX"}, 
-        {"name": "Albania", "code": "AL"}, 
-        {"name": "Algeria", "code": "DZ"}, 
-        {"name": "American Samoa", "code": "AS"}, 
-      ],
+    //AUTOCOMPLETE LOCATION
 
-      getValue: "name",
-
-    };
-
-      $("#countries").easyAutocomplete(options);
+    /*** Ajax - get all location ***/
+      var rqt = {
+        method : 'GET',
+        url : '/php/manager/getAllLocation.php', 
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
+      $http(rqt).success(function(data){
+        var options = {
+          data: data.key,
+          getValue: "NAME",
+          list: { 
+            match: {
+              enabled: true
+            },
+            sort: {
+              enabled: true
+            },
+            onClickEvent: function() {
+              var lat = $("#artLocation").getSelectedItemData().LATITUDE;
+              var lng = $("#artLocation").getSelectedItemData().LONGITUDE;
+              placeMarker(new google.maps.LatLng(lat, lng));
+            }
+          }
+        };
+        $("#artLocation").easyAutocomplete(options);
+      });
   });
+
+  //AUTOCOMPLETE Author
+    var rqt = {
+      method : 'GET',
+      url : '/php/manager/getAllAuthor.php', 
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt).success(function(data){
+      var options = {
+        data: data.key,
+        getValue: "FULLNAME",
+        list: { 
+          match: {
+            enabled: true
+          },
+          sort: {
+            enabled: true
+          },
+          onClickEvent: function() {
+            $scope.art.authors[$scope.nbAuthors].yearBirth = Number($("#oeuvre-name").getSelectedItemData().YEARBIRTH);
+            var yearDeath = Number($("#oeuvre-name").getSelectedItemData().YEARDEATH)
+            if (yearDeath > 0) {
+              $scope.art.authors[$scope.nbAuthors].yearDeath = yearDeath;
+            }
+            else {
+              $scope.art.authors[$scope.nbAuthors].yearDeath = '';
+            }
+            $scope.$apply();
+          }
+        }
+      };
+      $("#oeuvre-name").easyAutocomplete(options);
+    });
 
 });
 
@@ -209,11 +251,13 @@ $( document ).ready(function() {
      
 });
 
+var map
+
 function initMap() {
 
   var placeSearch;
 
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 43.602272978692746, lng: 3.8836669921875},
     zoom: 13
   });
@@ -235,17 +279,6 @@ function initMap() {
         alert("L'adresse n'existe pas : " + status);
       }
     });
-  }
-
-  function placeMarker(location) {
-    if ( marker ) {
-      marker.setPosition(location);
-    } else {
-      marker = new google.maps.Marker({
-        position: location,
-        map: map
-      });
-    }
   }
 
   map.addListener('click', function(event) {
@@ -271,3 +304,15 @@ function initMap() {
     }
   }
 }
+
+function placeMarker(location) {
+    map.setCenter(location);
+    if ( marker ) {
+      marker.setPosition(location);
+    } else {
+      marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+    }
+  }

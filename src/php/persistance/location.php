@@ -1,4 +1,7 @@
 <?php
+
+	require_once 'connectionDB.php';
+
 	class Location {
 		/**
 		Name of the localisation 
@@ -24,7 +27,7 @@
 		*/
 		private $db;
 
-		public function __construct ($name, $longitude, $latitude)
+		public function __construct ($name = null, $longitude = null, $latitude = null)
 		{
 			$this->db = connection();
 			$this->name = $name;
@@ -48,10 +51,22 @@
 				$this->name));
 		}
 
+		function getAll() {
+			$get = $this->db->prepare("SELECT * FROM LOCATION");
+			$get->execute();
+			return $get->fetchAll();
+		}
+
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE name = ? ");
 			$exist->execute(array($this->name));
 			return count($exist->fetchAll()) >= 1;
+		}
+
+		function changed() {
+			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE longitude = ? AND  latitude = ?");
+			$exist->execute(array($this->longitude, $this->latitude));
+			return count($exist->fetchAll()) == 0;
 		}
 
 	    /**

@@ -1,16 +1,13 @@
 <?php
+
+	require_once 'connectionDB.php';
+
 	class Author {
 		/**
 		Correspond to the name and surname of the author of the art
 		@var fullName
 		*/
 		private $fullName;
-
-		/**
-		Biography of the author
-		@var biographyHTMLFile
-		*/
-		private $biographyHTMLFile;
 
 		/**
 		Date of birth
@@ -24,12 +21,45 @@
 		*/
 		private $yearDeath;
 
-		public function __construct ($fullName, $biographyHTMLFile, $yearBirth, $yearDeath)
+		/**
+		Connection database
+		@var $db
+		*/
+		private $db;
+
+		public function __construct ($fullName = null, $yearBirth = null, $yearDeath = null)
 		{
+			$this->db = connection();
 			$this->fullName = $fullName;
-			$this->biographyHTMLFile = $biographyHTMLFile;
 			$this->yearBirth = $yearBirth;
 			$this->yearDeath = $yearDeath;
+		}
+
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO AUTHOR(fullName, yearBirth, yearDeath) 
+				VALUES (?, ?, ?)");
+			return $insert->execute(array($this->fullName, $this->yearBirth, $this->yearDeath));
+		}
+
+		function update () {
+			$update = $this->db->prepare(
+				"UPDATE AUTHOR SET
+					yearBirth = ?,
+					yearDeath = ?
+				WHERE fullName = ?");
+			return $update->execute(array($this->yearBirth, $this->yearDeath,$this->fullName));
+		}
+
+		function getAll() {
+			$get = $this->db->prepare("SELECT * FROM AUTHOR");
+			$get->execute();
+			return $get->fetchAll();
+		}
+
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM AUTHOR WHERE fullName = ? ");
+			$exist->execute(array($this->fullName));
+			return count($exist->fetchAll()) >= 1;
 		}
 	
 	    /**
@@ -50,26 +80,6 @@
 	    private function setFullName($newFullName)
 	    {
 	        $this->fullName = $newFullName;
-	    }
-
-	    /**
-	     * Gets the Biography of the author.
-	     *
-	     * @return biographyHTMLFile
-	     */
-	    public function getBiographyHTMLFile()
-	    {
-	        return $this->biographyHTMLFile;
-	    }
-
-	    /**
-	     * Sets the Biography of the author.
-	     *
-	     * @param biographyHTMLFile $newBiographyHTMLFile the biography HTML file
-	     */
-	    private function setBiographyHTMLFile($newBiographyHTMLFile)
-	    {
-	        $this->biographyHTMLFile = $newBiographyHTMLFile;
 	    }
 
 	    /**
