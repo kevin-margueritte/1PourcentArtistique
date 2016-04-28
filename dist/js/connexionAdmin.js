@@ -28,7 +28,7 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 	    			$scope.hideError = false;
 		      	}
 		      	else {
-		      		//$window.location.href = '/html/connect.php';
+		      		$window.location.href = '/html/connect.php';
 		      	}
 		      });
 		  }
