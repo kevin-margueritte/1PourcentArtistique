@@ -1,5 +1,8 @@
 <?php
 	class Photography {
+
+		require_once 'connectionDB.php';
+
 		/**
 		Name of the photography
 		@var nameFil
@@ -12,10 +15,31 @@
 		*/
 		private $nameArt;
 
+		private $db;
+
 		public function __construct ($nameFil, $nameArt)
 		{
+			$this->db = connection();
 			$this->nameFil = $nameFil;
 			$this->nameArt = $nameArt;
+		}
+
+		/**
+		* Insert into photography with nameFile and nameArt
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO PHOTOGRAPHY(nameFile, nameArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->nameFil, $this->nameArt));
+		}
+
+		/** 
+		* Test if the name of the photography exist in the database
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM PHOTOGRAPHY WHERE nameFile = ? ");
+			$exist->execute(array($this->nameFil));
+			return count($exist->fetchAll()) >= 1;
 		}
 	
 	    /**

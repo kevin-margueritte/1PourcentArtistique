@@ -35,10 +35,33 @@
 			$this->biographyHTMLFile = $biographyHTMLFile;
 		}
 
+		/**
+		* Save in the database
+		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO DESIGN(nameAuthor, nameArt, biographyHTMLFile) 
 				VALUES (?, ?, ?)");
 			return $insert->execute(array($this->nameAuthor, $this->nameArt, $this->biographyHTMLFile));
+		}
+
+		/**
+		* Test if exist in the database 
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM DESIGN WHERE nameAuthor = ? AND nameArt = ?");
+			$exist->execute(array($this->nameAuthor, $this->nameArt));
+			return count($exist->fetchAll()) >= 1;
+		}
+
+		/**
+		* Update the biography for an architech correspond to an art
+		*/
+		function update () {
+			$update = $this->db->prepare(
+				"UPDATE DESIGN SET
+					biographyHTMLFile = ?
+				WHERE nameAuthor = ? AND nameArt = ?");
+			return $update->execute(array($this->biographyHTMLFile, $this->nameAuthor, $this->nameArt));
 		}
 
 		/**

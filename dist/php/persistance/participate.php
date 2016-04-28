@@ -1,5 +1,8 @@
 <?php
 	class Participate {
+
+		require_once 'connectionDB.php';
+
 		/**
 		Full name of the architect (name & surname)
 		@var fullName
@@ -12,10 +15,31 @@
 		*/
 		private $nameArt;
 
+		private $db;
+
 		public function __construct ($fullName, $nameArt)
 		{
+			$this->db = connection();
 			$this->fullName = $fullName;
 			$this->nameArt = $nameArt;
+		}
+
+		/**
+		* Insert into participate 
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO PARTICIPATE(fullName, nameArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->fullName, $this->nameArt));
+		}
+
+		/**
+		* Test if exist in the database
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM PARTICIPATE WHERE fullName = ? AND nameArt = ? ");
+			$exist->execute(array($this->fullName, $this->nameArt));
+			return count($exist->fetchAll()) >= 1;
 		}
 	
 	    /**
