@@ -36,7 +36,7 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 
   /*** Load a new page to enter email adress to change his password */
 	$scope.boutonMotDePasseOublier = function() {
-		$window.location.href = '/html/changePassword.php';
+		$window.location.href = '/html/resetPassword.php';
   };
 
 });

@@ -17,15 +17,20 @@
     <title>1% artistique</title>
   </head>
 
-  <body ng-app="changerMotDePasseAdmin" ng-controller="changerMotDePasseAdmin">
-    <form method="post" class="form-horizontal center" name="form_connexion">
-      <h3>Mot de passe oublier...</h3>
-      <div class="changerMotDePasse admin">
-        <div class="form-group"> <label class="col-sm-4 control-label">Email</label>
-          <div class="col-sm-4"> <input type="email" class="form-control" ng-model="email" placeholder="xxx@yyy.zzz"> </div>
+  <body ng-app="myAccountAdmin" ng-controller="myAccountAdmin">
+    <form method="post" class="form-horizontal center" name="myaccount">
+      <h3>Modification du mot de passe...</h3>
+      <div class="myaccount admin">
+        <div class="form-group"> <label class="col-sm-4 control-label">Nouveau mot de passe</label>
+          <div class="col-sm-3"> <input type="password" required class="form-control" ng-model="admin.password" placeholder="pErTe4(E"> </div>
+        </div>
+        <div class="form-group"> <label class="col-sm-4 control-label">Confirmation du nouveau mot de passe</label>
+          <div class="col-sm-3"> <input type="password" required class="form-control" name="confirm_password" ng-pattern="getPattern()" ng-model="admin.password_verify" placeholder="pErTe4(E"> <small ng-show="myaccount.confirm_password.$error.pattern">
+						Mot de passes non identiques.
+      				</small> </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-4"> <button name="validerChangerMotDePasse" class="btn btn-success" ng-click="bouttonChangePassword(email)">Valider</button> </div>
+          <div class="col-sm-offset-5"> <button ng-disabled="((!(admin.password === admin.password_verify))||(admin.password.length == 0))" name="modifier" class="btn btn-success" ng-click="boutonMyAccount(admin.password)">Modifier</button> </div>
         </div>
         <div ng-hide="hideError" class="alert alert-danger"> <strong>Erreur! </strong>{{titleError}} </div>
         <div ng-hide="hideSuccess" class="alert alert-success"> <strong>Success! </strong>{{titleSuccess}} </div>
@@ -41,8 +46,7 @@
     <script src="/lib/input-tags/ng-tags-input.min.js"></script>
     <script src="/lib/dropzone/dropzone.js"></script>
     <script src="/lib/fso/fso.min.js"></script>
-    <script src="/js/changePassword.js"></script>
+    <script src="/js/myaccount.js"></script>
   </body>
 
 </html>
-</body>

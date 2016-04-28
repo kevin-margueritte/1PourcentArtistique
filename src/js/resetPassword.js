@@ -1,6 +1,6 @@
-var myApp = angular.module('changerMotDePasseAdmin', []);
+var myApp = angular.module('resetPassword', []);
 
-myApp.controller('changerMotDePasseAdmin', function ($scope, $http, $window) {
+myApp.controller('resetPassword', function ($scope, $http, $window) {
 
 $scope.hideError = true;
 $scope.hideSuccess = true;
@@ -15,7 +15,7 @@ $scope.bouttonChangePassword = function(email) {
 		$scope.hideError = true;
 		var rqt = {
 		        method : 'POST',
-		        url : '/php/manager/changePassword.php',
+		        url : '/php/manager/resetPasswordWhenForget.php',
 		        data : $.param({email: email}),  
 		        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		};

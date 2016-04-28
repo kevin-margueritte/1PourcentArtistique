@@ -83,7 +83,7 @@ require_once 'connectionDB.php';
 		}
 
 		/* Changer le mot de passe de l'admin */
-		public function changerMotDePasse()
+		public function changePassword()
 		{
 			$query = $this->db->prepare("UPDATE Admin SET mdp_admin = :mdp_admin WHERE id_admin = :id_admin");
 			$query->execute(array(

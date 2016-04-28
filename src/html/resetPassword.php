@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique</title>
 </head>
-<body ng-app="changerMotDePasseAdmin" ng-controller="changerMotDePasseAdmin">
+<body ng-app="resetPassword" ng-controller="resetPassword">
 	<form method="post" class="form-horizontal center" name="form_connexion">
 		<h3>Mot de passe oublier...</h3>
 		<div class="changerMotDePasse admin">
@@ -49,7 +49,7 @@
 	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 	<script src="/lib/dropzone/dropzone.js"></script>
 	<script src="/lib/fso/fso.min.js"></script>
-	<script src="/js/changePassword.js"></script>
+	<script src="/js/resetPassword.js"></script>
 </body>
 </html>
 </body>
