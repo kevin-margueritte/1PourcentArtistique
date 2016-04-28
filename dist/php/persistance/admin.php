@@ -1,6 +1,10 @@
 <?php
+
+require_once 'connectionDB.php';
+
 	class Admin
 	{
+
 		private $id_admin;
 		private $email_admin;
 		private $mdp_admin;
@@ -9,11 +13,11 @@
 		/* Constructeur */
 		public function __construct ($id_admin, $email_admin, $mdp_admin, $token_admin)
 		{
+			$this->db = connection();
 			$this->id_admin = $id_admin;
 			$this->email_admin = $email_admin;
 			$this->mdp_admin = $mdp_admin;
 			$this->token_admin = $token_admin;
-			$this->db = new PDO('mysql:host=localhost;dbname=art;charset=utf8', 'root', 'root');
 		}
 
 		/* Insérer un administrateur */
