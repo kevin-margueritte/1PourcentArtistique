@@ -1,5 +1,8 @@
 <?php
 	class Compose {
+
+		require_once 'connectionDB.php';
+
 		/**
 		Name of the material used by art
 		@var nameMaterial
@@ -12,10 +15,19 @@
 		*/
 		private $nameArt;
 
+		private $db;
+
 		public function __construct ($nameMaterial, $nameArt)
 		{
+			$this->db = connection();
 			$this->nameMaterial = $nameMaterial;
 			$this->nameArt = $nameArt;
+		}
+
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO COMPOSE(nameMaterial, nameArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->nameMaterial, $this->nameArt));
 		}
 	
 	    /**
