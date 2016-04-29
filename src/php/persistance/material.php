@@ -1,7 +1,8 @@
 <?php
-	class Material {
 
-		require_once 'connectionDB.php';
+	require_once 'connectionDB.php';
+
+	class Material {
 
 		/**
 		Name of the material used for the art
@@ -11,7 +12,7 @@
 
 		private $db;
 
-		public function __construct ($name)
+		public function __construct ($name = null)
 		{
 			$this->db = connection();
 			$this->name = $name;
@@ -21,8 +22,7 @@
 		* Insert into material
 		*/
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO MATERIAL(name) 
-				VALUES (?)");
+			$insert = $this->db->prepare("INSERT INTO MATERIAL VALUES (?)");
 			return $insert->execute(array($this->name));
 		}
 
@@ -44,6 +44,15 @@
 					name = ?
 				WHERE name = ?");
 			return $update->execute(array($this->name, $this->name));
+		}
+
+		/**
+		* Get all material
+		*/
+		function getAll() {
+			$get = $this->db->prepare("SELECT name FROM MATERIAL");
+			$get->execute();
+			return $get->fetchAll(PDO::FETCH_COLUMN, 0);
 		}
 
 	    /**

@@ -11,8 +11,10 @@ art.materials = [];
 art.architects = [];
 art.presentationHTMLFile = '';
 art.historiqueHTMLFile = '';
+art.imageFile = '';
 art.soundFile = '';
-art.type;
+art.type = '';
+art.id ='';
 var nameart;
 var dateart;
 var latitudeart;
@@ -24,7 +26,8 @@ myApp.controller('edit', function ($scope, $http) {
   $scope.nbAuthors = 0;
   $scope.art = {};
   $scope.art.name = '';
-  $scope.hideError = true;
+  $scope.hideErrorTitle = true;
+  $scope.hideErrorAuthor = true;
   $scope.art.authors = [];
   $scope.art.architects = [];
   $scope.art.materials = [];
@@ -34,23 +37,28 @@ myApp.controller('edit', function ($scope, $http) {
   /** MODAL TITLE **/
   $scope.openTitle = function($event) {
     $('#modal-title').modal('show');
+    autocompleteLocation();
   };
 
   $scope.completeTitle = function() {
-    if (angular.isUndefined($scope.art.name)) {
+    if (angular.isUndefined($scope.art.name) || $scope.art.name == '') {
       $scope.titleError = "Veuillez saisir le nom de l'art";
-      $scope.hideError = false;
+      $scope.hideErrorTitle = false;
     }
     else if ($scope.art.date == 0 || !Number.isInteger($scope.art.date)) {
       $scope.titleError = "Veuillez saisir une date";
-      $scope.hideError = false;
+      $scope.hideErrorTitle = false;
     }
     else if (angular.isUndefined(marker)) {
       $scope.titleError = "Veuillez saisir le lieu de l'art";
-      $scope.hideError = false;
+      $scope.hideErrorTitle = false;
+    }
+    else if (angular.isUndefined($scope.art.location) || $scope.art.location == '') {
+      $scope.titleError = "Veuillez saisir la localisation de l\'art";
+      $scope.hideErrorTitle = false;
     }
     else {
-      $scope.hideError = true;
+      $scope.hideErrorTitle = true;
 
       /**JSon**/
       art.name = $scope.art.name;
@@ -66,15 +74,16 @@ myApp.controller('edit', function ($scope, $http) {
         url : '/php/manager/createArt.php',
         data : $.param({name: art.name, presentationHTMLFile : art.presentationHTMLFile, historiqueHTMLFile: art.historiqueHTMLFile,
           creationYear: art.date, isPublic: 0, type: art.type, soundFile: art.soundFile, location: art.location, latitude: art.latitude,
-          longitude: art.longitude}),  
+          longitude: art.longitude, idArt: art.id, imageFile: art.imageFile}),  
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
       };
       $http(rqt).success(function(data){
         if (data.error) {
           $scope.titleError = data.key;
-          $scope.hideError = false;
+          $scope.hideErrorTitle = false;
         }
         else {
+          art.id = data.idArt;
           $('#modal-title').modal('hide');
 
           $scope.authorsList = '';
@@ -92,7 +101,11 @@ myApp.controller('edit', function ($scope, $http) {
             var rqt = {
               method : 'POST',
               url : '/php/manager/createAuthor.php',
+<<<<<<< HEAD
+              data : $.param({idArt: art.id, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
+=======
               data : $.param({nameArt: art.name, fullName : art.authors[i].name, 
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
                 yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
               headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             };
@@ -106,6 +119,7 @@ myApp.controller('edit', function ($scope, $http) {
   $scope.addAuthor = function() {
      $('#modal-author').modal('show');
      $scope.art.authors[$scope.nbAuthors] = {};
+     autocompleteAuthor();
   }
 
   $scope.removeAuthor = function(name) {
@@ -119,25 +133,60 @@ myApp.controller('edit', function ($scope, $http) {
     }
     art.authors.splice( idx, 1 );
     $scope.authorsArray = art.authors;
-
     $scope.nbAuthors--;
+
+    /*** Ajax - delete author ***/
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/deleteDesign.php',
+      data : $.param({authorName:name ,idArt: art.id}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
   };
 
   $scope.completeAuthor = function() {
 
     $('#modal-title').focus();
+    $scope.hideErrorAuthor = true;
+    var exist = false;
 
-    if (!angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) && 
+    if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) || $scope.art.authors[$scope.nbAuthors].name == '') {
+      $scope.hideErrorAuthor = false;
+      $scope.errorAuthor = 'Veuillez entrer le nom de l\'auteur.';
+    }
+    else if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].yearBirth)) {
+      $scope.hideErrorAuthor = false;
+      $scope.errorAuthor = 'Veuillez entrer l\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +'.';
+    }
+    else if ($scope.art.authors[$scope.nbAuthors].yearDeath != 0 && 
+      $scope.art.authors[$scope.nbAuthors].yearBirth != 0 &&
+      $scope.art.authors[$scope.nbAuthors].yearDeath < $scope.art.authors[$scope.nbAuthors].yearBirth) {
+      $scope.hideErrorAuthor = false;
+      $scope.errorAuthor = 'L\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +' est plus grande que son année de décès.';
+    }
+    else if (!angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) && 
       Number.isInteger($scope.art.authors[$scope.nbAuthors].yearBirth)) {
 
-      art.authors.push(
-        $scope.art.authors[$scope.nbAuthors]
-      );
+      for (var i = 0; i < $scope.nbAuthors ; i++) {
+        if ($scope.art.authors[i].name == $scope.art.authors[$scope.nbAuthors].name) {
+          exist = true;
+          break;
+        }
+      }
 
-      $scope.authorsArray = art.authors;
-      $scope.nbAuthors++;
-      $('#modal-author').modal('hide');
-
+      if (!exist) {
+        art.authors.push(
+          $scope.art.authors[$scope.nbAuthors]
+        );
+        $scope.authorsArray = art.authors;
+        $scope.nbAuthors++;
+        $('#modal-author').modal('hide');
+      }
+      else {
+        $scope.hideErrorAuthor = false;
+        $scope.errorAuthor = $scope.art.authors[$scope.nbAuthors].name + ' a déjà été ajouté';
+      }
     }
   };
 
@@ -147,18 +196,73 @@ myApp.controller('edit', function ($scope, $http) {
     $('#modal-description').modal('show');
   };
 
+  $scope.materialAdd = function(tag) {
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/addMaterial.php',
+      data : $.param({artId: art.id, materialName : tag.text}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+  }
+
+  $scope.materialDelete = function(tag) {
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/deleteMaterial.php',
+      data : $.param({artId: art.id, materialName : tag.text}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+  }
+
+  $scope.architectAdd = function(tag) {
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/addArchitect.php',
+      data : $.param({artId: art.id, architectName : tag.text}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+  }
+
+  $scope.architectDelete = function(tag) {
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/deleteArchitect.php',
+      data : $.param({artId: art.id, architectName : tag.text}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+  }
+
   $scope.completeDescription = function() {
   
-    /**JSon**/
+    $scope.art.material = '';
+    $scope.art.architect = '';
+
+    $('#modal-description').modal('hide');
+
+    /**JSon & display**/
     for( var i = 0; i < $scope.art.materials.length; i++ ) {
       art.materials.push(
         $scope.art.materials[i].text
       );
+
+      $scope.art.material += $scope.art.materials[i].text;
+      if (i != $scope.art.materials.length) {
+        $scope.art.material += ', ';
+      }
     }
     for( var i = 0; i < $scope.art.architects.length; i++ ) {
       art.architects.push(
         $scope.art.architects[i].text
       );
+
+      $scope.art.architect += $scope.art.architects[i].text;
+      if (i != $scope.art.architect.length) {
+        $scope.art.architect += ', ';
+      }
     }
   }
 
@@ -167,61 +271,67 @@ myApp.controller('edit', function ($scope, $http) {
 
     //DROPZONE DESCRIPTION
     $("#dropzoneDescription").dropzone({
-      url: '/php/manager/uploadFile.php',
+      url: '/php/manager/uploadImageArt.php',
       paramName: 'file',
       method: 'post',
       maxFiles: 1,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif, .ico, .bnp, . tiff',
       removedfile: function(file) {
-        console.log(file.name);
         var rqt = {
           method : 'POST',
-          url : '/php/manager/deleteFile.php',
-          data : $.param({nameFolder: "tyty", fileRemove: file.name}),  
+          url : '/php/manager/deleteImageArt.php',
+          data : $.param({file: file.name, nameArt: art.name}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
+          $scope.art.imagePath = '';
           var _ref; 
           return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
         });
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
-        formData.append("nameFolder", 'tyty');
+        art.imageFile = file.name;
+        $scope.art.imagePath = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.imageAlt = file.name;
+        formData.append("nameArt", art.name);
       },
       dictDefaultMessage: 'Ajouter une photo de l\'art'
     });
 
-    //AUTOCOMPLETE LOCATION
+    autocompleteLocation();
 
-    /*** Ajax - get all location ***/
-      var rqt = {
-        method : 'GET',
-        url : '/php/manager/getAllLocation.php', 
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-      };
-      $http(rqt).success(function(data){
-        var options = {
-          data: data.key,
-          getValue: "NAME",
-          list: { 
-            match: {
-              enabled: true
-            },
-            sort: {
-              enabled: true
-            },
-            onClickEvent: function() {
-              var lat = $("#artLocation").getSelectedItemData().LATITUDE;
-              var lng = $("#artLocation").getSelectedItemData().LONGITUDE;
-              placeMarker(new google.maps.LatLng(lat, lng));
-            }
-          }
-        };
-        $("#artLocation").easyAutocomplete(options);
-      });
   });
 
-  //AUTOCOMPLETE Author
+  function autocompleteLocation() {
+    var rqt = {
+      method : 'GET',
+      url : '/php/manager/getAllLocation.php', 
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt).success(function(data){
+      var options = {
+        data: data.key,
+        getValue: "NAME",
+        list: { 
+          match: {
+            enabled: true
+          },
+          sort: {
+            enabled: true
+          },
+          onClickEvent: function() {
+            var lat = $("#artLocation").getSelectedItemData().LATITUDE;
+            var lng = $("#artLocation").getSelectedItemData().LONGITUDE;
+            placeMarker(new google.maps.LatLng(lat, lng));
+          }
+        }
+      };
+      $("#artLocation").easyAutocomplete(options);
+    });
+  }
+
+  function autocompleteAuthor() {
     var rqt = {
       method : 'GET',
       url : '/php/manager/getAllAuthor.php', 
@@ -253,7 +363,7 @@ myApp.controller('edit', function ($scope, $http) {
       };
       $("#oeuvre-name").easyAutocomplete(options);
     });
-
+  }
 });
 
 $( document ).ready(function() {

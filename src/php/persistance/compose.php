@@ -1,7 +1,8 @@
 <?php
+	
+	require_once 'connectionDB.php';
+	
 	class Compose {
-
-		require_once 'connectionDB.php';
 
 		/**
 		Name of the material used by art
@@ -10,36 +11,41 @@
 		private $nameMaterial;
 
 		/**
-		Name of the art
-		@var nameArt
+		Id of the art
+		@var idArt
 		*/
-		private $nameArt;
+		private $idArt;
 
 		private $db;
 
-		public function __construct ($nameMaterial, $nameArt)
+		public function __construct ($nameMaterial, $idArt)
 		{
 			$this->db = connection();
 			$this->nameMaterial = $nameMaterial;
-			$this->nameArt = $nameArt;
+			$this->idArt = $idArt;
 		}
 
 		/**
 		* Save in the database 
 		*/
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO COMPOSE(nameMaterial, nameArt) 
+			$insert = $this->db->prepare("INSERT INTO COMPOSE(nameMaterial, idArt) 
 				VALUES (?, ?)");
-			return $insert->execute(array($this->nameMaterial, $this->nameArt));
+			return $insert->execute(array($this->nameMaterial, $this->idArt));
 		}
 
 		/**
 		* Test if exist in the database 
 		*/
 		function exist() {
-			$exist = $this->db->prepare("SELECT 1 FROM COMPOSE WHERE nameMaterial = ? AND nameArt = ?");
-			$exist->execute(array($this->nameMaterial, $this->nameArt));
+			$exist = $this->db->prepare("SELECT 1 FROM COMPOSE WHERE nameMaterial = ? AND idArt = ?");
+			$exist->execute(array($this->nameMaterial, $this->idArt));
 			return count($exist->fetchAll()) >= 1;
+		}
+
+		function delete() {
+			$delete = $this->db->prepare("DELETE FROM COMPOSE WHERE nameMaterial = ? AND idArt = ?");
+			return $delete->execute(array($this->nameMaterial, $this->idArt));
 		}
 	
 	    /**
@@ -65,20 +71,20 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return nameArt
+	     * @return idArt
 	     */
-	    public function getNameArt()
+	    public function getIdArt()
 	    {
-	        return $this->nameArt;
+	        return $this->idArt;
 	    }
 
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param idArt $newidArt the name art
 	     */
-	    private function setNameArt($newNameArt)
+	    private function setIdArt($newidArt)
 	    {
-	        $this->nameArt = $newNameArt;
+	        $this->idArt = $newidArt;
 	    }
 	}

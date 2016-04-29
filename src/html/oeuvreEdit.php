@@ -48,6 +48,29 @@
 			</h1>
 			<h2 id="name_author">{{authorsList}}</h2>
 		</div>
+		<div class="overview clearfix">
+			<div class="descriptions">
+				<div class="description type clearfix">
+					<span class="name">Type </span>
+					<span class="entitled">{{art.type}}</span>
+				</div>
+				<div class="description lieu clearfix">
+					<span class="name">Lieu </span>
+					<span class="entitled">{{art.location}}</span>
+				</div>
+				<div class="description materiel clearfix">
+					<span class="name">Matériaux </span>
+					<span class="entitled">{{art.material}}</span>
+				</div>
+				<div class="description architecte clearfix">
+					<span class="name">Architecte(s) </span>
+					<span class="entitled">{{art.architect}}</span>
+				</div>
+			</div>
+			<div class="description photo">
+				<img ng-src="{{art.imagePath}}" alt="{{art.imageAlt}}" >
+			</div>
+		</div>
 		<div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -105,7 +128,7 @@
 						</table>
 						<button type="button" ng-click="addAuthor()" class="btn btn-add-author">Ajouter un auteur</button>
 						<button type="button" ng-click="completeTitle($event)" accesskey="S" class="btn btn-complete">Modifier</button>
-						<div ng-hide="hideError" class="alert alert-danger">
+						<div ng-hide="hideErrorTitle" class="alert alert-danger">
 							<strong>Erreur! </strong>{{titleError}}
 						</div>
 					</div>
@@ -130,6 +153,9 @@
 							<input ng-model="art.authors[nbAuthors].yearDeath" type="number" min="1" max="2500" class="form-control" id="oeuvre-name" placeholder="Année">
 						</div>
 						<button type="button" ng-click="completeAuthor()" class="btn btn-complete">Ajouter</button>
+						<div ng-hide="hideErrorAuthor" class="alert alert-danger">
+							<strong>Erreur! </strong>{{errorAuthor}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -141,11 +167,11 @@
 						<h1>Créer une description</h1>
 						<div class="form-group">
 							<label>Matériaux utilisés</label>
-							<tags-input ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
+							<tags-input add-On-Enter=true min-Length=1 on-Tag-Removed="materialDelete($tag)" on-Tag-Added="materialAdd($tag)" ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
 						</div>
 						<div class="form-group">
 							<label>Les architectes</label>
-							<tags-input ng-model="art.architects" placeholder="Ajouter un architecte"></tags-input>
+							<tags-input add-On-Enter=true min-Length=1 on-Tag-Removed="architectDelete($tag)" on-Tag-Added="architectAdd($tag)" ng-model="art.architects" placeholder="Ajouter un architecte"></tags-input>
 						</div>
 						<form class="dropzone" id="dropzoneDescription"></form>
 						<button type="button" class="btn btn-complete" ng-click="completeDescription()">Modifier</button>

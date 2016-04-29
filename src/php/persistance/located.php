@@ -10,10 +10,10 @@
 		private $nameLocation;
 
 		/**
-		Longitude of the art
-		@var nameArt
+		Name of the art
+		@var idArt
 		*/
-		private $nameArt;
+		private $idArt;
 
 		/**
 		Connection database
@@ -21,27 +21,27 @@
 		*/
 		private $db;
 
-		public function __construct ($name, $nameArt)
+		public function __construct ($name, $idArt)
 		{
 			$this->db = connection();
 			$this->nameLocation = $name;
-			$this->nameArt = $nameArt;
+			$this->idArt = $idArt;
 		}
 
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO LOCATED(nameLocation, nameArt) 
+			$insert = $this->db->prepare("INSERT INTO LOCATED(nameLocation, idArt) 
 				VALUES (?, ?)");
-			return $insert->execute(array($this->nameLocation, $this->nameArt));
+			return $insert->execute(array($this->nameLocation, $this->idArt));
 		}
 
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE LOCATED SET
 					nameLocation = ?, 
-					nameArt = ?
-				WHERE nameLocation = ? AND nameArt = ?");
-			return $update->execute(array($this->nameLocation, $this->nameArt, 
-				$this->nameLocation, $this->nameArt));
+					idArt = ?
+				WHERE nameLocation = ? AND idArt = ?");
+			return $update->execute(array($this->nameLocation, $this->idArt, 
+				$this->nameLocation, $this->idArt));
 		}
 
 	    /**
@@ -67,20 +67,20 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return nameArt
+	     * @return idArt
 	     */
-	    public function getNameArt()
+	    public function getidArt()
 	    {
-	        return $this->nameArt;
+	        return $this->idArt;
 	    }
 
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param idArt $newidArt the name art
 	     */
-	    private function setNameArt($newNameArt)
+	    private function setidArt($newidArt)
 	    {
-	        $this->nameArt = $newNameArt;
+	        $this->idArt = $newidArt;
 	    }
 	}

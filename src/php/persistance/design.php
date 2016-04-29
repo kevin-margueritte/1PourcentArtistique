@@ -10,10 +10,10 @@
 		private $nameAuthor;
 
 		/**
-		Name of the art
-		@var nameArt
+		ID of the art
+		@var idArt
 		*/
-		private $nameArt;
+		private $idArt;
 
 		/**
 		Biography of the author
@@ -27,11 +27,11 @@
 		*/
 		private $db;
 
-		public function __construct ($nameAuthor, $nameArt, $biographyHTMLFile = null)
+		public function __construct ($nameAuthor, $idArt, $biographyHTMLFile = null)
 		{
 			$this->db = connection();
 			$this->nameAuthor = $nameAuthor;
-			$this->nameArt = $nameArt;
+			$this->idArt = $idArt;
 			$this->biographyHTMLFile = $biographyHTMLFile;
 		}
 
@@ -39,17 +39,17 @@
 		* Save in the database
 		*/
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO DESIGN(nameAuthor, nameArt, biographyHTMLFile) 
+			$insert = $this->db->prepare("INSERT INTO DESIGN(nameAuthor, idArt, biographyHTMLFile) 
 				VALUES (?, ?, ?)");
-			return $insert->execute(array($this->nameAuthor, $this->nameArt, $this->biographyHTMLFile));
+			return $insert->execute(array($this->nameAuthor, $this->idArt, $this->biographyHTMLFile));
 		}
 
 		/**
 		* Test if exist in the database 
 		*/
 		function exist() {
-			$exist = $this->db->prepare("SELECT 1 FROM DESIGN WHERE nameAuthor = ? AND nameArt = ?");
-			$exist->execute(array($this->nameAuthor, $this->nameArt));
+			$exist = $this->db->prepare("SELECT 1 FROM DESIGN WHERE nameAuthor = ? AND idArt = ?");
+			$exist->execute(array($this->nameAuthor, $this->idArt));
 			return count($exist->fetchAll()) >= 1;
 		}
 
@@ -60,8 +60,18 @@
 			$update = $this->db->prepare(
 				"UPDATE DESIGN SET
 					biographyHTMLFile = ?
-				WHERE nameAuthor = ? AND nameArt = ?");
-			return $update->execute(array($this->biographyHTMLFile, $this->nameAuthor, $this->nameArt));
+				WHERE nameAuthor = ? AND idArt = ?");
+			return $update->execute(array($this->biographyHTMLFile, $this->nameAuthor, $this->idArt));
+		}
+
+		/**
+		* Delete design
+		*/
+		function delete() {
+			$delete = $this->db->prepare("DELETE FROM DESIGN WHERE idArt = ? AND nameAuthor = ?");
+			$delete->execute(array($this->idArt, $this->nameAuthor));
+			var_dump($delete->errorInfo());
+			return $delete->execute(array($this->idArt, $this->nameAuthor));
 		}
 
 		/**
@@ -107,20 +117,20 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return nameArt
+	     * @return idArt
 	     */
-	    public function getNameArt()
+	    public function getidArt()
 	    {
-	        return $this->nameArt;
+	        return $this->idArt;
 	    }
 
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param idArt $newidArt the name art
 	     */
-	    private function setNameArt($newNameArt)
+	    private function setidArt($newidArt)
 	    {
-	        $this->nameArt = $newNameArt;
+	        $this->idArt = $newidArt;
 	    }
 	}

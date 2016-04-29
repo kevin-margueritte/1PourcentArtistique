@@ -1,27 +1,47 @@
 <?php
+
+	require_once 'connectionDB.php';
+
 	class Architect {
 
+<<<<<<< HEAD
+=======
 		require_once 'connectionDB.php';
 
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		/**
 		Full name of the architect (name & surname)
 		@var fullName
 		*/
 		private $fullName;
 
-		/**
-		Name of the art who participate to the art
-		@var nameArt
-		*/
-		private $nameArt;
+		private $db;
 
+<<<<<<< HEAD
+		public function __construct ($fullName)
+=======
 		private $db;
 
 		public function __construct ($fullName, $nameArt)
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		{
 			$this->db = connection();
 			$this->fullName = $fullName;
-			$this->nameArt = $nameArt;
+		}
+
+		/**
+		* Save in the database
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO ARCHITECT(fullName) 
+				VALUES (?)");
+			return $insert->execute(array($this->fullName));
+		}
+
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM ARCHITECT WHERE fullName = ? ");
+			$exist->execute(array($this->fullName));
+			return count($exist->fetchAll()) >= 1;
 		}
 
 		/**
@@ -68,25 +88,5 @@
 	    private function setFullName($newFullName)
 	    {
 	        $this->fullName = $newFullName;
-	    }
-
-	    /**
-	     * Gets the Name of the art who participate to the art.
-	     *
-	     * @return nameArt
-	     */
-	    public function getNameArt()
-	    {
-	        return $this->nameArt;
-	    }
-
-	    /**
-	     * Sets the Name of the art who participate to the art.
-	     *
-	     * @param nameArt $newNameArt the name art
-	     */
-	    private function setNameArt($newNameArt)
-	    {
-	        $this->nameArt = $newNameArt;
 	    }
 	}
