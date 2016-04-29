@@ -110,6 +110,15 @@
 			return $query;
 		}
 
+		function getAllForAccueil() {
+			$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, LOCATION.longitude, LOCATION.latitude
+										 FROM ART, LOCATION, LOCATED
+										 WHERE ART.name = LOCATED.nameArt
+										 AND LOCATION.name = LOCATED.nameLocation");
+			$query->execute();
+			return $query->fetchAll();
+		}
+
 	    /**
 	     * Gets the value of name.
 	     *
