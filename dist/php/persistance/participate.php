@@ -4,6 +4,11 @@
 
 	class Participate {
 
+<<<<<<< HEAD
+=======
+		require_once 'connectionDB.php';
+
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		/**
 		Full name of the architect (name & surname)
 		@var fullName
@@ -18,7 +23,13 @@
 
 		private $db;
 
+<<<<<<< HEAD
 		public function __construct ($fullName, $idArt)
+=======
+		private $db;
+
+		public function __construct ($fullName, $nameArt)
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		{
 			$this->db = connection();
 			$this->fullName = $fullName;
@@ -46,6 +57,24 @@
 		function delete() {
 			$delete = $this->db->prepare("DELETE FROM PARTICIPATE WHERE fullName = ? AND idArt = ?");
 			return $delete->execute(array($this->fullName, $this->idArt));
+		}
+
+		/**
+		* Insert into participate 
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO PARTICIPATE(fullName, nameArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->fullName, $this->nameArt));
+		}
+
+		/**
+		* Test if exist in the database
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM PARTICIPATE WHERE fullName = ? AND nameArt = ? ");
+			$exist->execute(array($this->fullName, $this->nameArt));
+			return count($exist->fetchAll()) >= 1;
 		}
 	
 	    /**

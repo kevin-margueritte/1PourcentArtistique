@@ -1,5 +1,9 @@
 <?php
 	class Video {
+
+		require_once 'connectionDB.php';
+
+
 		/**
 		Name of the video file
 		@var titleFile
@@ -12,10 +16,31 @@
 		*/
 		private $nameArt;
 
+		private $db;
+
 		public function __construct ($titleFile, $nameArt)
 		{
+			$this->db = connection();
 			$this->titleFile = $titleFile;
 			$this->nameArt = $nameArt;
+		}
+
+		/**
+		* Insert into video database whith title and name of the art
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO VIDEO(titleFile, nameArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->titleFile, $this->nameArt));
+		}
+
+		/**
+		* Test in the database if the video exist for an art
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM VIDEO WHERE titleFile = ? AND nameArt = ?");
+			$exist->execute(array($this->titleFile, $this->nameArt));
+			return count($exist->fetchAll()) >= 1;
 		}
 
 	

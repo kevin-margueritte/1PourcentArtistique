@@ -4,6 +4,11 @@
 
 	class Material {
 
+<<<<<<< HEAD
+=======
+		require_once 'connectionDB.php';
+
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		/**
 		Name of the material used for the art
 		@var name
@@ -12,7 +17,11 @@
 
 		private $db;
 
+<<<<<<< HEAD
 		public function __construct ($name = null)
+=======
+		public function __construct ($name)
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 		{
 			$this->db = connection();
 			$this->name = $name;
@@ -22,7 +31,12 @@
 		* Insert into material
 		*/
 		public function save () {
+<<<<<<< HEAD
 			$insert = $this->db->prepare("INSERT INTO MATERIAL VALUES (?)");
+=======
+			$insert = $this->db->prepare("INSERT INTO MATERIAL(name) 
+				VALUES (?)");
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 			return $insert->execute(array($this->name));
 		}
 
@@ -46,6 +60,7 @@
 			return $update->execute(array($this->name, $this->name));
 		}
 
+<<<<<<< HEAD
 		/**
 		* Get all material
 		*/
@@ -55,6 +70,8 @@
 			return $get->fetchAll(PDO::FETCH_COLUMN, 0);
 		}
 
+=======
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
 	    /**
 	     * Gets the Name of the material used for the art.
 	     *

@@ -29,4 +29,12 @@
 			return unlink($this->src . $this->artName . '/' .$nameFile);
 		}
 
+		function getSrc() {
+			return $this->src;
+		}
+
+		function getOeuvreName() {
+			return $this->oeuvreName;
+		}
+
 	}

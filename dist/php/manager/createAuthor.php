@@ -1,5 +1,6 @@
 <?php
 	
+<<<<<<< HEAD
 	require_once '../persistance/author.php';
 	require_once '../persistance/design.php';
 
@@ -34,3 +35,9 @@
 		$res = array('error' => false, 'key' => 'L\'auteur  ' . $fullName . ' a été ajouté.');
 	}
 	echo json_encode($res);
+=======
+	$nameArt = $_POST['nameArt'];
+	$yearBirth = $_POST['yearBirth'];
+	$yearDeath = $_POST['yearDeath'];
+	$fullName = $_POST['fullName'];
+>>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
