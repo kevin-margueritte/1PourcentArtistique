@@ -21,18 +21,19 @@ CREATE TABLE TYPE (
 );
 
 CREATE TABLE ART (
-  id INTEGER,
+  	id INTEGER,
 	name VARCHAR(150),
 	creationYear INTEGER,
 	presentationHTMLFile VARCHAR(32),
 	historiqueHTMLFile VARCHAR(32),
 	soundFile VARCHAR(32),
 	isPublic INTEGER,
-  	type VARCHAR(32),
+	type VARCHAR(32),
+	imageFile VARCHAR(32),
 	CONSTRAINT PK_Art PRIMARY KEY (id),
-  CONSTRAINT FK_Art_Type FOREIGN KEY (type) 
+	CONSTRAINT FK_Art_Type FOREIGN KEY (type) 
 		REFERENCES TYPE(name) ON DELETE CASCADE,
-  CONSTRAINT uc_art_name UNIQUE (name)
+  	CONSTRAINT uc_art_name UNIQUE (name)
 );
 
 CREATE SEQUENCE seq_auto_increment_art START WITH 1 INCREMENT BY 1;

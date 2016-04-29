@@ -2,27 +2,31 @@
 	class File {
 
 		private $src;
-		private $oeuvreName;
+		private $artName;
 
-		public function __construct ($oeuvreName) {
+		public function __construct ($artName) {
 			$this->src = $_SERVER["DOCUMENT_ROOT"].'/assets/oeuvres/';
-			$this->oeuvreName = $oeuvreName;
+			$this->artName = $artName;
 		}
 
 		function createFolder() {
-			if ( !file_exists($this->src . $this->oeuvreName) ) {
-				mkdir($this->src . $this->oeuvreName, 0700, true);
+			if ( !file_exists($this->src . $this->artName) ) {
+				mkdir($this->src . $this->artName, 0700, true);
 			}
+		}
+
+		function renameFolder($newName) {
+			rename($this->src . $newName, $this->src . $this->artName);
 		}
 
 		function uploadFile($file) {
 			if (!empty($file)) {
-				move_uploaded_file($file['tmp_name'], $this->src . $this->oeuvreName . '/' . $file['name']);
+				move_uploaded_file($file['tmp_name'], $this->src . $this->artName . '/' . $file['name']);
 			}
 		}
 
 		function removeFile($nameFile) {
-			return unlink($this->src . $this->oeuvreName . '/' .$nameFile);
+			return unlink($this->src . $this->artName . '/' .$nameFile);
 		}
 
 	}

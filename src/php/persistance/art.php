@@ -39,59 +39,90 @@
 		private $type;
 
 		/**
+		Id of the art
+		@var id
+		*/
+		private $id;
+
+		/**
+		Location of the art
+		@var nameLocation
+		*/
+		private $nameLocation;
+
+		/**
+		Image of the art
+		@var imageFile
+		*/
+		private $imageFile;
+
+		/**
 		Connection database
 		@var $db
 		*/
 		private $db;
 
-		public function __construct ($name, $creationYear, $presentationHTMLFile = null, $historiqueHTMLFile = null, $soundFile = null, $isPublic = null, $type = null)
+		public function __construct ($name = null, $creationYear = null, $nameLocation = null, $presentationHTMLFile = null, $historiqueHTMLFile = null, $soundFile = null, 
+			$isPublic = null, $type = null, $id = null, $imageFile = null)
 		{
 			$this->db = connection();
 			$this->name = $name;
 			$this->creationYear = $creationYear;
+			$this->nameLocation = $nameLocation;
 			$this->presentationHTMLFile = $presentationHTMLFile;
 			$this->historiqueHTMLFile = $historiqueHTMLFile;
 			$this->soundFile = $soundFile;
 			$this->isPublic = $isPublic;
 			$this->type = $type;
+			$this->id = $id;
+			$this->imageFile = $imageFile;
 		}
 
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO ART(name, creationYear, presentationHTMLFile, 
-				historiqueHTMLFile, soundFile, isPublic, type) 
-				VALUES (?, ?, ?, ?, ?, ?, ?)");
+				historiqueHTMLFile, soundFile, isPublic, type, nameLocation, imageFile) 
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			return $insert->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type));
+				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
 		}
 
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE ART SET
+					name = ?,
 					creationYear = ?, 
 					presentationHTMLFile = ?, 
 					historiqueHTMLFile = ?, 
 					soundFile = ?, 
 					isPublic = ?, 
-					type = ?
-				WHERE name = ?");
+					type = ?,
+					nameLocation = ?,
+					imageFile = ?
+				WHERE id = ?");
 			return $update->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type));
+				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->id, $this->imageFile));
 		}
 
-		function exist() {
+		function existByName() {
 			$exist = $this->db->prepare("SELECT 1 FROM ART WHERE name = ? ");
 			$exist->execute(array($this->name));
 			return count($exist->fetchAll()) >= 1;
 		}
 
-		function selectAllOeuvres()
+		function existById() {
+			$exist = $this->db->prepare("SELECT 1 FROM ART WHERE id = ? ");
+			$exist->execute(array($this->id));
+			return count($exist->fetchAll()) >= 1;
+		}
+
+		function selectAllArts()
 		{
-			$query = $this->db->prepare("SELECT name, creationYear, presentationHTMLFile, historiqueHTMLFile, soundFile, isPublic, type FROM Art");
+			$query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile, historiqueHTMLFile, soundFile, isPublic, type, imageFile FROM Art");
 			$query->execute();
 			return $query->fetchAll();
 		}
 
-		function updateIsPublic () {
+		function updateIsPublic() {
 			$query = $this->db->prepare(
 				"UPDATE ART SET isPublic = :isPublic where name = :name");
 			$query->execute(array(
@@ -110,6 +141,18 @@
 			return $query;
 		}
 
+		/**
+	     * Gets the id.
+	     *
+	     * @return id
+	     */
+	    public function getId()
+	    {
+	    	$query = $this->db->prepare("SELECT id FROM ART WHERE name = ?");
+	    	$query->execute(array($this->name));
+	        return $query->fetchColumn();
+	    }
+
 	    /**
 	     * Gets the value of name.
 	     *
@@ -117,7 +160,9 @@
 	     */
 	    public function getName()
 	    {
-	        return $this->name;
+	        $query = $this->db->prepare("SELECT name FROM ART WHERE id = ?");
+	    	$query->execute(array($this->id));
+	        return $query->fetchColumn();
 	    }
 
 	    /**
@@ -125,9 +170,31 @@
 	     *
 	     * @param $newName the name
 	     */
-	    private function setName($newName)
+	    public function setName($newName)
 	    {
 	        $this->name = $newName;
+	    }
+
+	    /**
+	     * Gets the value of imageFile.
+	     *
+	     * @return imageFile
+	     */
+	    public function getImageFile()
+	    {
+	        return $this->imageFile;
+	    }
+
+	    /**
+	     * Sets the value of imageFile.
+	     *
+	     * @param $newName the imageFile
+	     */
+	    public function setImageFileByName($newImage)
+	    {
+	    	$this->imageFile = $newImage;
+	    	$insert = $this->db->prepare("UPDATE ART SET imageFile = ? WHERE name = ?");
+	    	return $insert->execute(array($newImage, $this->name));
 	    }
 
 	    /**
