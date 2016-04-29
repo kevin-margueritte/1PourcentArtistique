@@ -7,7 +7,7 @@ $scope.public = {};
 
 	/*** AJAX - Get all arts from the database ***/
 	var rqt = {
-		method: 'GET',
+	method: 'GET',
 	url : '/php/manager/getAllArts.php',
 	headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	};
@@ -58,6 +58,14 @@ $scope.public = {};
 	    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	  };
 	  $http(rqt).success(function(data){
+	  	var rqt1 = {
+		method: 'GET',
+		url : '/php/manager/getAllArts.php',
+		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+		};
+		$http(rqt1).success(function(data){
+			$scope.allOeuvre = data;
+		});
 	  });
 	};
 });
