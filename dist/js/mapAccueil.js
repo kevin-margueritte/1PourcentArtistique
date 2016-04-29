@@ -182,6 +182,10 @@ var rqt = {
   };
   $http(rqt).success(function(data){
     allArt = data;
+    console.log("Titre " + allArt[0].name);
+    console.log("Année " + allArt[0].creationYear);
+    console.log("Longitude " + allArt[0].longitude);
+    console.log("Latitude " + allArt[0].latitude);
   });
   
   $scope.filtres = function() {

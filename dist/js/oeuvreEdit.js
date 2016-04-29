@@ -101,11 +101,7 @@ myApp.controller('edit', function ($scope, $http) {
             var rqt = {
               method : 'POST',
               url : '/php/manager/createAuthor.php',
-<<<<<<< HEAD
               data : $.param({idArt: art.id, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
-=======
-              data : $.param({nameArt: art.name, fullName : art.authors[i].name, 
->>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
                 yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
               headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             };

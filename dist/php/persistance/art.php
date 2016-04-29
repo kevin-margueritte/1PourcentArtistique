@@ -140,8 +140,6 @@
 				));
 			return $query;
 		}
-
-<<<<<<< HEAD
 		function getAllForAccueil() {
 			$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, LOCATION.longitude, LOCATION.latitude
 										 FROM ART, LOCATION, LOCATED
@@ -150,7 +148,7 @@
 			$query->execute();
 			return $query->fetchAll();
 		}
-=======
+
 		/**
 	     * Gets the id.
 	     *
@@ -162,7 +160,6 @@
 	    	$query->execute(array($this->name));
 	        return $query->fetchColumn();
 	    }
->>>>>>> 500a698894805c83707376d5540e303017ea7833
 
 	    /**
 	     * Gets the value of name.
