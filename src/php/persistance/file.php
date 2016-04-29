@@ -25,5 +25,13 @@
 			return unlink($this->src . $this->oeuvreName . '/' .$nameFile);
 		}
 
+		function getSrc() {
+			return $this->src;
+		}
+
+		function getOeuvreName() {
+			return $this->oeuvreName;
+		}
+
 	}
 
