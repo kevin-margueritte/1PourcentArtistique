@@ -186,7 +186,7 @@
 	    }
 
 	    /**
-	     * Sets the value of imageFile.
+	     * Sets the value of imageFile by name of the art.
 	     *
 	     * @param $newName the imageFile
 	     */
@@ -232,9 +232,11 @@
 	     *
 	     * @param  $newPresentationHTMLFile the presentation HTML lfile
 	     */
-	    private function setPresentationHTMLFile($newPresentationHTMLFile)
+	    public function setPresentationHTMLFileByName($newPresentationHTMLFile)
 	    {
 	        $this->presentationHTMLFile = $newPresentationHTMLFile;
+	    	$insert = $this->db->prepare("UPDATE ART SET presentationHTMLFile = ? WHERE name = ?");
+	    	return $insert->execute(array($newPresentationHTMLFile, $this->name));
 	    }
 
 	    /**
@@ -262,7 +264,7 @@
 	     *
 	     * @return soundFile
 	     */
-	    public function getsoundFile()
+	    public function getSoundFile()
 	    {
 	        return $this->soundFile;
 	    }
@@ -272,9 +274,21 @@
 	     *
 	     * @param  $newsoundFile the sound file
 	     */
-	    private function setsoundFile($newsoundFile)
+	    private function setSoundFile($newsoundFile)
 	    {
 	        $this->soundFile = $newsoundFile;
+	    }
+
+	    /**
+	     * Sets the value of soundFile by the name of the art.
+	     *
+	     * @param  $newsoundFile
+	     */
+	    public function setSoundFileByName($newsoundFile)
+	    {
+	        $this->soundFile = $newsoundFile;
+	    	$insert = $this->db->prepare("UPDATE ART SET soundFile = ? WHERE name = ?");
+	    	return $insert->execute(array($newsoundFile, $this->name));
 	    }
 
 	    /**

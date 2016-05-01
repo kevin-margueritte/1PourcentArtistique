@@ -12,6 +12,7 @@
     <link href="/lib/input-tags/ng-tags-input.min.css" rel="stylesheet">
     <link href="/lib/dropzone/dropzone.min.css" rel="stylesheet">
     <link href="/lib/dropzone/basic.min.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
     <link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <title>1% artistique - Création</title>
@@ -24,34 +25,60 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
-			</button> <a class="navbar-brand" href="#">Editeur d'oeuvre</a> </div>
+			</button>
+        <p class="navbar-brand">Editeur d'oeuvre</p>
+      </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
           <li><a href="#" ng-click="openTitle()">Informations générales</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Description de l'oeuvre <b class="caret"></b></a>
+          <li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
+          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Présentation de l'oeuvre <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#" ng-click="addDescription()">Ajouter une description</a></li>
-              <li><a href="#">Supprimer la description</a></li>
-              <li><a href="#">Modifier la description</a></li>
+              <li><a href="#" ng-click="addPresentation()">Ajouter une présentation</a></li>
+              <li><a href="#">Supprimer la présentation</a></li>
+              <li><a href="#">Modifier la présentation</a></li>
             </ul>
           </li>
         </ul>
       </div>
     </nav>
     <div class="oeuvre edition">
-      <div class="title">
+      <div ng-hide="hideTitle" class="title">
         <h1 id="name">
 				{{art.name}} - {{art.date}}
 			</h1>
         <h2 id="name_author">{{authorsList}}</h2> </div>
-      <div class="overview clearfix">
+      <div ng-hide="hideOverview" class="overview clearfix">
         <div class="descriptions">
           <div class="description type clearfix"> <span class="name">Type </span> <span class="entitled">{{art.type}}</span> </div>
           <div class="description lieu clearfix"> <span class="name">Lieu </span> <span class="entitled">{{art.location}}</span> </div>
           <div class="description materiel clearfix"> <span class="name">Matériaux </span> <span class="entitled">{{art.material}}</span> </div>
           <div class="description architecte clearfix"> <span class="name">Architecte(s) </span> <span class="entitled">{{art.architect}}</span> </div>
         </div>
-        <div class="description photo"> <img ng-src="{{art.imagePath}}" alt="{{art.imageAlt}}"> </div>
+        <div class="description photo">
+          <a ng-href="{{art.imagePath}}" data-lightbox="image-description"> <img ng-src="{{art.imagePath}}" alt="{{art.imageAlt}}"> </a>
+        </div>
+      </div>
+      <div ng-hide="hidePresentation" class="presentation">
+        <h1>PRESENTATION</h1> <span ng-bind-html="art.presentationHTML"></span>
+        <div ng-hide=videoHide>
+          <h2>Vidéos</h2> <video id="vjs-big-play-centered" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay="true" muted="true" preload="auto" data-setup="{}">
+				</video>
+          <table id="playlist" class="table table-bordered">
+            <thead class="thead-default">
+              <tr>
+                <th>Liste des vidéos</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="video in art.videoList">
+              <tr ng-click='play(video.name, $index)'>
+                <td ng-class="{'active': video.active == true}">{{video.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div ng-hide=soundHide>
+          <h2>Son - {{art.soundName}}</h2> <audio ng-src="{{art.soundPath}}" controls></audio> </div>
       </div>
       <div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
         <div class="modal-dialog modal-lg">
@@ -125,6 +152,23 @@
           </div>
         </div>
       </div>
+      <div class="modal fade" id="modal-presentation" tabindex="-1" role="dialog" aria-labelledby="modal-presentation">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="edit">
+              <h1>Créer une présentation</h1>
+              <div class="form-group"> <label>Présentation de l'oeuvre</label>
+                <div id="wysywygPresentation"></div>
+              </div>
+              <div class="form-group"> <label>Ajouter des vidéos</label>
+                <form class="dropzone" id="dropzonePresentationVideos"></form>
+              </div>
+              <div class="form-group"> <label>Ajouter un son</label>
+                <form class="dropzone" id="dropzonePresentationSound"></form>
+              </div> <button type="button" ng-click="completePresentation()" class="btn btn-complete">Ajouter</button> </div>
+          </div>
+        </div>
+      </div>
       <div>
         <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
@@ -137,6 +181,9 @@
         <script src="/lib/dropzone/dropzone.js"></script>
         <!-- <script src="/js/oeuvre.js"></script> -->
         <script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
+        <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
         <script src="/js/oeuvreEdit.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap" async defer></script>
   </body>

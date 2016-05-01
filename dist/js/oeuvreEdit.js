@@ -1,4 +1,4 @@
-var myApp = angular.module('art-edit', ['ngTagsInput']);
+var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize']);
 
 /** declare json **/
 var art = {};
@@ -9,8 +9,8 @@ art.longitude = '';
 art.authors = [];
 art.materials = [];
 art.architects = [];
-art.presentationHTMLFile = '';
-art.historiqueHTMLFile = '';
+art.presentationHTML = '';
+art.historiqueHTML = '';
 art.imageFile = '';
 art.soundFile = '';
 art.type = '';
@@ -20,23 +20,33 @@ var dateart;
 var latitudeart;
 var longitudeart;
 var marker;
+var nbVideos = 0;
+var player;
+var idxCurrentVideo = 0;
 
 myApp.controller('edit', function ($scope, $http) {
 
   $scope.nbAuthors = 0;
   $scope.art = {};
   $scope.art.name = '';
+  $scope.hideTitle = true;
   $scope.hideErrorTitle = true;
   $scope.hideErrorAuthor = true;
+  $scope.hideOverview = true;
+  $scope.hidePresentation = true;
+  $scope.soundHide = true;
+  $scope.videoHide = true;
   $scope.art.authors = [];
   $scope.art.architects = [];
   $scope.art.materials = [];
-  $scope.art.presentationHTMLFile = '';
+  $scope.art.presentationHTML = '';
+  $scope.art.videoList = [];
   $scope.art.type = 'Architecture'; //Fix bug angularJS - select
 
   /** MODAL TITLE **/
   $scope.openTitle = function($event) {
     $('#modal-title').modal('show');
+    $('#modal-title').modal({backdrop: 'static', keyboard: false});
     autocompleteLocation();
   };
 
@@ -85,6 +95,7 @@ myApp.controller('edit', function ($scope, $http) {
         else {
           art.id = data.idArt;
           $('#modal-title').modal('hide');
+          $scope.hideTitle = false;
 
           $scope.authorsList = '';
           for( var i = 0; i < $scope.nbAuthors; i++ ) {
@@ -101,11 +112,7 @@ myApp.controller('edit', function ($scope, $http) {
             var rqt = {
               method : 'POST',
               url : '/php/manager/createAuthor.php',
-<<<<<<< HEAD
               data : $.param({idArt: art.id, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
-=======
-              data : $.param({nameArt: art.name, fullName : art.authors[i].name, 
->>>>>>> 2aac822b22c85f8e9f310618b46d871e8a447bab
                 yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
               headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             };
@@ -194,6 +201,7 @@ myApp.controller('edit', function ($scope, $http) {
 
   $scope.addDescription = function() {
     $('#modal-description').modal('show');
+    $('#modal-description').modal({backdrop: 'static', keyboard: false});
   };
 
   $scope.materialAdd = function(tag) {
@@ -240,6 +248,7 @@ myApp.controller('edit', function ($scope, $http) {
   
     $scope.art.material = '';
     $scope.art.architect = '';
+    $scope.hideOverview = false;
 
     $('#modal-description').modal('hide');
 
@@ -250,7 +259,7 @@ myApp.controller('edit', function ($scope, $http) {
       );
 
       $scope.art.material += $scope.art.materials[i].text;
-      if (i != $scope.art.materials.length) {
+      if (i != $scope.art.materials.length - 1) {
         $scope.art.material += ', ';
       }
     }
@@ -260,14 +269,86 @@ myApp.controller('edit', function ($scope, $http) {
       );
 
       $scope.art.architect += $scope.art.architects[i].text;
-      if (i != $scope.art.architect.length) {
+      if (i != $scope.art.architects.length - 1) {
         $scope.art.architect += ', ';
       }
     }
   }
 
+  /*** Modal presentation ***/
+  $scope.addPresentation = function() {
+    player = document.getElementsByTagName("video")[0];
+
+    $('#modal-presentation').modal('show');
+    //$('#modal-presentation').modal({backdrop: 'static', keyboard: false});
+    $('#wysywygPresentation').summernote({
+      height: 200,
+      fontNames: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
+        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
+      fontNamesIgnoreCheck: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
+        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
+      colors: [
+        ['#FF5660', '#4BC2BC', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E', '#2C3E50'],
+        ['#F1C40F', '#F39C12', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD']
+      ],
+      defaultFontName: 'openSans-Regular',
+      toolbar: [
+        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']], 
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['view', ['fullscreen']],
+        ['help', ['help']]
+      ],
+      fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
+      lang: 'fr-FR',
+    });
+  };
+
+  $scope.completePresentation = function () {
+    $('#modal-presentation').modal('hide');
+    $scope.hidePresentation = false;
+    art.presentationHTML = $('#wysywygPresentation').summernote('code');
+    $scope.art.presentationHTML = art.presentationHTML;
+
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/addPresentation.php',
+      data : $.param({artName: art.name, presentationHTMLContent : art.presentationHTML}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+
+    if ( $scope.art.videoList.length > 0) {
+      $scope.videoHide = false;
+      player.src = $scope.art.videoList[0].path;
+      player.load();
+      player.play();
+    }
+    else {
+      $scope.videoHide = true;
+    }
+  }
+
+  $scope.play = function(name, index) {
+    $scope.art.videoList[idxCurrentVideo].active = false;
+    idxCurrentVideo = index;
+    $scope.art.videoList[index].active = true;
+
+    player.src = $scope.art.videoList[index].path;
+    player.load();
+    player.play();
+  }
+
   angular.element(document).ready(function () {
+    $('.navbar').draggabilly();
+
     $('#modal-title').modal('show');
+    $('#modal-title').modal({backdrop: 'static', keyboard: false});
 
     //DROPZONE DESCRIPTION
     $("#dropzoneDescription").dropzone({
@@ -297,6 +378,82 @@ myApp.controller('edit', function ($scope, $http) {
         formData.append("nameArt", art.name);
       },
       dictDefaultMessage: 'Ajouter une photo de l\'art'
+    });
+
+    //DROPZONE PRESENTATION - VIDEOS
+    $("#dropzonePresentationVideos").dropzone({
+      url: '/php/manager/uploadPresentationVideo.php',
+      paramName: 'video',
+      method: 'post',
+      maxFiles: 15,
+      acceptedFiles: '.avi, .wmv, .mov, .mkv, .mp4, .mpeg4',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deletePresentationVideo.php',
+          data : $.param({video: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i < $scope.art.videoList.length; i++ ) {
+            if($scope.art.videoList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.videoList.splice( idx, 1 );
+          nbVideos--;
+          idxCurrentVideo = 0;
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.videoList[nbVideos] = {};
+        $scope.art.videoList[nbVideos].name = file.name.split('.')[0];
+        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        if (nbVideos!=0) {
+          $scope.art.videoList[nbVideos].active = false;
+        }
+        else {
+          $scope.art.videoList[0].active = true;
+        }
+        nbVideos++;
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des vidéos de présentation (AVI, WMV, MOV, MP4, MPEG4)'
+    });
+
+    //DROPZONE PRESENTATION - SOUND
+    $("#dropzonePresentationSound").dropzone({
+      url: '/php/manager/uploadSound.php',
+      paramName: 'sound',
+      method: 'post',
+      maxFiles: 1,
+      acceptedFiles: '.wav, .mp3, .wma, .ogg',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deleteSound.php',
+          data : $.param({sound: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          $scope.soundHide = true;
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.soundHide = false;
+        $scope.art.soundName = file.name.split('.')[0];
+        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
     });
 
     autocompleteLocation();
@@ -364,10 +521,6 @@ myApp.controller('edit', function ($scope, $http) {
       $("#oeuvre-name").easyAutocomplete(options);
     });
   }
-});
-
-$( document ).ready(function() {
-     
 });
 
 var map

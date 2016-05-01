@@ -231,6 +231,41 @@
 			margin-bottom: 30px;
 		}
 
+		h2 {
+			font-size: 30px;
+		    margin-left: 100px;
+		    font-family: @openSans-Semibold;
+		}
+
+		#playlist {
+			width: 45%;
+			margin: 0 auto;
+			margin-top: 15px;
+
+			th {
+				font-size: 20px;
+			}
+
+			td {
+				font-size: 14px;
+				color: @asbestos;
+
+			}
+			td:hover {
+				background-color: #f5f5f5;
+				color: #2c3e50;
+			}
+
+			.active {
+				color: @midnight_blue;
+			}
+
+			tr {
+				text-align: center;
+			}
+
+		}
+
 		span {
 			font-family: @openSans-Regular;
 			color: @midnight_blue;
@@ -354,7 +389,7 @@
 		text-align: center;
 	}
 
-	.btn {
+	.btn-add-author, .btn-complete, .btn-removeAuthor {
 		color: white;
 	}
 
@@ -390,18 +425,11 @@
 	.easy-autocomplete, .easy-autocomplete input {
 		width: 100% !important;
 	}
-}
 
-.edition {
-
-	.title:hover {
-	    opacity: 1;
-	    background: rgba(0,0,0,0.40);
-	    -webkit-transition: opacity .25s ease;
-	    -moz-transition: opacity .25s ease;
-	    background-image: url("../assets/icon/edit.png");
-	    background-repeat: no-repeat;
-	    background-position: center;
+	.note-editable {
+		font-family: @openSans-Regular;
+		text-align: justify;
+    	color: #2c3e50 !important;
 	}
 }
 
@@ -470,6 +498,10 @@
 	.navbar-collapse .navbar-nav.navbar-right:last-child {
 		margin-right: 0;
 	}
+}
+
+nav {
+	position: fixed !important;
 }
 
 /*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/

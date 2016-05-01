@@ -1,8 +1,8 @@
 <?php
+
+	require_once 'connectionDB.php';
+
 	class Video {
-
-		require_once 'connectionDB.php';
-
 
 		/**
 		Name of the video file
@@ -12,38 +12,42 @@
 
 		/**
 		Name of the art
-		@var nameArt
+		@var idArt
 		*/
-		private $nameArt;
+		private $idArt;
 
 		private $db;
 
-		public function __construct ($titleFile, $nameArt)
+		public function __construct ($titleFile, $idArt)
 		{
 			$this->db = connection();
 			$this->titleFile = $titleFile;
-			$this->nameArt = $nameArt;
+			$this->idArt = $idArt;
 		}
 
 		/**
 		* Insert into video database whith title and name of the art
 		*/
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO VIDEO(titleFile, nameArt) 
+			$insert = $this->db->prepare("INSERT INTO VIDEO(titleFile, idArt) 
 				VALUES (?, ?)");
-			return $insert->execute(array($this->titleFile, $this->nameArt));
+			return $insert->execute(array($this->titleFile, $this->idArt));
 		}
 
 		/**
 		* Test in the database if the video exist for an art
 		*/
 		function exist() {
-			$exist = $this->db->prepare("SELECT 1 FROM VIDEO WHERE titleFile = ? AND nameArt = ?");
-			$exist->execute(array($this->titleFile, $this->nameArt));
+			$exist = $this->db->prepare("SELECT 1 FROM VIDEO WHERE titleFile = ? AND idArt = ?");
+			$exist->execute(array($this->titleFile, $this->idArt));
 			return count($exist->fetchAll()) >= 1;
 		}
 
-	
+		function delete() {
+			$delete = $this->db->prepare("DELETE FROM VIDEO WHERE titleFile = ? AND idArt = ?");
+			return $delete->execute(array($this->titleFile, $this->idArt));
+		}
+
 	    /**
 	     * Gets the Name of the video file.
 	     *
@@ -67,20 +71,20 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return nameArt
+	     * @return idArt
 	     */
-	    public function getNameArt()
+	    public function getidArt()
 	    {
-	        return $this->nameArt;
+	        return $this->idArt;
 	    }
 
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param idArt $newidArt the name art
 	     */
-	    private function setNameArt($newNameArt)
+	    private function setidArt($newidArt)
 	    {
-	        $this->nameArt = $newNameArt;
+	        $this->idArt = $newidArt;
 	    }
 	}

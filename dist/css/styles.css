@@ -193,6 +193,40 @@
   color: #34495e;
 }
 
+.oeuvre .presentation h2 {
+  font-family: 'openSans-Semibold';
+  font-size: 30px;
+  margin-left: 100px;
+}
+
+.oeuvre .presentation #playlist {
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+
+.oeuvre .presentation #playlist th {
+  font-size: 20px;
+}
+
+.oeuvre .presentation #playlist td {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.oeuvre .presentation #playlist td:hover {
+  color: #2c3e50;
+  background-color: #f5f5f5;
+}
+
+.oeuvre .presentation #playlist .active {
+  color: #2c3e50;
+}
+
+.oeuvre .presentation #playlist tr {
+  text-align: center;
+}
+
 .oeuvre .presentation span {
   font-family: 'openSans-Regular';
   display: block;
@@ -312,7 +346,9 @@
   text-align: center;
 }
 
-.edit .btn {
+.edit .btn-add-author,
+.edit .btn-complete,
+.edit .btn-removeAuthor {
   color: white;
 }
 
@@ -347,14 +383,10 @@
   width: 100% !important;
 }
 
-.edition .title:hover {
-  -webkit-transition: opacity .25s ease;
-  -moz-transition: opacity .25s ease;
-  opacity: 1;
-  background: rgba(0, 0, 0, .4);
-  background-image: url('../assets/icon/edit.png');
-  background-repeat: no-repeat;
-  background-position: center;
+.edit .note-editable {
+  font-family: 'openSans-Regular';
+  text-align: justify;
+  color: #2c3e50 !important;
 }
 /*** FIX MAP GOOGLE BUG ***/
 #map {
@@ -421,6 +453,10 @@
   .navbar-collapse .navbar-nav.navbar-right:last-child {
     margin-right: 0;
   }
+}
+
+nav {
+  position: fixed !important;
 }
 /*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/
 .tag-item {

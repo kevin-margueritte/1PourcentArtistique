@@ -6,7 +6,7 @@
 
 		public function __construct ($artName) {
 			$this->src = $_SERVER["DOCUMENT_ROOT"].'/assets/oeuvres/';
-			$this->artName = $artName;
+			$this->artName = str_replace(' ','_', $artName);
 		}
 
 		function createFolder() {
@@ -35,6 +35,10 @@
 
 		function getOeuvreName() {
 			return $this->oeuvreName;
+		}
+
+		function createDescriptionHTMLFile($content) {
+			file_put_contents($this->src . $this->artName . '/' . 'description.html', $content);
 		}
 
 	}
