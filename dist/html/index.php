@@ -88,6 +88,7 @@
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
     <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="/lib/geojson/geojson.min.js"></script>
     <script src="/js/mapAccueil.js"></script>
   </body>
 
