@@ -7,7 +7,7 @@
 		$res = array('error' => true, 'key' => 'Entrer nom d\'oeuvre');
 	}
 	else {
-		$art = new Art($artName, "", "", "", "", 3, "");
+		$art = new Art($artName, "", "", "", "", 1, "");
 		$res = $art->updateIsPublic();
 		echo json_encode($res);
 	}
