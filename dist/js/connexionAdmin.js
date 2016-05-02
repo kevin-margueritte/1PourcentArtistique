@@ -23,12 +23,12 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window) {
 		        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		      };
 		      $http(rqt).success(function(data){
-		      	if(data.length == 0) {
-		      		$scope.titleError = "Vous n'existez pas dans la base de données.";
+		      	if(data.error) {
+		      		$scope.titleError = data.key;
 	    			$scope.hideError = false;
 		      	}
 		      	else {
-		      		$window.location.href = '/html/connect.php';
+		      		$window.location.href = '/html/listeOeuvre.php';
 		      	}
 		      });
 		  }

@@ -27,17 +27,15 @@
           </tr>
         </thead>
         <tbody>
-          <!-- If the art is not published (IsPublic = 0), then displays it on a red background with the "Publier" -->
-          <tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.isPublic == 0">
-            <td>{{oeuvre.name}}</td>
-            <td> <button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-default">Publier</button> </td>
-            <td> <button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button> </td>
+          <tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 0">
+            <td>{{oeuvre.NAME}}</td>
+            <td> <button type="button" ng-click="publishArt(oeuvre.NAME)" class="btn btn-default">Publier</button> </td>
+            <td> <button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button> </td>
           </tr>
-          <!-- If the art is published (IsPublic = 1), then displays it on a green background with the "Dépublier" -->
-          <tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.isPublic == 1">
-            <td>{{oeuvre.name}}</td>
-            <td ng-if="oeuvre.isPublic == 1"> <button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-default">Dépublier</button> </td>
-            <td> <button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button> </td>
+          <tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 1">
+            <td>{{oeuvre.NAME}}</td>
+            <td ng-if="oeuvre.ISPUBLIC == 1"> <button type="button" ng-click="unPublishArt(oeuvre.NAME)" class="btn btn-default">Dépublier</button> </td>
+            <td> <button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button> </td>
           </tr>
         </tbody>
       </table>
