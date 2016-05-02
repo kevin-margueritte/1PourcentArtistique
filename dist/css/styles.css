@@ -458,6 +458,30 @@
 nav {
   position: fixed !important;
 }
+/*** Connexion page ***/
+.connexion #formConnexion {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.connexion h1 {
+  font-family: 'openSans-Bold';
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.connexion button {
+  display: block;
+  width: 65%;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+}
 /*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/
 .tag-item {
   font-family: 'openSans-Regular' !important;

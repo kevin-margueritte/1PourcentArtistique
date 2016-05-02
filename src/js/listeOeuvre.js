@@ -13,6 +13,7 @@ $scope.public = {};
 	};
 	$http(rqt).success(function(data){
 		$scope.allOeuvre = data;
+		console.log($scope.allOeuvre);
 	});
 
 	/*** AJAX -  Change the boolean isPublic of the art in parameter to 1***/

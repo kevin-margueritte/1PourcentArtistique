@@ -63,7 +63,17 @@ require_once 'connectionDB.php';
 		}
 
 		/* Savoir si l'administrateur existe et s'il peut se connecter */
-		public function existe()
+		public function exist()
+		{
+			$query = $this->db->prepare("SELECT 1 FROM Admin WHERE email_admin = :email_admin AND mdp_admin = :mdp_admin");
+			$query->execute(array(
+				'email_admin' => $this->email_admin,
+				'mdp_admin' => $this->mdp_admin
+				));
+			return count($query->fetchAll()) > 0;
+		}
+
+		public function read()
 		{
 			$query = $this->db->prepare("SELECT id_admin, email_admin, mdp_admin, token_admin  FROM Admin WHERE email_admin = :email_admin AND mdp_admin = :mdp_admin");
 			$query->execute(array(
