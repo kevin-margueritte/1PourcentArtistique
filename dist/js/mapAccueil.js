@@ -181,27 +181,32 @@ var rqt = {
     /*Get the filter on which the user clicked*/
     var filter;
     filter = $('input[name=oeuvres]:checked', '#formulaire_Filtre').val();
+    console.log(artGeoJson.features[0].properties.imageFile);
 
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
+        /*Get the image path*/
+        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(" ", "_") + "/"+ feature.properties.imageFile;
         /*Create the content of the pop-up with the elements of the art*/
         var content = 
           "<div id=\"contenu-pop-up\">"+
             "<div id=\"image\">"+
-              "<img src=\"/assets/epingles/apropos1.png\" width=\"100\" height=\"95\"/>"+
+              "<img src=\""+pathImage+"\" width=\"100\" height=\"95\"/>"+
             "</div>"+
             "<div id=\"texte\">"+
               "<div id=\"nom-prenom-artiste\">"+
-                "<p>" + feature.properties.name + " " + feature.properties.name + "</p>"+
+                "<p>" + feature.properties.auteurs + "</p>"+
               "</div>"+
               "<div id=\"nom-oeuvre\">"+
                 "<p>" + feature.properties.name + " (" + feature.properties.creationYear + ")</p>"+
               "</div>"+
               "<div id=\"plus-infos\">"+
-                "<a href=\""+feature.properties.name+"\">+ infos</a>"+
+              // $window.location.href = '/html/oeuvre.php?artName="test"';
+                "<a href=\"/html/oeuvre.php?artName="+feature.properties.name.replace(" ", "_")+"\">+ infos</a>"+
               "</div>"+
             "</div>"+
           "</div>";
+
 
         /*Create each point based on its coordinates with its content and its icon*/
         return markers.addLayer(
