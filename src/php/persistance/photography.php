@@ -1,36 +1,42 @@
 <?php
-	class Photography {
 
-		require_once 'connectionDB.php';
+	require_once 'connectionDB.php';
+
+	class Photography {
 
 		/**
 		Name of the photography
-		@var nameFil
+		@var nameFile
 		*/
-		private $nameFil;
+		private $nameFile;
 
 		/**
 		Name of the art
-		@var nameArt
+		@var idArt
 		*/
-		private $nameArt;
+		private $idArt;
 
 		private $db;
 
-		public function __construct ($nameFil, $nameArt)
+		public function __construct ($nameFile, $idArt)
 		{
 			$this->db = connection();
-			$this->nameFil = $nameFil;
-			$this->nameArt = $nameArt;
+			$this->nameFile = $nameFile;
+			$this->idArt = $idArt;
 		}
 
 		/**
-		* Insert into photography with nameFile and nameArt
+		* Insert into photography with nameFile and idArt
 		*/
 		public function save () {
-			$insert = $this->db->prepare("INSERT INTO PHOTOGRAPHY(nameFile, nameArt) 
+			$insert = $this->db->prepare("INSERT INTO PHOTOGRAPHY(nameFile, idArt) 
 				VALUES (?, ?)");
-			return $insert->execute(array($this->nameFil, $this->nameArt));
+			return $insert->execute(array($this->nameFile, $this->idArt));
+		}
+
+		public function delete() {
+			$delete = $this->db->prepare("DELETE FROM PHOTOGRAPHY WHERE nameFile = ? AND idArt = ?");
+			return $delete->execute(array($this->nameFile, $this->idArt));
 		}
 
 		/** 
@@ -38,7 +44,7 @@
 		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM PHOTOGRAPHY WHERE nameFile = ? ");
-			$exist->execute(array($this->nameFil));
+			$exist->execute(array($this->nameFile));
 			return count($exist->fetchAll()) >= 1;
 		}
 	
@@ -49,7 +55,7 @@
 	     */
 	    public function getNameFil()
 	    {
-	        return $this->nameFil;
+	        return $this->nameFile;
 	    }
 
 	    /**
@@ -57,28 +63,28 @@
 	     *
 	     * @param nameFil $newNameFil the name fil
 	     */
-	    private function setNameFil($newNameFil)
+	    private function setNameFil($newNameFile)
 	    {
-	        $this->nameFil = $newNameFil;
+	        $this->nameFile = $newNameFile;
 	    }
 
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return nameArt
+	     * @return idArt
 	     */
-	    public function getNameArt()
+	    public function getidArt()
 	    {
-	        return $this->nameArt;
+	        return $this->idArt;
 	    }
 
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param idArt $newidArt the name art
 	     */
-	    private function setNameArt($newNameArt)
+	    private function setidArt($newidArt)
 	    {
-	        $this->nameArt = $newNameArt;
+	        $this->idArt = $newidArt;
 	    }
 	}

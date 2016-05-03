@@ -13,7 +13,6 @@ $scope.public = {};
 	};
 	$http(rqt).success(function(data){
 		$scope.allOeuvre = data;
-		console.log($scope.allOeuvre);
 	});
 
 	/*** AJAX -  Change the boolean isPublic of the art in parameter to 1***/
@@ -26,8 +25,8 @@ $scope.public = {};
       };
       $http(rqt).success(function(data){
       	for (var i=0; i < $scope.allOeuvre.length; i++) {
-      		if ($scope.allOeuvre[i].name == name) {
-      			$scope.allOeuvre[i].isPublic = 1;
+      		if ($scope.allOeuvre[i].NAME == name) {
+      			$scope.allOeuvre[i].ISPUBLIC = 1;
       		}
       	}
       });
@@ -43,8 +42,8 @@ $scope.public = {};
 	  };
 	  $http(rqt).success(function(data){
 	  	for (var i=0; i < $scope.allOeuvre.length; i++) {
-      		if ($scope.allOeuvre[i].name == name) {
-      			$scope.allOeuvre[i].isPublic = 0;
+      		if ($scope.allOeuvre[i].NAME == name) {
+      			$scope.allOeuvre[i].ISPUBLIC = 0;
       		}
       	}
 	  });

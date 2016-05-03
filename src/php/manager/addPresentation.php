@@ -14,7 +14,7 @@
 	}
 	else {
 		$art = new Art($artName);
-		$art->setPresentationHTMLFileByName($presentationHTMLContent);
+		$art->setPresentationHTMLFileByName('presentation.html');
 		$file = new File($artName);
 		$file->createDescriptionHTMLFile($presentationHTMLContent);
 		$res = array('error' => false, 'key' => 'La présentation a été créée');

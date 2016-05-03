@@ -14,8 +14,9 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique</title>
 </head>
-<body ng-app="myApp">
-	<div  ng-controller="artList">
+<body ng-app="myApp" class="artList">
+	<div ng-controller="artList">
+		<h1>Liste des oeuvres</h1>
 		<table class="table">
 			<thead class="thead-default">
 				<tr>
@@ -28,7 +29,7 @@
 				<tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 0">
 					<td>{{oeuvre.NAME}}</td>
 					<td >
-						<button type="button" ng-click="publishArt(oeuvre.NAME)" class="btn btn-default">Publier</button>
+						<button type="button" ng-click="publishArt(oeuvre.NAME)" class="btn btn-success">Publier</button>
 					</td>
 					<td>
 						<button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button>
@@ -37,7 +38,7 @@
 				<tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 1">
 					<td>{{oeuvre.NAME}}</td>
 					<td ng-if="oeuvre.ISPUBLIC == 1">
-						<button type="button" ng-click="unPublishArt(oeuvre.NAME)" class="btn btn-default">Dépublier</button>
+						<button type="button" ng-click="unPublishArt(oeuvre.NAME)" class="btn btn-success">Dépublier</button>
 					</td>
 					<td>
 						<button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button>

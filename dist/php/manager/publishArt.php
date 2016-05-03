@@ -4,10 +4,16 @@
 	$artName = $_POST['artName'];
 
 	if (empty($artName)) {
-		$res = array('error' => true, 'key' => 'Entrer nom d\'oeuvre');
+		$res = array('error' => true, 'key' => 'Entrer un nom d\'oeuvre');
 	}
 	else {
-		$art = new Art($artName, "", "", "", "", 1, "");
+		$art = new Art($artName, "", "", "", "", "", "1");
 		$res = $art->updateIsPublic();
-		echo json_encode($res);
+		if($res) {
+			$res = array('error' => false, 'key' => 'Publication effectuée');
+		}
+		else {
+			$res = array('error' => false, 'key' => 'Publication non effectuée');	
+		}
 	}
+	echo json_encode($res);

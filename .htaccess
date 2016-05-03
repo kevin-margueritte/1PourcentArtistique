@@ -1,0 +1,10 @@
+Options -Indexes
+
+
+
+Options +FollowSymlinks
+
+RewriteEngine On
+
+RewriteRule /art/edition/ /html/oeuvreEdit.php
+

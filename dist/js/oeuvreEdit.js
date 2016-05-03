@@ -1,4 +1,28 @@
-var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize']);
+var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize'])
+  .directive('repeatOwlPhotographyPost', function($timeout) {
+    return {
+          restrict: 'A',
+          link: function (scope, element, attr) {
+              if (scope.$last === true) {
+                  $timeout(function () {
+                      scope.$emit('ngRepeatFinishedPhotography');
+                  });
+              }
+          }
+      }
+  })
+  .directive('repeatOwlHistoricPost', function($timeout) {
+    return {
+          restrict: 'A',
+          link: function (scope, element, attr) {
+              if (scope.$last === true) {
+                  $timeout(function () {
+                      scope.$emit('ngRepeatFinishedHistoric');
+                  });
+              }
+          }
+      }
+  });
 
 /** declare json **/
 var art = {};
@@ -9,6 +33,7 @@ art.longitude = '';
 art.authors = [];
 art.materials = [];
 art.architects = [];
+art.photographyList = [];
 art.presentationHTML = '';
 art.historiqueHTML = '';
 art.imageFile = '';
@@ -23,10 +48,40 @@ var marker;
 var nbVideos = 0;
 var player;
 var idxCurrentVideo = 0;
+var owlPhotographyIsSet = false;
+var owlHistoricIsSet = false;
+var confWysywyg = {
+      height: 200,
+      fontNames: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
+        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
+      fontNamesIgnoreCheck: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
+        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
+      colors: [
+        ['#FF5660', '#4BC2BC', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E', '#2C3E50'],
+        ['#F1C40F', '#F39C12', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD']
+      ],
+      defaultFontName: 'openSans-Regular',
+      toolbar: [
+        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+        ['fontname', ['fontname']],
+        ['fontsize', ['fontsize']], 
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['height', ['height']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video', 'hr']],
+        ['view', ['fullscreen']],
+        ['help', ['help']]
+      ],
+      fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
+      lang: 'fr-FR',
+    };
 
 myApp.controller('edit', function ($scope, $http) {
 
   $scope.nbAuthors = 0;
+  $scope.nbPhotography = 0;
+  $scope.nbHistoric = 0;
   $scope.art = {};
   $scope.art.name = '';
   $scope.hideTitle = true;
@@ -34,12 +89,17 @@ myApp.controller('edit', function ($scope, $http) {
   $scope.hideErrorAuthor = true;
   $scope.hideOverview = true;
   $scope.hidePresentation = true;
+  $scope.hidePhotography = true;
+  $scope.hideHistoric = true;
   $scope.soundHide = true;
   $scope.videoHide = true;
   $scope.art.authors = [];
   $scope.art.architects = [];
   $scope.art.materials = [];
+  $scope.art.photographyList = [];
+  $scope.art.historicList = [];
   $scope.art.presentationHTML = '';
+  $scope.art.historicHTML = '';
   $scope.art.videoList = [];
   $scope.art.type = 'Architecture'; //Fix bug angularJS - select
 
@@ -281,32 +341,6 @@ myApp.controller('edit', function ($scope, $http) {
 
     $('#modal-presentation').modal('show');
     //$('#modal-presentation').modal({backdrop: 'static', keyboard: false});
-    $('#wysywygPresentation').summernote({
-      height: 200,
-      fontNames: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
-        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
-      fontNamesIgnoreCheck: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
-        'openSans-Light','openSans-LightItalic', 'openSans-Regular', 'openSans-Semibold', 'openSans-SemiboldItalic'],
-      colors: [
-        ['#FF5660', '#4BC2BC', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E', '#2C3E50'],
-        ['#F1C40F', '#F39C12', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD']
-      ],
-      defaultFontName: 'openSans-Regular',
-      toolbar: [
-        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-        ['fontname', ['fontname']],
-        ['fontsize', ['fontsize']], 
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video', 'hr']],
-        ['view', ['fullscreen']],
-        ['help', ['help']]
-      ],
-      fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
-      lang: 'fr-FR',
-    });
   };
 
   $scope.completePresentation = function () {
@@ -344,11 +378,112 @@ myApp.controller('edit', function ($scope, $http) {
     player.play();
   }
 
+  /*** Modal photography ***/
+  $scope.addPhotography = function () {
+    $('#modal-photography').modal('show');
+  }
+
+  $scope.completePhotography = function() {
+    $('#modal-photography').modal('hide');
+
+    if (owlPhotographyIsSet) {
+      initCarouselPhotograph();
+    }
+    if ($scope.nbPhotography==0) {
+      $scope.hidePhotography = true;
+    }
+    else {
+      $scope.hidePhotography = false;
+    }
+  }
+
+  $scope.$on('ngRepeatFinishedPhotography', function(ngRepeatFinishedEvent) {
+    initCarouselPhotograph();
+    owlPhotographyIsSet = true;
+  });
+
+  function initCarouselPhotograph() {
+    $(".carousel-photograph").owlCarousel({
+      navigation: true,
+      margin:10,
+      loop:true,
+      autoWidth:true,
+      autoHeight:true,
+      items:3,
+      center: true,
+    });
+  }
+
+  function destroyCarouselPhotograph() {
+    $(".carousel-photograph").trigger('destroy.owl.carousel').removeClass('owl-carousel owl-loaded');
+    $(".carousel-photograph").find('.owl-stage-outer').children().unwrap();
+  }
+
+  /***Modal historic***/
+  $scope.addHistoric = function () {
+    $('#modal-historic').modal('show');
+  }
+
+  $scope.completeHistoric = function() {
+    $('#modal-historic').modal('hide');
+
+    var emptyWysywyg = $('#wysywygHistoric').summernote('isEmpty');
+    if (emptyWysywyg) {
+      $scope.art.historicHTML = '';
+    }
+    else {
+      $scope.art.historicHTML = $('#wysywygHistoric').summernote('code');
+    }
+
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/addHistoricFile.php',
+      data : $.param({artName: art.name, historicHTMLContent : $scope.art.historicHTML}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+
+    if (owlHistoricIsSet) {
+      initCarouselHistoric();
+    }
+    if ($scope.nbHistoric==0 && $scope.art.historicHTML == '') {
+      $scope.hideHistoric = true;
+    }
+    else {
+      $scope.hideHistoric = false;
+    }
+  }
+
+  $scope.$on('ngRepeatFinishedHistoric', function(ngRepeatFinishedEvent) {
+    initCarouselHistoric();
+    owlHistoricIsSet = true;
+  });
+
+  function initCarouselHistoric() {
+    $(".carousel-historic").owlCarousel({
+        navigation : true,
+        margin:10,
+        loop:true,
+        autoWidth:true,
+        autoHeight:true,
+        items:3,
+        center: true,
+      });
+  }
+
+  function destroyCarouselHistoric() {
+    $(".carousel-historic").trigger('destroy.owl.carousel').removeClass('owl-carousel owl-loaded');
+    $(".carousel-historic").find('.owl-stage-outer').children().unwrap();
+  }
+
   angular.element(document).ready(function () {
     $('.navbar').draggabilly();
 
     $('#modal-title').modal('show');
     $('#modal-title').modal({backdrop: 'static', keyboard: false});
+
+    $('#wysywygPresentation').summernote(confWysywyg);
+    $('#wysywygHistoric').summernote(confWysywyg);
 
     //DROPZONE DESCRIPTION
     $("#dropzoneDescription").dropzone({
@@ -454,6 +589,90 @@ myApp.controller('edit', function ($scope, $http) {
         formData.append("nameArt", art.name);
       },
       dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
+    });
+
+    //DROPZONE PHOTOGRAPHY
+    $("#dropzonePhotography").dropzone({
+      url: '/php/manager/uploadPhotography.php',
+      paramName: 'photo',
+      method: 'post',
+      maxFiles: 50,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deletePhotography.php',
+          data : $.param({photo: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i <$scope.art.photographyList.length; i++ ) {
+            if($scope.art.photographyList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.photographyList.splice( idx, 1 );
+          $scope.nbPhotography--;
+          destroyCarouselPhotograph();
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.photographyList[$scope.nbPhotography] = {};
+        $scope.art.photographyList[$scope.nbPhotography].name = file.name.split('.')[0];
+        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.nbPhotography++;
+        owlPhotographyIsSet = false;
+        destroyCarouselPhotograph();
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
+    });
+
+    //DROPZONE HISTORIC
+    $("#dropzoneHistoric").dropzone({
+      url: '/php/manager/uploadHistoric.php',
+      paramName: 'photo',
+      method: 'post',
+      maxFiles: 50,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deleteHistoric.php',
+          data : $.param({photo: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i <$scope.art.historicList.length; i++ ) {
+            if($scope.art.historicList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.historicList.splice( idx, 1 );
+          $scope.nbHistoric--;
+          destroyCarouselHistoric();
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.historicList[$scope.nbHistoric] = {};
+        $scope.art.historicList[$scope.nbHistoric].name = file.name.split('.')[0];
+        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.nbHistoric++;
+        owlHistoricIsSet = false;
+        destroyCarouselHistoric();
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
     });
 
     autocompleteLocation();
