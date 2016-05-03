@@ -145,10 +145,12 @@
 			return $query;
 		}
 		function getAllForAccueil() {
-			$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, LOCATION.longitude, LOCATION.latitude
-										 FROM ART, LOCATION, LOCATED
-										 WHERE ART.name = LOCATED.nameArt
-										 AND LOCATION.name = LOCATED.nameLocation");
+			$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
+fROM ART, LOCATION, LOCATED, DESIGN
+WHERE ART.name = LOCATED.nameArt
+AND LOCATION.name = LOCATED.nameLocation
+AND DESIGN.nameArt = ART.name
+GROUP BY ART.name;");
 			$query->execute();
 			return $query->fetchAll();
 		}
