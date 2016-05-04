@@ -61,7 +61,7 @@ var confWysywyg = {
         ['#F1C40F', '#F39C12', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD']
       ],
       defaultFontName: 'openSans-Regular',
-      toolbar: [
+/*      toolbar: [
         ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
         ['fontname', ['fontname']],
         ['fontsize', ['fontsize']], 
@@ -71,23 +71,42 @@ var confWysywyg = {
         ['table', ['table']],
         ['insert', ['link', 'picture', 'video', 'hr']],
         ['view', ['fullscreen']],
-        ['help', ['help']]
-      ],
+        ['help', ['fullscreen', 'codeview', 'help']]
+      ],*/
+      popover: {
+        image: [
+          ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+          ['float', ['floatLeft', 'floatRight', 'floatNone']],
+          ['remove', ['removeMedia']]
+        ],
+        link: [
+          ['link', ['linkDialogShow', 'unlink']]
+        ],
+        air: [
+          ['color', ['color']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['para', ['ul', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture']]
+        ]
+      },
       fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
       lang: 'fr-FR',
     };
 
-myApp.controller('edit', function ($scope, $http) {
+myApp.controller('edit', function ($scope, $http, $sce) {
 
   $scope.nbAuthors = 0;
   $scope.nbPhotography = 0;
   $scope.nbHistoric = 0;
   $scope.art = {};
   $scope.art.name = '';
+  $scope.authorBiographyCurrent = '';
   $scope.hideTitle = true;
   $scope.hideErrorTitle = true;
   $scope.hideErrorAuthor = true;
   $scope.hideOverview = true;
+  $scope.hideBiography = true;
   $scope.hidePresentation = true;
   $scope.hidePhotography = true;
   $scope.hideHistoric = true;
@@ -172,7 +191,7 @@ myApp.controller('edit', function ($scope, $http) {
             var rqt = {
               method : 'POST',
               url : '/php/manager/createAuthor.php',
-              data : $.param({idArt: art.id, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
+              data : $.param({idArt: data.idArt, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
                 yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
               headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             };
@@ -226,9 +245,12 @@ myApp.controller('edit', function ($scope, $http) {
       $scope.hideErrorAuthor = false;
       $scope.errorAuthor = 'Veuillez entrer l\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +'.';
     }
-    else if ($scope.art.authors[$scope.nbAuthors].yearDeath != 0 && 
+    else if ( 
+      !angular.isUndefined($scope.art.authors[$scope.nbAuthors].yearBirth) &&
+      $scope.art.authors[$scope.nbAuthors].yearDeath != 0 && 
       $scope.art.authors[$scope.nbAuthors].yearBirth != 0 &&
-      $scope.art.authors[$scope.nbAuthors].yearDeath < $scope.art.authors[$scope.nbAuthors].yearBirth) {
+      $scope.art.authors[$scope.nbAuthors].yearDeath < $scope.art.authors[$scope.nbAuthors].yearBirth
+    ){
       $scope.hideErrorAuthor = false;
       $scope.errorAuthor = 'L\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +' est plus grande que son année de décès.';
     }
@@ -347,7 +369,7 @@ myApp.controller('edit', function ($scope, $http) {
     $('#modal-presentation').modal('hide');
     $scope.hidePresentation = false;
     art.presentationHTML = $('#wysywygPresentation').summernote('code');
-    $scope.art.presentationHTML = art.presentationHTML;
+    $scope.art.presentationHTML = $sce.trustAsHtml(art.presentationHTML);
 
     var rqt = {
       method : 'POST',
@@ -432,7 +454,7 @@ myApp.controller('edit', function ($scope, $http) {
       $scope.art.historicHTML = '';
     }
     else {
-      $scope.art.historicHTML = $('#wysywygHistoric').summernote('code');
+      $scope.art.historicHTML = $sce.trustAsHtml($('#wysywygHistoric').summernote('code'));
     }
 
     var rqt = {
@@ -476,6 +498,75 @@ myApp.controller('edit', function ($scope, $http) {
     $(".carousel-historic").find('.owl-stage-outer').children().unwrap();
   }
 
+  /*** Modal biography ***/
+
+  $scope.addBiography = function () {
+    $('#modal-biography').modal('show');
+  }
+
+  $scope.completeBiography = function () {
+    $('#modal-biography').modal('hide');
+    if (nbBiography() == 0 ) {
+      $scope.hideBiography = true;
+    }
+    else {
+      $scope.hideBiography = false;
+    }
+  }
+
+  $scope.addBiographyAuthor = function(name) {
+    $('#modal-editBiography').modal('show');
+    var rqt = {
+      method : 'GET',
+      url : '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/biography" + name.replace(new RegExp(" ", 'g'), "_") + ".html",
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt)
+      .success(function(data){
+        $('#wysywygBiography').summernote('code', data);
+      })
+      .error(function (data, status) {
+        $('#wysywygBiography').summernote('code', '');
+      });
+    $scope.authorBiographyCurrent = name;
+  }
+
+  $scope.completeEditBiography = function() {
+    $('#modal-editBiography').modal('hide');
+
+    var emptyWysywyg = $('#wysywygBiography').summernote('isEmpty');
+    var idx = 0;
+    for (var i = 0; i < $scope.art.authors.length; i++) {
+      if ($scope.art.authors[i].name == $scope.authorBiographyCurrent) {
+        idx = i;
+        break;
+      }
+    }
+    if (emptyWysywyg) {
+      $scope.art.authors[idx].biography = '';
+    }
+    else {
+      $scope.art.authors[idx].biography = $sce.trustAsHtml($('#wysywygBiography').summernote('code'));
+    }
+    var rqt = {
+      method : 'POST',
+      url : '/php/manager/addBiography.php',
+      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, authorName: $scope.authorBiographyCurrent}),  
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+    };
+    $http(rqt);
+  }
+
+  function nbBiography() {
+    var nbBiography = 0;
+    for (var i = 0; i < $scope.art.authors.length; i++) {
+      if ($scope.art.authors[i].biography != '' && !angular.isUndefined($scope.art.authors[i].biography)) {
+        nbBiography++;
+      } 
+    }
+    return nbBiography;
+  }
+
   angular.element(document).ready(function () {
     $('.navbar').draggabilly();
 
@@ -484,6 +575,7 @@ myApp.controller('edit', function ($scope, $http) {
 
     $('#wysywygPresentation').summernote(confWysywyg);
     $('#wysywygHistoric').summernote(confWysywyg);
+    $('#wysywygBiography').summernote(confWysywyg);
 
     //DROPZONE DESCRIPTION
     $("#dropzoneDescription").dropzone({
@@ -508,7 +600,7 @@ myApp.controller('edit', function ($scope, $http) {
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
         art.imageFile = file.name;
-        $scope.art.imagePath = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.imagePath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
         $scope.art.imageAlt = file.name;
         formData.append("nameArt", art.name);
       },
@@ -548,7 +640,7 @@ myApp.controller('edit', function ($scope, $http) {
       sending: function(file, xhr, formData) {
         $scope.art.videoList[nbVideos] = {};
         $scope.art.videoList[nbVideos].name = file.name.split('.')[0];
-        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
         if (nbVideos!=0) {
           $scope.art.videoList[nbVideos].active = false;
         }
@@ -585,7 +677,7 @@ myApp.controller('edit', function ($scope, $http) {
       sending: function(file, xhr, formData) {
         $scope.soundHide = false;
         $scope.art.soundName = file.name.split('.')[0];
-        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
         formData.append("nameArt", art.name);
       },
       dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
@@ -624,7 +716,7 @@ myApp.controller('edit', function ($scope, $http) {
       sending: function(file, xhr, formData) {
         $scope.art.photographyList[$scope.nbPhotography] = {};
         $scope.art.photographyList[$scope.nbPhotography].name = file.name.split('.')[0];
-        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
         $scope.nbPhotography++;
         owlPhotographyIsSet = false;
         destroyCarouselPhotograph();
@@ -666,7 +758,7 @@ myApp.controller('edit', function ($scope, $http) {
       sending: function(file, xhr, formData) {
         $scope.art.historicList[$scope.nbHistoric] = {};
         $scope.art.historicList[$scope.nbHistoric].name = file.name.split('.')[0];
-        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(" ", "_") + "/" + file.name;
+        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
         $scope.nbHistoric++;
         owlHistoricIsSet = false;
         destroyCarouselHistoric();

@@ -82,9 +82,6 @@
 			$insert = $this->db->prepare("INSERT INTO ART(name, creationYear, presentationHTMLFile, 
 				historicHTMLFile, soundFile, isPublic, type, nameLocation, imageFile) 
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			$insert->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
-			var_dump($insert->errorInfo());
 			return $insert->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
 				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
 		}

@@ -35,6 +35,7 @@
           <li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
           <li><a href="#" ng-click="addPhotography()">Photographies de l'oeuvre</a></li>
           <li><a href="#" ng-click="addHistoric()">Historiques de l'oeuvre</a></li>
+          <li><a href="#" ng-click="addBiography()">Biographies des auteurs</a></li>
         </ul>
       </div>
     </nav>
@@ -91,6 +92,10 @@
             <a ng-href="{{historic.path}}" data-lightbox="image-photograph" title="<b>{{historic.name}}</b>"> <img ng-src="{{historic.path}}"> </a>
           </div>
         </div> <span ng-bind-html="art.historicHTML"></span> </div>
+      <div class="biography" ng-hide=hideBiography>
+        <h1>Biographies</h1>
+        <div ng-repeat="author in art.authors" ng-if="author.biography != ''" class="biographyLimit"> <span ng-bind-html="author.biography"></span> </div>
+      </div>
       <div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -202,6 +207,43 @@
               <div class="form-group"> <label>Description de l'historique</label>
                 <div id="wysywygHistoric"></div>
               </div> <button type="button" ng-click="completeHistoric()" class="btn btn-complete">Ajouter</button> </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-biography" tabindex="-1" role="dialog" aria-labelledby="modal-biography">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="edit">
+              <h1>Ajouter des biographies aux auteurs</h1>
+              <table class="table">
+                <thead class="thead-default">
+                  <tr>
+                    <th>Nom auteur</th>
+                    <th>Année naissance</th>
+                    <th>Année décès</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="rowAuthor in authorsArray">
+                    <td>{{rowAuthor.name}}</td>
+                    <td>{{rowAuthor.yearBirth}}</td>
+                    <td>{{rowAuthor.yearDeath}}</td>
+                    <td> <button type="button" ng-click="addBiographyAuthor(rowAuthor.name)" class="btn btn-addDescriptionAuthor">Description</button> </td>
+                  </tr>
+                </tbody>
+              </table> <button type="button" ng-click="completeBiography($event)" accesskey="S" class="btn btn-complete">Modifier</button> </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-editBiography" tabindex="-1" role="dialog" aria-labelledby="modal-editBiography">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="edit">
+              <h1>Ajouter la biographie de {{authorBiographyCurrent}}</h1>
+              <div class="form-group"> <label>Biographie</label>
+                <div id="wysywygBiography"></div>
+              </div> <button type="button" ng-click="completeEditBiography()" class="btn btn-add-author">Ajouter la description</button> </div>
           </div>
         </div>
       </div>

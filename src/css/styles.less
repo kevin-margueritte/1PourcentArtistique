@@ -283,22 +283,44 @@
 			margin-top: 20px;
 		}
 
-		.btn-next {
-			text-align: center;
-			margin: 0 auto;
-			display: block;
-			margin-top: 10px;
-			font-family: @openSans-Regular;
-			color: white;
-			background-color: @rouge_um;
-		}
-
 		audio {
 			margin: 0 auto;
 			text-align: center;
 			display: block;
 			margin-top: 15px;
 			width: 80%;
+		}
+	}
+
+	.biography {
+
+		padding-bottom: 15px;
+		background-color: @clouds;
+
+		h1 {
+			font-family: @openSans-Bold;
+			color: @wet_asphalt;
+			margin-left: 50px;
+			margin-bottom: 30px;
+		}
+
+		h2 {
+			font-size: 30px;
+		    margin-left: 100px;
+		    font-family: @openSans-Semibold;
+		}
+
+		span {
+			font-family: @openSans-Regular;
+			color: @midnight_blue;
+			text-align: justify;
+    		display: block;
+    		margin-left: 100px;
+   			margin-right: 100px;
+		}
+
+		.biographyLimit {
+			margin-bottom: 75px;
 		}
 	}
 
@@ -389,7 +411,7 @@
 		text-align: center;
 	}
 
-	.btn-add-author, .btn-complete, .btn-removeAuthor {
+	.btn-add-author, .btn-complete, .btn-removeAuthor, .btn-addDescriptionAuthor {
 		color: white;
 	}
 
@@ -399,6 +421,10 @@
 	    width: 30%;
 	    display: block;
 	    margin-top: 30px;
+	}
+
+	.btn-addDescriptionAuthor {
+		background-color: @emerald;
 	}
 
 	.btn-removeAuthor {
@@ -457,6 +483,10 @@
 
 .modal {
 	overflow-y: scroll;
+}
+
+#modal-author {
+	z-index: 1500;
 }
 
 /*** NAVBAR LEFT SOLUTION - EDIT  PAGE ***/
