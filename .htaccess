@@ -1,0 +1,6 @@
+Options +FollowSymlinks
+RewriteEngine On
+
+RewriteRule /art/lecture /html/oeuvre.php
+
+RewriteRule /accueil /html/index.php
