@@ -201,12 +201,10 @@ var rqt = {
                 "<p>" + feature.properties.name + " (" + feature.properties.creationYear + ")</p>"+
               "</div>"+
               "<div id=\"plus-infos\">"+
-              // $window.location.href = '/html/oeuvre.php?artName="test"';
-                "<a href=\"/html/oeuvre.php?artName="+feature.properties.name.replace(" ", "_")+"\">+ infos</a>"+
+                "<a href=\"/art/lecture?artName="+feature.properties.name.replace(" ", "_")+"\">+ infos</a>"+
               "</div>"+
             "</div>"+
           "</div>";
-
 
         /*Create each point based on its coordinates with its content and its icon*/
         return markers.addLayer(

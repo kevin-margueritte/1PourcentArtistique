@@ -1,6 +1,39 @@
 var myApp = angular.module('art', []);
 
+	function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+	    var allParameter = window.location.search.substring(1); // Get a string with all parameters
+	    var sURLVariables = allParameter.split('&'); // Split in an array each parameters
+	    for (var i = 0; i < sURLVariables.length; i++) // Retrieves the correct parameters and send it 
+	    {
+	        var sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] == sParam) 
+	        {
+	            return sParameterName[1];
+	        }
+	    }
+	}
+
 myApp.controller('view', function ($scope, $http) {
+
+
+	//Get the name of the art who the user click
+	var paramNameArt = getUrlParameter('artName');
+	//Parse the name and replace the "_" by " " to correspond to the name in the database
+	var nameArt = paramNameArt.replace("_", " ");
+
+	/*Get all informations about the art to display on the page*/
+	var rqt = {
+    method : 'POST',
+    url : '/php/manager/getAllInfoForAnArt.php',
+    data : $.param({nameArt: nameArt}),  
+    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+  	};
+	$http(rqt).success(function(data){
+		console.log(data);
+	});
+
+
+
 	$scope.videoList = [];
 	$scope.setActive = 'noActive';
 	$scope.songName = 'Les colonnes dans le vent';

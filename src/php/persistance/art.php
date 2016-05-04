@@ -152,6 +152,14 @@ GROUP BY ART.name;");
 			return $query->fetchAll();
 		}
 
+		function getAllInfoForAnArt() {
+			$query = $this->db->prepare("SELECT art.id, art.name, art.creationYear, art.imageFile, art.presentationHTMLFile, art.historiqueHTMLFile, art.soundFile, art.type, LOCATED.nameLocation, GROUP_CONCAT(DISTINCT CONCAT_WS(\", \", DESIGN.nameAuthor, AUTHOR.yearBirth, AUTHOR.yearDEATH) SEPARATOR \"; \") AS auteurs ,GROUP_CONCAT(DISTINCT COMPOSE.nameMaterial SEPARATOR \", \") AS materiaux, GROUP_CONCAT(DISTINCT PARTICIPATE.fullName SEPARATOR \", \") AS architectes, GROUP_CONCAT(DISTINCT VIDEO.titleFile SEPARATOR \", \") AS videos, GROUP_CONCAT(DISTINCT PHOTOGRAPHY.nameFile SEPARATOR \", \") AS photographies, GROUP_CONCAT(DISTINCT HISTORIC.nameFile SEPARATOR \", \") AS photographies_historique FROM ART, LOCATION, LOCATED, DESIGN, AUTHOR, PARTICIPATE, COMPOSE, VIDEO, PHOTOGRAPHY, HISTORIC WHERE ART.name = LOCATED.nameArt AND LOCATION.name = LOCATED.nameLocation AND DESIGN.nameArt = ART.name AND AUTHOR.fullName = DESIGN.nameAuthor  AND PARTICIPATE.nameArt = art.name AND COMPOSE.nameArt = art.name AND VIDEO.nameArt = art.name AND PHOTOGRAPHY.nameArt = art.name AND HISTORIC.nameArt = art.name AND art.name = :name GROUP BY ART.name");
+			$query->execute(array(
+				'name' => $this->name
+				));
+			return $query->fetchAll();
+		}
+
 		/**
 	     * Gets the id.
 	     *

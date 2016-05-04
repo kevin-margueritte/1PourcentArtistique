@@ -1,10 +1,8 @@
-Options -Indexes
-
-
-
 Options +FollowSymlinks
-
 RewriteEngine On
 
-RewriteRule /art/edition/ /html/oeuvreEdit.php
+RewriteRule /art/lecture /html/oeuvre.php
 
+RewriteRule /accueil /html/index.php
+
+RewriteRule /art/edition/ /html/oeuvreEdit.php
