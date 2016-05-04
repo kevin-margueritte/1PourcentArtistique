@@ -15,6 +15,18 @@
 			}
 		}
 
+		function deleteFolder () {
+			return File::DeleteFolderAux($this->src . $this->artName . '/');
+		}
+
+		private static function deleteFolderAux($dir) {
+			$files = array_diff(scandir($dir), array('.','..')); 
+		    foreach ($files as $file) { 
+		      (is_dir("$dir/$file")) ? File::deleteFolderAux("$dir/$file") : unlink("$dir/$file"); 
+		    } 
+		    return rmdir($dir);
+		}
+
 		function renameFolder($newName) {
 			rename($this->src . $newName, $this->src . $this->artName);
 		}
@@ -39,6 +51,10 @@
 
 		function createDescriptionHTMLFile($content) {
 			file_put_contents($this->src . $this->artName . '/' . 'description.html', $content);
+		}
+
+		function createHistoricHTMLFile($content) {
+			file_put_contents($this->src . $this->artName . '/' . 'historic.html', $content);
 		}
 
 	}

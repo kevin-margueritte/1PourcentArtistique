@@ -14,14 +14,12 @@
 		
 		if($res) {
 			/* Then we get the name of the art to delete the folder containing informations about the art (photos, videos, sounds) */
-			$name = $art->getName();
-			$name = str_replace(' ', '_', $name);
-			$file = new File($name);
-			$path = $file->getSrc() . $file->getOeuvreName();
-			shell_exec('rm -rf ' . realpath($path));
+			$file = new File($artName);
+			$file->deleteFolder();
 			$res = array('error' => true, 'key' => 'Oeuvre supprimée');
 		}
 		else {
 			$res = array('error' => true, 'key' => 'Oeuvre non supprimée');
 		}
+	}
 	echo json_encode($res);

@@ -20,7 +20,7 @@
 
 		/**
 		*/
-		private $historiqueHTMLFile;
+		private $historicHTMLFile;
 
 		/**
 		*/
@@ -62,7 +62,7 @@
 		*/
 		private $db;
 
-		public function __construct ($name = null, $creationYear = null, $nameLocation = null, $presentationHTMLFile = null, $historiqueHTMLFile = null, $soundFile = null, 
+		public function __construct ($name = null, $creationYear = null, $nameLocation = null, $presentationHTMLFile = null, $historicHTMLFile = null, $soundFile = null, 
 			$isPublic = null, $type = null, $id = null, $imageFile = null)
 		{
 			$this->db = connection();
@@ -70,7 +70,7 @@
 			$this->creationYear = $creationYear;
 			$this->nameLocation = $nameLocation;
 			$this->presentationHTMLFile = $presentationHTMLFile;
-			$this->historiqueHTMLFile = $historiqueHTMLFile;
+			$this->historicHTMLFile = $historicHTMLFile;
 			$this->soundFile = $soundFile;
 			$this->isPublic = $isPublic;
 			$this->type = $type;
@@ -80,10 +80,13 @@
 
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO ART(name, creationYear, presentationHTMLFile, 
-				historiqueHTMLFile, soundFile, isPublic, type, nameLocation, imageFile) 
+				historicHTMLFile, soundFile, isPublic, type, nameLocation, imageFile) 
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$insert->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
+				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
+			var_dump($insert->errorInfo());
 			return $insert->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
+				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
 		}
 
 		function update () {
@@ -92,7 +95,7 @@
 					name = ?,
 					creationYear = ?, 
 					presentationHTMLFile = ?, 
-					historiqueHTMLFile = ?, 
+					historicHTMLFile = ?, 
 					soundFile = ?, 
 					isPublic = ?, 
 					type = ?,
@@ -100,7 +103,7 @@
 					imageFile = ?
 				WHERE id = ?");
 			return $update->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historiqueHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->id, $this->imageFile));
+				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->id, $this->imageFile));
 		}
 
 		function existByName() {
@@ -117,7 +120,8 @@
 
 		function selectAllArts()
 		{
-			$query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile, historiqueHTMLFile, soundFile, isPublic, type, imageFile FROM Art");
+			$query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile,
+			 historicHTMLFile, soundFile, isPublic, type, imageFile FROM Art ORDER BY(name) ASC");
 			$query->execute();
 			return $query->fetchAll();
 		}
@@ -258,23 +262,30 @@ GROUP BY ART.name;");
 	    }
 
 	    /**
-	     * Gets the value of historiqueHTMLFile.
+	     * Gets the value of historicHTMLFile.
 	     *
-	     * @return historiqueHTMLFile
+	     * @return historicHTMLFile
 	     */
-	    public function getHistoriqueHTMLFile()
+	    public function gethistoricHTMLFile()
 	    {
-	        return $this->historiqueHTMLFile;
+	        return $this->historicHTMLFile;
 	    }
 
 	    /**
-	     * Sets the value of historiqueHTMLFile.
+	     * Sets the value of historicHTMLFile.
 	     *
-	     * @param  $newHistoriqueHTMLFile the historique HTML file
+	     * @param  $newhistoricHTMLFile the historique HTML file
 	     */
-	    private function setHistoriqueHTMLFile($newHistoriqueHTMLFile)
+	    private function sethistoricHTMLFile($newhistoricHTMLFile)
 	    {
-	        $this->historiqueHTMLFile = $newHistoriqueHTMLFile;
+	        $this->historicHTMLFile = $newhistoricHTMLFile;
+	    }
+
+	    public function setHistoriqueHTMLFileByName($newhistoricHTMLFile)
+	    {
+	        $this->historicHTMLFile = $newhistoricHTMLFile;
+	    	$insert = $this->db->prepare("UPDATE ART SET historicHTMLFile = ? WHERE name = ?");
+	    	return $insert->execute(array($newhistoricHTMLFile, $this->name));
 	    }
 
 	    /**

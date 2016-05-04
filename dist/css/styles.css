@@ -389,7 +389,7 @@
   color: #2c3e50 !important;
 }
 /*** FIX MAP GOOGLE BUG ***/
-#map {
+.edit #map {
   position: relative;
   overflow: hidden;
   height: 0;
@@ -476,6 +476,57 @@ nav {
 }
 
 .connexion button {
+  display: block;
+  width: 65%;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.artList table {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.artList table thead th {
+  font-size: 22px;
+  text-align: center;
+}
+
+.artList button {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.artList h1 {
+  font-family: 'openSans-Bold';
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.modifyAccount .myaccount {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.modifyAccount h1 {
+  font-family: 'openSans-Bold';
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.modifyAccount button {
   display: block;
   width: 65%;
   margin: 0 auto;

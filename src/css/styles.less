@@ -434,16 +434,19 @@
 }
 
 /*** FIX MAP GOOGLE BUG ***/
-#map {
-	position: relative;
-    padding-bottom: 35.25%;
-    padding-top: 16px;
-    height: 0;
-    overflow: hidden;
-    text-align: center;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-bottom: 35px;
+.edit {
+
+	#map {
+		position: relative;
+	    padding-bottom: 35.25%;
+	    padding-top: 16px;
+	    height: 0;
+	    overflow: hidden;
+	    text-align: center;
+	    margin-right: 10px;
+	    margin-left: 10px;
+	    margin-bottom: 35px;
+	}
 }
 
 .pac-container {
@@ -530,6 +533,67 @@ nav {
 	    display: block;
     	margin-top: 10px;
 	}
+}
+
+.artList {
+
+	table {
+		width: 70%;
+   		margin: 0 auto;
+
+   		thead {
+
+   			th {
+   				text-align: center;
+   				font-size: 22px;
+   			}
+   		}
+	}
+
+	button {
+		width: 150px;
+	    margin: 0 auto;
+	    text-align: center;
+	    display: block;
+	}
+
+	h1 {
+		color: @rouge_um;
+		font-size: 50px;
+		margin: 0 auto;
+		text-align: center;
+		margin-bottom: 40px;
+    	margin-top: 10px;
+    	font-family: @openSans-Bold;
+	}
+}
+
+.modifyAccount {
+
+	.myaccount {
+		width: 40%;
+	    text-align: center;
+	    margin: 0 auto;
+	}
+
+	h1 {
+		color: @rouge_um;
+		font-size: 50px;
+		margin: 0 auto;
+		text-align: center;
+		margin-bottom: 40px;
+    	margin-top: 10px;
+    	font-family: @openSans-Bold;
+	}
+
+	button {
+		text-align: center;
+	    margin: 0 auto;
+	    width: 65%;
+	    display: block;
+    	margin-top: 10px;
+	}
+
 }
 
 /*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/

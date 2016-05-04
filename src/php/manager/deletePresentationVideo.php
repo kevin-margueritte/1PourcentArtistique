@@ -20,7 +20,7 @@
 		$report = new Video($videoName, $art->getId());
 		$report->delete();
 		if (!$res) {
-			$res = array('error' => false, 'key' => 'La vidéo ' . $videoName .' n\'a pas pu être supprimée');
+			$res = array('error' => true, 'key' => 'La vidéo ' . $videoName .' n\'a pas pu être supprimée');
 		}
 		else {
 			$res = array('error' => false, 'key' => 'La vidéo ' . $videoName . ' a été supprimée');

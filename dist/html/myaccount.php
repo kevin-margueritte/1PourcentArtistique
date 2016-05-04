@@ -17,20 +17,20 @@
     <title>1% artistique</title>
   </head>
 
-  <body ng-app="myAccountAdmin" ng-controller="myAccountAdmin">
+  <body ng-app="myAccountAdmin" ng-controller="myAccountAdmin" class="modifyAccount">
     <form method="post" class="form-horizontal center" name="myaccount">
-      <h3>Modification du mot de passe...</h3>
+      <h1>Modification du mot de passe</h1>
       <div class="myaccount admin">
-        <div class="form-group"> <label class="col-sm-4 control-label">Nouveau mot de passe</label>
-          <div class="col-sm-3"> <input type="password" required class="form-control" ng-model="admin.password" placeholder="pErTe4(E"> </div>
+        <div class="form-group"> <label class="control-label">Nouveau mot de passe</label>
+          <div> <input type="password" required class="form-control" ng-model="admin.password"> </div>
         </div>
-        <div class="form-group"> <label class="col-sm-4 control-label">Confirmation du nouveau mot de passe</label>
-          <div class="col-sm-3"> <input type="password" required class="form-control" name="confirm_password" ng-pattern="getPattern()" ng-model="admin.password_verify" placeholder="pErTe4(E"> <small ng-show="myaccount.confirm_password.$error.pattern">
+        <div class="form-group"> <label class="control-label">Confirmation du nouveau mot de passe</label>
+          <div> <input type="password" required class="form-control" name="confirm_password" ng-pattern="getPattern()" ng-model="admin.password_verify"> <small ng-show="myaccount.confirm_password.$error.pattern">
 						Mot de passes non identiques.
       				</small> </div>
         </div>
         <div class="form-group">
-          <div class="col-sm-offset-5"> <button ng-disabled="((!(admin.password === admin.password_verify))||(admin.password.length == 0))" name="modifier" class="btn btn-success" ng-click="boutonMyAccount(admin.password)">Modifier</button> </div>
+          <div> <button ng-disabled="((!(admin.password === admin.password_verify))||(admin.password.length == 0))" name="modifier" class="btn btn-success" ng-click="boutonMyAccount(admin.password)">Modifier</button> </div>
         </div>
         <div ng-hide="hideError" class="alert alert-danger"> <strong>Erreur! </strong>{{titleError}} </div>
         <div ng-hide="hideSuccess" class="alert alert-success"> <strong>Success! </strong>{{titleSuccess}} </div>

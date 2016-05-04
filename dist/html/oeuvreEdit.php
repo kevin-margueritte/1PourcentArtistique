@@ -32,13 +32,9 @@
         <ul class="nav navbar-nav">
           <li><a href="#" ng-click="openTitle()">Informations générales</a></li>
           <li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
-          <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Présentation de l'oeuvre <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#" ng-click="addPresentation()">Ajouter une présentation</a></li>
-              <li><a href="#">Supprimer la présentation</a></li>
-              <li><a href="#">Modifier la présentation</a></li>
-            </ul>
-          </li>
+          <li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
+          <li><a href="#" ng-click="addPhotography()">Photographies de l'oeuvre</a></li>
+          <li><a href="#" ng-click="addHistoric()">Historiques de l'oeuvre</a></li>
         </ul>
       </div>
     </nav>
@@ -80,6 +76,21 @@
         <div ng-hide=soundHide>
           <h2>Son - {{art.soundName}}</h2> <audio ng-src="{{art.soundPath}}" controls></audio> </div>
       </div>
+      <div ng-hide="hidePhotography" class="photograph">
+        <h1>PHOTOGRAPHIES - {{nbPhotography + " photos"}}</h1>
+        <div class="carousel-photograph">
+          <div class="item" ng-repeat="photography in art.photographyList" repeat-owl-photography-post="ngRepeatFinishedHistoric">
+            <a ng-href="{{photography.path}}" data-lightbox="image-photograph" title="<b>{{photography.name}}</b>"> <img ng-src="{{photography.path}}"> </a>
+          </div>
+        </div>
+      </div>
+      <div class="historic" ng-hide=hideHistoric>
+        <h1>HISTORIQUES - {{nbHistoric + " photos d'historique"}}</h1>
+        <div class="carousel-historic">
+          <div class="item" ng-repeat="historic in art.historicList" repeat-owl-historic-post="ngRepeatFinished">
+            <a ng-href="{{historic.path}}" data-lightbox="image-photograph" title="<b>{{historic.name}}</b>"> <img ng-src="{{historic.path}}"> </a>
+          </div>
+        </div> <span ng-bind-html="art.historicHTML"></span> </div>
       <div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -166,6 +177,31 @@
               <div class="form-group"> <label>Ajouter un son</label>
                 <form class="dropzone" id="dropzonePresentationSound"></form>
               </div> <button type="button" ng-click="completePresentation()" class="btn btn-complete">Ajouter</button> </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-photography" tabindex="-1" role="dialog" aria-labelledby="modal-photography">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="edit">
+              <h1>Ajouter des photographies</h1>
+              <div class="form-group">
+                <form class="dropzone" id="dropzonePhotography"></form>
+              </div> <button type="button" ng-click="completePhotography()" class="btn btn-complete">Ajouter</button> </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="modal-historic" tabindex="-1" role="dialog" aria-labelledby="modal-historic">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="edit">
+              <h1>Créer des historiques</h1>
+              <div class="form-group">
+                <form class="dropzone" id="dropzoneHistoric"></form>
+              </div>
+              <div class="form-group"> <label>Description de l'historique</label>
+                <div id="wysywygHistoric"></div>
+              </div> <button type="button" ng-click="completeHistoric()" class="btn btn-complete">Ajouter</button> </div>
           </div>
         </div>
       </div>

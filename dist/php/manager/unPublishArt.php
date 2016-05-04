@@ -7,7 +7,7 @@
 		$res = array('error' => true, 'key' => 'Entrer un nom d\'oeuvre');
 	}
 	else {
-		$art = new Art($artName, "", "", "", "", 0, "");
+		$art = new Art($artName, "", "", "", "", "", "0");
 		$res = $art->updateIsPublic();
 		if($res) {
 			$res = array('error' => false, 'key' => 'Dépublication effectuée');
