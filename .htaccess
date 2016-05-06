@@ -6,3 +6,11 @@ RewriteRule /art/lecture /html/oeuvre.php
 RewriteRule /accueil /html/index.php
 
 RewriteRule /art/edition/ /html/oeuvreEdit.php
+
+RewriteRule /recherche /html/search.php
+
+RewriteRule /connection /html/connexionAdmin.php
+
+RewriteRule /listeoeuvre /html/listeOeuvre.php
+
+RewriteRule /deconnection /html/deconnexion.php

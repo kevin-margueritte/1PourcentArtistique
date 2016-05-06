@@ -1,5 +1,18 @@
 var myApp = angular.module('accueil', []);
 
+function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+      var allParameter = window.location.search.substring(1); // Get a string with all parameters
+      var sURLVariables = allParameter.split('&'); // Split in an array each parameters
+      for (var i = 0; i < sURLVariables.length; i++) // Retrieves the correct parameters and send it 
+      {
+          var sParameterName = sURLVariables[i].split('=');
+          if (sParameterName[0] == sParam) 
+          {
+              return sParameterName[1];
+          }
+      }
+  }
+
 myApp.controller('accueil', function ($scope, $http, $window) {
   var map, contourearch = [];
 
@@ -61,7 +74,7 @@ myApp.controller('accueil', function ($scope, $http, $window) {
   map = L.map("map", {
     maxZoom: 17,
     minZoom: 2,
-    center: [43.6109200, 3.8772300],
+    //center: [43.6109200, 3.8772300],
     layers: [mapquestOSM, contour, markerClusters, highlight],
     zoomControl: false,
     attributionControl: false
@@ -88,7 +101,7 @@ myApp.controller('accueil', function ($scope, $http, $window) {
     position: "bottomright",
     drawCircle: true,
     follow: true,
-    setView: true,
+    // setView: true,
     keepCurrentZoomLevel: true,
     markerStyle: {
       weight: 1,
@@ -182,7 +195,6 @@ var rqt = {
     /*Get the filter on which the user clicked*/
     var filter;
     filter = $('input[name=oeuvres]:checked', '#formulaire_Filtre').val();
-    console.log(artGeoJson.features[0].properties.imageFile);
 
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
@@ -227,6 +239,20 @@ var rqt = {
     map.fitBounds(markers.getBounds());
     map.addLayer(markers);
 
+    /*After instantiating the map with the points in the database, this function is call to check if the are parameters in the URL,
+    whether it then zooms to that point.*/
+    zoomIfParametersInURL();
+
     return false;
   };
+
+  function zoomIfParametersInURL() {
+    //Get lng and lat from the url
+    var longitudeURL = getUrlParameter('longitude');
+    var latitudeURL = getUrlParameter('latitude');
+    //If there are parameters, then we zoom on it
+    if(longitudeURL != null && latitudeURL != null) {
+      map.setView([latitudeURL, longitudeURL], 16);
+    }
+  }
 });

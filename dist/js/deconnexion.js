@@ -1,6 +1,6 @@
 var myApp = angular.module('deconnexionAdmin', []);
 
-myApp.controller('deconnexionAdmin', function ($scope, $http) {
+myApp.controller('deconnexionAdmin', function ($scope, $http, $window) {
 
 	/*** AJAX - destroy cookies to disconnect the user ***/
 	var rqt = {
@@ -9,5 +9,8 @@ myApp.controller('deconnexionAdmin', function ($scope, $http) {
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		};
 		$http(rqt).success(function(data){
+			if(data.disconnected) {
+				$window.location.href = '/accueil';
+			}
 		});
 });
