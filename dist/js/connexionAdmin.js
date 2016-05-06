@@ -1,6 +1,24 @@
-var myApp = angular.module('connexionAdmin', []);
+var myApp = angular.module('connexionAdmin', ['ngCookies']);
 
-myApp.controller('connexionAdmin', function ($scope, $http, $window) {
+myApp.controller('connexionAdmin', function ($scope, $http, $window, $cookies, $cookieStore) {
+
+	/*Get the values of the cookies*/
+	var id_admin = $cookies.get('id_admin');
+	var token_admin = $cookies.get('token_admin');
+
+	/*Test if the user is connected or not*/
+	var rqt = {
+		method : 'POST',
+		url : '/php/manager/isConnected.php',
+		data : $.param({id: id_admin, token: token_admin}),  
+		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+	};
+	$http(rqt).success(function(data){
+		/*If the user is already connected, we redirect automatically to the liste oeuvre page*/
+		if(data.connected == true) {
+			$window.location.href = '/listeoeuvre';
+		}
+	});
 
 	$scope.hideError = true;
 
