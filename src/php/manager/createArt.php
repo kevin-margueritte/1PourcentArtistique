@@ -49,7 +49,7 @@
 				$res = array('error' => false, 'key' => 'L\'oeuvre ' . $name . ' a été créé', 'idArt' => $artId );
 			}
 			else {
-				$res = array('error' => true, 'key' => 'L\'oeuvre ' . $name . ' existe déjà');
+				$res = array('error' => true, 'key' => 'L\'oeuvre ' . $name . ' existe déjà', 'idArt' => $artId);
 			}
 		}
 		else {

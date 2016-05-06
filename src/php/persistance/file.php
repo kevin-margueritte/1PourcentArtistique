@@ -28,7 +28,9 @@
 		}
 
 		function renameFolder($newName) {
-			rename($this->src . $newName, $this->src . $this->artName);
+			if (!file_exists($this->src . $newName)) {
+				rename($this->src . $newName, $this->src . $this->artName);
+			}
 		}
 
 		function uploadFile($file) {

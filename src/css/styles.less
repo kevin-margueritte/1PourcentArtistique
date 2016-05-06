@@ -633,6 +633,47 @@ nav {
 	font-family: @openSans-Regular !important;
 }
 
+/*** Fix owl carousel navigation **/
+.owl-controls {
+  margin: 0;
+}
+
+.owl-controls .owl-nav [class*=owl-] {
+  font-size: 12px;
+  padding: 7px 9px 7px 8px;
+  border-radius: 0;
+}
+
+.owl-controls .owl-prev,
+.owl-controls .owl-next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 30px;
+  margin: auto !important;
+}
+
+.owl-controls .owl-prev {
+  left: 0;
+  display: inherit !important;
+  left: -70px;
+}
+
+.owl-prev i, .owl-next i {
+	font-size: 65px;
+	color: @wet_asphalt;
+}
+
+.owl-controls .owl-next {
+  right: 0;
+  display: inherit !important;
+  right: -70px;
+}
+
+.owl-controls .owl-dots {
+  display: none !important;
+}
+
 /*PAGE ACCUEIL*/
 /*Nom et prénom de l'artiste dans la popup en gras*/
 div#nom-prenom-artiste {

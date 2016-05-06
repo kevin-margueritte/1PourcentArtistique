@@ -84,15 +84,23 @@ myApp.controller('view', function ($scope, $http) {
 
 		$(".carousel-photograph").owlCarousel({
 			navigation : true,
+	        navText: [
+	          "<i class='glyphicon glyphicon-menu-left' aria-hidden='true'></i>",
+	          "<i class='glyphicon glyphicon-menu-right' aria-hidden='true'></i>"
+	        ],
 		    margin:10,
 		    loop:true,
 		    autoWidth:true,
-		    autoHeight:true,
+		    autoHeight:false,
 		    items:3
 		});
 
 		$(".carousel-historic").owlCarousel({
 			navigation : true,
+	        navText: [
+	          "<i class='glyphicon glyphicon-menu-left' aria-hidden='true'></i>",
+	          "<i class='glyphicon glyphicon-menu-right' aria-hidden='true'></i>"
+	        ],
 		    margin:10,
 		    loop:true,
 		    autoWidth:true,

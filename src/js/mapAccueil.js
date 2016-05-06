@@ -168,6 +168,7 @@ var rqt = {
   };
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
+    console.log(data);
     artGeoJson = GeoJSON.parse(data, {Point: ['latitude', 'longitude']});
     $scope.filtres();
   });
@@ -186,7 +187,7 @@ var rqt = {
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
         /*Get the image path*/
-        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(" ", "_") + "/"+ feature.properties.imageFile;
+        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(" ", "_") + "/"+ feature.properties.imagefile;
         /*Create the content of the pop-up with the elements of the art*/
         var content = 
           "<div id=\"contenu-pop-up\">"+

@@ -427,6 +427,10 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   function initCarouselPhotograph() {
     $(".carousel-photograph").owlCarousel({
       navigation: true,
+      navText: [
+            "<i class='glyphicon glyphicon-menu-left' aria-hidden='true'></i>",
+            "<i class='glyphicon glyphicon-menu-right' aria-hidden='true'></i>"
+          ],
       margin:10,
       loop:true,
       autoWidth:true,
@@ -484,6 +488,10 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   function initCarouselHistoric() {
     $(".carousel-historic").owlCarousel({
         navigation : true,
+        navText: [
+            "<i class='glyphicon glyphicon-menu-left' aria-hidden='true'></i>",
+            "<i class='glyphicon glyphicon-menu-right' aria-hidden='true'></i>"
+          ],
         margin:10,
         loop:true,
         autoWidth:true,

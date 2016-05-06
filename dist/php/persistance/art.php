@@ -100,7 +100,7 @@
 					imageFile = ?
 				WHERE id = ?");
 			return $update->execute(array($this->name, $this->creationYear, $this->presentationHTMLFile, 
-				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->id, $this->imageFile));
+				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile, $this->id));
 		}
 
 		function existByName() {
@@ -142,12 +142,28 @@
 			return $query;
 		}
 		function getAllForAccueil() {
-			$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
+			/*$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
 fROM ART, LOCATION, LOCATED, DESIGN
 WHERE ART.name = LOCATED.nameArt
 AND LOCATION.name = LOCATED.nameLocation
 AND DESIGN.nameArt = ART.name
-GROUP BY ART.name;");
+GROUP BY ART.name;");*/
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+			$query = $this->db->prepare('
+				SELECT 
+					LOWER(ART.name) as name, 
+					LOWER(ART.creationYear) as creationYear, 
+					LOWER(ART.type) as type, 
+					LOWER(ART.imageFile) as imageFile, 
+					LOWER(LOCATION.longitude) as longitude, 
+					LOWER(LOCATION.latitude) as latitude, 
+					LISTAGG(DESIGN.nameAuthor, \', \') 
+						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs
+				FROM ART, LOCATION, DESIGN
+				WHERE LOCATION.name = ART.nameLocation AND DESIGN.idart = ART.id
+				GROUP BY (ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude) 
+				ORDER BY ART.name'
+			);
 			$query->execute();
 			return $query->fetchAll();
 		}
