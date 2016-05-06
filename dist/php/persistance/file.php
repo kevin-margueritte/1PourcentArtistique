@@ -38,7 +38,10 @@
 		}
 
 		function removeFile($nameFile) {
-			return unlink($this->src . $this->artName . '/' .$nameFile);
+			if (file_exists($this->src . $this->artName)) {
+				return unlink($this->src . $this->artName . '/' .$nameFile);
+			}
+			return false;
 		}
 
 		function getSrc() {
@@ -55,6 +58,10 @@
 
 		function createHistoricHTMLFile($content) {
 			file_put_contents($this->src . $this->artName . '/' . 'historic.html', $content);
+		}
+
+		function createBiographyHTMLFile($content, $authorName) {
+			file_put_contents($this->src . $this->artName . '/' . 'biography' . str_replace(' ','_', $authorName) .'.html', $content);
 		}
 
 	}

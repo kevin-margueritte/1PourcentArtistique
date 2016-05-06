@@ -89,9 +89,11 @@
 	     *
 	     * @param biographyHTMLFile $newBiographyHTMLFile the biography HTML file
 	     */
-	    private function setBiographyHTMLFile($newBiographyHTMLFile)
+	    public function setBiographyHTMLFile($newBiographyHTMLFile)
 	    {
 	        $this->biographyHTMLFile = $newBiographyHTMLFile;
+	    	$insert = $this->db->prepare("UPDATE DESIGN SET biographyHTMLFile = ? WHERE idArt = ? AND nameAuthor = ?");
+	    	return $insert->execute(array($newBiographyHTMLFile, $this->idArt, $this->nameAuthor));
 	    }
 	
 	    /**

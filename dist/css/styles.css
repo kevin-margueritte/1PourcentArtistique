@@ -244,22 +244,43 @@
   text-align: center;
 }
 
-.oeuvre .presentation .btn-next {
-  font-family: 'openSans-Regular';
-  display: block;
-  margin: 0 auto;
-  margin-top: 10px;
-  text-align: center;
-  color: white;
-  background-color: #ff5660;
-}
-
 .oeuvre .presentation audio {
   display: block;
   width: 80%;
   margin: 0 auto;
   margin-top: 15px;
   text-align: center;
+}
+
+.oeuvre .biography {
+  padding-bottom: 15px;
+  background-color: #ecf0f1;
+}
+
+.oeuvre .biography h1 {
+  font-family: 'openSans-Bold';
+  margin-bottom: 30px;
+  margin-left: 50px;
+  color: #34495e;
+}
+
+.oeuvre .biography h2 {
+  font-family: 'openSans-Semibold';
+  font-size: 30px;
+  margin-left: 100px;
+}
+
+.oeuvre .biography span {
+  font-family: 'openSans-Regular';
+  display: block;
+  margin-right: 100px;
+  margin-left: 100px;
+  text-align: justify;
+  color: #2c3e50;
+}
+
+.oeuvre .biography .biographyLimit {
+  margin-bottom: 75px;
 }
 
 .oeuvre .photograph {
@@ -348,7 +369,8 @@
 
 .edit .btn-add-author,
 .edit .btn-complete,
-.edit .btn-removeAuthor {
+.edit .btn-removeAuthor,
+.edit .btn-addDescriptionAuthor {
   color: white;
 }
 
@@ -359,6 +381,10 @@
   margin: 0 auto;
   margin-top: 30px;
   text-align: center;
+}
+
+.edit .btn-addDescriptionAuthor {
+  background-color: #2ecc71;
 }
 
 .edit .btn-removeAuthor {
@@ -407,6 +433,10 @@
 /*** FIX MULTI MODAL BOOTSTRAP ***/
 .modal {
   overflow-y: scroll;
+}
+
+#modal-author {
+  z-index: 1500;
 }
 /*** NAVBAR LEFT SOLUTION - EDIT  PAGE ***/
 @media (min-width: 768px) {
