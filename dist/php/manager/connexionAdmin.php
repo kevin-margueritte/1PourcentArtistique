@@ -21,7 +21,7 @@
         	$changetoken = $selectAdmin->changeToken($token);
         	if($changetoken)
             {
-                setcookie("token", $token, 0, '/');
+                setcookie("token_admin", $token, 0, '/');
                 setcookie("id_admin", $idAdmin, 0, '/');
             }
             $res = array('error' => false, 'key' => 'Identifiants corrects');
