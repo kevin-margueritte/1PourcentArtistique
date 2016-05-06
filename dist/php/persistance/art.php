@@ -126,6 +126,16 @@
 			return $query->fetchAll();
 		}
 
+		function getAllArtsForSearch()
+		{
+			$query = $this->db->prepare("SELECT art.name, art.creationYear, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
+FROM art, DESIGN
+WHERE art.name = DESIGN.nameArt
+GROUP BY art.name");
+			$query->execute();
+			return $query->fetchAll();
+		}
+
 		function updateIsPublic() {
 			$query = $this->db->prepare(
 				"UPDATE ART SET isPublic = :isPublic where name = :name");

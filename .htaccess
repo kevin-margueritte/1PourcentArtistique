@@ -6,3 +6,5 @@ RewriteRule /art/lecture /html/oeuvre.php
 RewriteRule /accueil /html/index.php
 
 RewriteRule /art/edition/ /html/oeuvreEdit.php
+
+RewriteRule /recherche /html/search.php

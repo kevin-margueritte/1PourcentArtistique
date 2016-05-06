@@ -18,19 +18,22 @@ myApp.controller('view', function ($scope, $http) {
 
 	//Get the name of the art who the user click
 	var paramNameArt = getUrlParameter('artName');
-	//Parse the name and replace the "_" by " " to correspond to the name in the database
-	var nameArt = paramNameArt.replace("_", " ");
+	if(paramNameArt != null) {
+		//Parse the name and replace the "_" by " " to correspond to the name in the database
+		var nameArt = paramNameArt.replace("_", " ");
 
-	/*Get all informations about the art to display on the page*/
-	var rqt = {
-    method : 'POST',
-    url : '/php/manager/getAllInfoForAnArt.php',
-    data : $.param({nameArt: nameArt}),  
-    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-  	};
-	$http(rqt).success(function(data){
-		console.log(data);
-	});
+		/*Get all informations about the art to display on the page*/
+		var rqt = {
+	    method : 'POST',
+	    url : '/php/manager/getAllInfoForAnArt.php',
+	    data : $.param({nameArt: nameArt}),  
+	    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+	  	};
+		$http(rqt).success(function(data){
+			console.log(data);
+		});
+	}
+	
 
 
 
