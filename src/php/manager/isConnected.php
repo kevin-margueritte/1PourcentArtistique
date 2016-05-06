@@ -7,10 +7,10 @@
 
 	/*If there is empty, error*/
 	if (empty($id)) {
-		$res = array('error' => true, 'key' => 'Entrer un ID');
+		$res = array('error' => true, 'connected' => 'Entrer un ID');
 	}
 	else if (empty($token)) {
-		$res = array('error' => true, 'key' => 'Entrer un token');
+		$res = array('error' => true, 'connected' => 'Entrer un token');
 	}
 	else {
 		/*Get the value of the admin with his ID and test if the value of the cookie "TOKEN" is the same as the value in the database

@@ -15,7 +15,8 @@ myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieS
 	};
 	$http(rqt).success(function(data){
 		/*If it is not connected, we redirect it to the login page*/
-		if(!data.connected) {
+		console.log(data.connected);
+		if(data.connected != true) {
 			$window.location.href = '/connection';
 		}
 	});
