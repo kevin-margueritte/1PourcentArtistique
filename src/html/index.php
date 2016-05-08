@@ -27,10 +27,13 @@
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"> -->
   </head>
 
-  <body ng-app="accueil" ng-controller="accueil">
+  <body ng-app="accueil" ng-controller="accueil" class="home">
+  <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
   <div id="menu-ui">
     <div id="afficher_filtres">
-      <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png"> Filtres</a>
+      <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png">
+        <span>FILTRES</span>
+      </a>
     </div>
     <div id="cacher">
       <div id="formulaire_filtre">
@@ -38,55 +41,73 @@
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="all" checked/>
-              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png"> Tous</div>
+              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+               <span>Tous</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="architecture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png"> Architecture</div>
+              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+                <span>Architecture</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="art numérique"/>
-              <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png"> Art numérique</div>
+              <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
+                <span>Architecture</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="art décoratif"/>
-              <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png"> Art décoratif</div>
+              <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
+                <span>Art décoratif</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="cinéma"/>
-              <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png"> Cinéma</div>
+              <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png">
+                <span>Cinéma</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="musique"/>
-              <div id="texteFiltre"><img src="/assets/filtres/musique-20.png"> Musique</div>
+              <div id="texteFiltre"><img src="/assets/filtres/musique-20.png">
+                <span>Musique</span> 
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="peinture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png"> Peinture</div>
+              <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png">
+                <span>Peinture</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="photographie"/>
-              <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png"> Photographie</div>
+              <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png">
+                <span>Photographie</span>
+              </div>
             </label>
           </div>
           <div class="radio">
             <label ng-click="filtres()">
               <input type="radio" name="oeuvres" value="sculpture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png"> Sculpture</div>
+              <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png">
+                <span>Sculpture</span>
+              </div>
             </label>
           </div>
         </form> 
@@ -106,9 +127,10 @@
   <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
   <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
   <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
-
+  <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="/lib/geojson/geojson.min.js"></script>
+  <script src="/js/header.js"></script>
   <script src="/js/mapAccueil.js"></script>
 
 

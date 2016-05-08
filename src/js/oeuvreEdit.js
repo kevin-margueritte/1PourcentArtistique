@@ -151,6 +151,7 @@ myApp.controller('edit', function ($scope, $http, $sce, $location, $q, factoryBi
     URI = $location.absUrl().split('/')[4];
     var param = $location.absUrl().split('/')[5];
     player = document.getElementsByTagName("video")[0];
+
     
     if (URI == 'read' || URI == 'update') {
       if (URI == 'read') {

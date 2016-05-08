@@ -422,6 +422,125 @@
   text-align: justify;
   color: #2c3e50 !important;
 }
+/*** HEADER ***/
+header #logoUMSlogan {
+  float: left;
+  margin-left: 10%;
+}
+
+header #logoUMSlogan #logo-UM {
+  float: left;
+  padding: 25px;
+}
+
+header #logoUMSlogan #logo-UM img {
+  width: 195px;
+}
+
+header #logoUMSlogan #slogan {
+  float: left;
+  padding-top: 40px;
+}
+
+header #logoUMSlogan #slogan h1 {
+  font-family: 'openSans-BoldItalic';
+  width: 280px;
+  margin: inherit;
+  color: #bdc3c7;
+}
+
+header .collapse-trigger {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+header .collapse-trigger i {
+  font-size: 25px;
+  color: #7f8c8d;
+}
+
+header #search {
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 15px;
+}
+
+header #search input {
+  font-family: 'openSans-Italic';
+}
+
+header #search #logo-search {
+  background-color: #ff5660;
+}
+
+header #search i {
+  width: 50px;
+  color: white;
+}
+
+header #logo-artistique {
+  margin-right: 10%;
+  padding: 45px;
+}
+
+header #logo-artistique img {
+  float: right;
+  width: 180px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  header #logoUMSlogan {
+    margin-left: inherit;
+  }
+
+  header #logo-artistique {
+    margin-right: inherit;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  header #logoUMSlogan {
+    float: inherit;
+    margin-left: inherit;
+  }
+
+  header #logoUMSlogan #logo-UM {
+    float: inherit;
+    margin: 0 auto;
+    padding: inherit;
+    padding: 15px;
+    text-align: center;
+  }
+
+  header #logoUMSlogan #slogan {
+    float: inherit;
+    padding-top: inherit;
+  }
+
+  header #logoUMSlogan #slogan h1 {
+    font-family: 'openSans-BoldItalic';
+    font-size: 30px;
+    width: 55%;
+    margin: inherit;
+    margin: 0 auto;
+    text-align: center;
+    color: #bdc3c7;
+  }
+
+  header #search {
+    padding-top: 15px;
+  }
+
+  header #search i {
+    width: 10px;
+    color: white;
+  }
+
+  header #logo-artistique {
+    display: none;
+  }
+}
 /*** FIX MAP GOOGLE BUG ***/
 .edit #map {
   position: relative;
@@ -470,7 +589,7 @@
 
   .navbar {
     float: left;
-    max-width: 300px;
+    max-width: 225px;
     margin-right: 0;
     margin-left: 0;
   }
@@ -495,6 +614,23 @@
 
 nav {
   position: fixed !important;
+}
+
+nav .navbar-brand {
+  font-family: 'openSans-Bold';
+  font-size: 22px;
+  margin: inherit;
+  padding-top: 15px;
+  color: #ff5660 !important;
+}
+
+nav li a {
+  font-family: 'openSans-Semibold';
+  color: #34495e;
+}
+
+nav li:hover {
+  background-color: #ecf0f1;
 }
 /*** Connexion page ***/
 .connexion #formConnexion {
@@ -619,6 +755,11 @@ nav {
   display: none !important;
 }
 /*PAGE ACCUEIL*/
+.home header {
+  position: absolute;
+  z-index: 1;
+  background-color: white;
+}
 /*Nom et prénom de l'artiste dans la popup en gras*/
 div#nom-prenom-artiste
 {
@@ -645,10 +786,10 @@ div#texte
 #menu-ui {
   position: absolute;
   z-index: 1;
-  top: 100px;
+  top: 50%;
   left: 15px;
-  width: 170px;
-  height: 35px;
+  width: 200px;
+  height: 50px;
   margin: 0;
   padding: 0;
   border: 1px solid rgba(0, 0, 0, .4);
@@ -658,82 +799,82 @@ div#texte
   -moz-appearance: none;
   appearance: none;
 }
-/*Menu filtre lorsqu'il est selectionné*/
-#menu-ui.selectionner
-{
-    position: absolute;
-    z-index: 1;
-    top: 100px;
-    left: 15px;
 
-    width: 170px;
-    height: auto;
-    margin: 0;
-    padding: 0;
-
-    border: 1px solid rgba(0, 0, 0, .4);
-    border-radius: 3px;
-    background: #fff;
-
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+#menu-ui.selectionner {
+  height: auto;
 }
 /*Enlever les points du radio button dans le formulaire*/
-#menu-ui input
-{
-    margin: 0;
-    padding: 0;
-
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+#menu-ui input {
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 /*Enleve le soulignement sour le lien du menu*/
-#menu-ui a
-{
-    text-decoration: none;
+#menu-ui a {
+  text-decoration: none;
 }
-/*Effet pour le titre "Filtres"*/
-a#filtre
-{
-    font-size: 25px;
-    font-weight: bold;
 
-    margin-top: 10px;
-    margin-left: 10px;
-
-    text-align: left;
-
-    color: #2c3e50;
+#menu-ui #cacher {
+  margin-top: 7px;
 }
-/*Effet de mise en avant pour l'element selectionné*/
-div.radio label > input:checked + div {
-  font-size: 17px;
-  font-weight: bold;
+
+#menu-ui #cacher .radio {
+  margin: inherit;
+  padding-top: 2px;
+  padding-bottom: 8px;
+}
+
+#menu-ui #cacher #texteFiltre:hover {
   opacity: 1;
 }
+
+#menu-ui #cacher #texteFiltre span {
+  font-family: 'openSans-Regular';
+  padding-left: 20px;
+  color: #34495e;
+}
+
+#menu-ui #afficher_filtres {
+  padding-top: 10px;
+}
+
+#menu-ui #afficher_filtres img {
+  padding-left: 20px;
+}
+
+#menu-ui #afficher_filtres span {
+  font-family: 'openSans-Bold';
+  font-size: 20px;
+  margin-left: 17px;
+  color: #34495e;
+}
+/*Effet de mise en avant pour l'element selectionné*/
+div.radio label > input:checked + div
+{
+    opacity: 1;
+}
 /*Effet de mise en retrait pour les autres elements non selectionnés*/
-div.radio label > input:not(:checked) + div {
-  opacity: .33;
+div.radio label > input:not(:checked) + div
+{
+    opacity: .33;
 }
 /*Rajoute bordure de separation entre chaque type d'oeuvre*/
-div.radio
-{
-    border-top: 1px solid rgba(0, 0, 0, .4);
-    border-radius: 3px;
+div.radio {
+  border-top: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 3px;
 }
 /*Rajoute une petite marge pour chaque texte*/
-div#texteFiltre
-{
-    margin-top: 4px;
+div#texteFiltre {
+  margin-top: 4px;
 }
 /*Masque les filtres au demarrage*/
-#cacher
-{
-    visibility: hidden;
+#cacher {
+  visibility: hidden;
 }
 /*Centre l'image du filtre*/
-img.menu {
-  margin-bottom: 5px;
+img.menu
+{
+    margin-bottom: 5px;
 }

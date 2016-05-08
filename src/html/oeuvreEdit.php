@@ -17,7 +17,8 @@
 	<title>1% artistique - Création</title>
 </head>
 <body ng-app="art-edit" ng-controller="edit">
-	<nav ng-hide="hide" class="navbar navbar-default" role="navigation">
+	<?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
+	<nav ng-hide="hideEditor" class="navbar navbar-default navbar-fixed-top" role="navigation">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 				<span class="sr-only">Toggle navigation</span>
@@ -25,7 +26,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<p class="navbar-brand">Editeur d'oeuvre</p>
+			<h1 class="navbar-brand">Editeur d'oeuvre</h1>
 		</div>
 
 		<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -127,7 +128,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Créer une oeuvre</h1>
+						<h1>Informations générales</h1>
 						<div class="form-group">
 							<label>Nom de l'oeuvre</label>
 							<input ng-model="art.name" type="text" class="form-control" placeholder="Nom">
@@ -217,7 +218,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Créer une description</h1>
+						<h1>Description de l'oeuvre</h1>
 						<div class="form-group">
 							<label>Matériaux utilisés</label>
 							<tags-input add-On-Enter=true min-Length=1 on-Tag-Removed="materialDelete($tag)" on-Tag-Added="materialAdd($tag)" ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
@@ -236,7 +237,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Créer une présentation</h1>
+						<h1>Présentation de l'oeuvre</h1>
 						<div class="form-group">
 							<label>Présentation de l'oeuvre</label>
 							<div id="wysywygPresentation"></div>
@@ -258,7 +259,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Ajouter des photographies</h1>
+						<h1>Photographies de l'oeuvre</h1>
 						<div class="form-group">
 							<form class="dropzone" id="dropzonePhotography"></form>
 						</div>
@@ -271,7 +272,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Créer des historiques</h1>
+						<h1>Historiques de l'oeuvre</h1>
 						<div class="form-group">
 							<form class="dropzone" id="dropzoneHistoric"></form>
 						</div>
@@ -288,7 +289,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Ajouter des biographies aux auteurs</h1>
+						<h1>Biographies des auteurs</h1>
 						<table class="table">
 							<thead class="thead-default">
 								<tr>
@@ -345,6 +346,7 @@
 			<script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
 			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap"
 			async defer></script>
+			<script src="/js/header.js"></script>
 			<script src="/js/oeuvreEdit.js"></script>
 		</body>
 		</html>
