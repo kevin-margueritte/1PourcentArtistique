@@ -179,10 +179,36 @@ GROUP BY ART.name;");*/
 		}
 
 		function getAllInfoForAnArt() {
-			$query = $this->db->prepare("SELECT art.id, art.name, art.creationYear, art.imageFile, art.presentationHTMLFile, art.historiqueHTMLFile, art.soundFile, art.type, LOCATED.nameLocation, GROUP_CONCAT(DISTINCT CONCAT_WS(\", \", DESIGN.nameAuthor, AUTHOR.yearBirth, AUTHOR.yearDEATH) SEPARATOR \"; \") AS auteurs ,GROUP_CONCAT(DISTINCT COMPOSE.nameMaterial SEPARATOR \", \") AS materiaux, GROUP_CONCAT(DISTINCT PARTICIPATE.fullName SEPARATOR \", \") AS architectes, GROUP_CONCAT(DISTINCT VIDEO.titleFile SEPARATOR \", \") AS videos, GROUP_CONCAT(DISTINCT PHOTOGRAPHY.nameFile SEPARATOR \", \") AS photographies, GROUP_CONCAT(DISTINCT HISTORIC.nameFile SEPARATOR \", \") AS photographies_historique FROM ART, LOCATION, LOCATED, DESIGN, AUTHOR, PARTICIPATE, COMPOSE, VIDEO, PHOTOGRAPHY, HISTORIC WHERE ART.name = LOCATED.nameArt AND LOCATION.name = LOCATED.nameLocation AND DESIGN.nameArt = ART.name AND AUTHOR.fullName = DESIGN.nameAuthor  AND PARTICIPATE.nameArt = art.name AND COMPOSE.nameArt = art.name AND VIDEO.nameArt = art.name AND PHOTOGRAPHY.nameArt = art.name AND HISTORIC.nameArt = art.name AND art.name = :name GROUP BY ART.name");
-			$query->execute(array(
-				'name' => $this->name
-				));
+/*			$query = $this->db->prepare("SELECT art.id, art.name, art.creationYear, art.imageFile, art.presentationHTMLFile, art.historiqueHTMLFile, art.soundFile, art.type, LOCATED.nameLocation, GROUP_CONCAT(DISTINCT CONCAT_WS(\", \", DESIGN.nameAuthor, AUTHOR.yearBirth, AUTHOR.yearDEATH) SEPARATOR \"; \") AS auteurs ,GROUP_CONCAT(DISTINCT COMPOSE.nameMaterial SEPARATOR \", \") AS materiaux, GROUP_CONCAT(DISTINCT PARTICIPATE.fullName SEPARATOR \", \") AS architectes, GROUP_CONCAT(DISTINCT VIDEO.titleFile SEPARATOR \", \") AS videos, GROUP_CONCAT(DISTINCT PHOTOGRAPHY.nameFile SEPARATOR \", \") AS photographies, GROUP_CONCAT(DISTINCT HISTORIC.nameFile SEPARATOR \", \") AS photographies_historique FROM ART, LOCATION, LOCATED, DESIGN, AUTHOR, PARTICIPATE, COMPOSE, VIDEO, PHOTOGRAPHY, HISTORIC WHERE ART.name = LOCATED.nameArt AND LOCATION.name = LOCATED.nameLocation AND DESIGN.nameArt = ART.name AND AUTHOR.fullName = DESIGN.nameAuthor  AND PARTICIPATE.nameArt = art.name AND COMPOSE.nameArt = art.name AND VIDEO.nameArt = art.name AND PHOTOGRAPHY.nameArt = art.name AND HISTORIC.nameArt = art.name AND art.name = :name GROUP BY ART.name");*/
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+			$query = $this->db->prepare("
+				SELECT DISTINCT
+				  a.*,
+				  l.longitude,
+				  l.latitude,
+				  v.titleFile AS video,
+				  p.nameFile AS photo,
+				  h.nameFile AS historic,
+				  auth.*,
+				  m.name AS material,
+				  arch.fullname as architectName,
+				  d.biographyHTMLFile as biography
+				FROM 
+				  Art a
+				  LEFT JOIN Location l ON a.nameLocation = l.name 
+				  LEFT JOIN Video v ON v.idArt = a.id
+				  LEFT JOIN Participate p ON a.id = p.idArt
+				  LEFT JOIN Architect arch ON p.fullName = arch.fullName
+				  LEFT JOIN Photography p ON p.idArt = a.id
+				  LEFT JOIN Historic h ON h.idArt = a.id
+				  LEFT JOIN Design d ON a.id = d.idArt
+				  LEFT JOIN Author auth ON auth.fullName = d.nameAuthor
+				  LEFT JOIN Compose c ON c.idArt = a.id
+				  LEFT JOIN Material m ON c.nameMaterial = m.name
+				WHERE 
+				  a.name = ?
+			");
+			$query->execute(array($this->name));
 			return $query->fetchAll();
 		}
 
@@ -215,9 +241,11 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param $newName the name
 	     */
-	    public function setName($newName)
+	    public function setNameById($newName)
 	    {
 	        $this->name = $newName;
+	    	$update = $this->db->prepare("UPDATE ART SET name = ? WHERE id = ?");
+	    	return $update->execute(array($newName, $this->id));
 	    }
 
 	    /**
@@ -238,8 +266,8 @@ GROUP BY ART.name;");*/
 	    public function setImageFileByName($newImage)
 	    {
 	    	$this->imageFile = $newImage;
-	    	$insert = $this->db->prepare("UPDATE ART SET imageFile = ? WHERE name = ?");
-	    	return $insert->execute(array($newImage, $this->name));
+	    	$update = $this->db->prepare("UPDATE ART SET imageFile = ? WHERE name = ?");
+	    	return $update->execute(array($newImage, $this->name));
 	    }
 
 	    /**
@@ -247,7 +275,7 @@ GROUP BY ART.name;");*/
 	     *
 	     * @return creationYear
 	     */
-	    public function getcreationYear()
+	    public function getCreationYear()
 	    {
 	        return $this->creationYear;
 	    }
@@ -257,9 +285,11 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param  $newcreationYear the creation date
 	     */
-	    private function setcreationYear($newcreationYear)
+	    public function setCreationYear($newcreationYear)
 	    {
 	        $this->creationYear = $newcreationYear;
+	    	$update = $this->db->prepare("UPDATE ART SET creationyear = ? WHERE id = ?");
+	    	return $update->execute(array($newcreationYear, $this->id));
 	    }
 
 	    /**
@@ -299,7 +329,7 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param  $newhistoricHTMLFile the historique HTML file
 	     */
-	    private function sethistoricHTMLFile($newhistoricHTMLFile)
+	    public function sethistoricHTMLFile($newhistoricHTMLFile)
 	    {
 	        $this->historicHTMLFile = $newhistoricHTMLFile;
 	    }
@@ -326,7 +356,7 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param  $newsoundFile the sound file
 	     */
-	    private function setSoundFile($newsoundFile)
+	    public function setSoundFile($newsoundFile)
 	    {
 	        $this->soundFile = $newsoundFile;
 	    }
@@ -358,9 +388,11 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param  $newIsPublic the is public
 	     */
-	    private function setIsPublic($newIsPublic)
+	    public function setIsPublicById($newIsPublic)
 	    {
 	        $this->isPublic = $newIsPublic;
+	    	$update = $this->db->prepare("UPDATE ART SET ispublic = ? WHERE id = ?");
+	    	return $update->execute(array($newIsPublic, $this->id));
 	    }
 
 	    /**
@@ -378,8 +410,10 @@ GROUP BY ART.name;");*/
 	     *
 	     * @param  $newType the type
 	     */
-	    private function setType($newType)
+	    public function setType($newType)
 	    {
 	        $this->type = $newType;
+	        $update = $this->db->prepare("UPDATE ART SET type = ? WHERE id = ?");
+	    	return $update->execute(array($newType, $this->id));
 	    }
 	}

@@ -19,7 +19,7 @@
   </head>
 
   <body ng-app="art-edit" ng-controller="edit">
-    <nav class="navbar navbar-default" role="navigation">
+    <nav ng-hide="hide" class="navbar navbar-default" role="navigation">
       <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
@@ -94,7 +94,7 @@
         </div> <span ng-bind-html="art.historicHTML"></span> </div>
       <div class="biography" ng-hide=hideBiography>
         <h1>Biographies</h1>
-        <div ng-repeat="author in art.authors" ng-if="author.biography != ''" class="biographyLimit"> <span ng-bind-html="author.biography"></span> </div>
+        <div ng-repeat="author in art.authors track by $index" ng-if="author.biography != ''" class="biographyLimit"> <span ng-bind-html="author.biography" class="content">{{nbAuthors}}</span> </div>
       </div>
       <div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
         <div class="modal-dialog modal-lg">
@@ -115,7 +115,7 @@
 							</select> </div>
               <div class="form-group"> <label>Localisation de l'oeuvre</label> <input id="artLocation" ng-model="art.location"> </div>
               <div class="form-group"> <label>Adresse exacte de l'oeuvre</label> <input type="text" class="form-control" id="art-adress" placeholder="Adresse"> </div>
-              <div id="map"></div>
+              <div id="map"></div> <button type="button" ng-click="forceGoogleRefresh($event)" accesskey="S" class="btn btn-forceMap">Rafraichir la carte</button>
               <table class="table">
                 <thead class="thead-default">
                   <tr>
@@ -262,8 +262,8 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
         <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
-        <script src="/js/oeuvreEdit.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap" async defer></script>
+        <script src="/js/oeuvreEdit.js"></script>
   </body>
 
 </html>

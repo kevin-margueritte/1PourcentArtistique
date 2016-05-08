@@ -69,8 +69,6 @@
 		*/
 		function delete() {
 			$delete = $this->db->prepare("DELETE FROM DESIGN WHERE idArt = ? AND nameAuthor = ?");
-			$delete->execute(array($this->idArt, $this->nameAuthor));
-			var_dump($delete->errorInfo());
 			return $delete->execute(array($this->idArt, $this->nameAuthor));
 		}
 

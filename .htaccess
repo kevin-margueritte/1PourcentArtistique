@@ -5,7 +5,13 @@ RewriteRule /art/lecture /html/oeuvre.php
 
 RewriteRule /accueil /html/index.php
 
-RewriteRule /art/edition/ /html/oeuvreEdit.php
+RewriteRule /art/edit/ /html/oeuvreEdit.php
+
+RewriteRule /art/read/ /html/oeuvreEdit.php
+
+RewriteRule /art/update/ /html/oeuvreEdit.php
+
+RewriteRule /art/create/ /html/oeuvreEdit.php
 
 RewriteRule /recherche /html/search.php
 

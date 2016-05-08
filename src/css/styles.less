@@ -310,7 +310,7 @@
 		    font-family: @openSans-Semibold;
 		}
 
-		span {
+		.content {
 			font-family: @openSans-Regular;
 			color: @midnight_blue;
 			text-align: justify;
@@ -411,11 +411,11 @@
 		text-align: center;
 	}
 
-	.btn-add-author, .btn-complete, .btn-removeAuthor, .btn-addDescriptionAuthor {
+	.btn-add-author, .btn-complete, .btn-removeAuthor, .btn-addDescriptionAuthor, .btn-forceMap {
 		color: white;
 	}
 
-	.btn-add-author, .btn-complete {
+	.btn-add-author, .btn-complete, .btn-forceMap {
 		text-align: center;
 	    margin: 0 auto;
 	    width: 30%;
@@ -423,7 +423,12 @@
 	    margin-top: 30px;
 	}
 
-	.btn-addDescriptionAuthor {
+	.btn-forceMap {
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+
+	.btn-addDescriptionAuthor, .btn-forceMap {
 		background-color: @emerald;
 	}
 
@@ -471,7 +476,7 @@
 	    text-align: center;
 	    margin-right: 10px;
 	    margin-left: 10px;
-	    margin-bottom: 35px;
+	    margin-bottom: 15px;
 	}
 }
 

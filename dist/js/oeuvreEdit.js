@@ -6,7 +6,7 @@ var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize'])
               if (scope.$last === true) {
                   $timeout(function () {
                       scope.$emit('ngRepeatFinishedPhotography');
-                  });
+                  }, 1000);
               }
           }
       }
@@ -18,10 +18,27 @@ var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize'])
               if (scope.$last === true) {
                   $timeout(function () {
                       scope.$emit('ngRepeatFinishedHistoric');
-                  });
+                  }, 1000);
               }
           }
       }
+  })
+  .factory ('factoryBiography', function($http, $q){
+    biography = {};
+    biography.text = function (artName, authorName) {
+      /**Get content biography HTML **/
+      //var authorName = data.key.authors[idx].name;
+      var defer = $q.defer();
+      var test;
+      $http.get('/assets/oeuvres/' + artName.replace(new RegExp(" ", 'g'), "_") + '/biography' + 
+          authorName.replace(new RegExp(" ", 'g'), "_") + '.html')
+        .success(function(data){
+          defer.resolve(data);
+      });
+      //return defer.promise;
+      return defer.promise;
+    }
+    return biography;
   });
 
 /** declare json **/
@@ -36,17 +53,23 @@ art.architects = [];
 art.photographyList = [];
 art.presentationHTML = '';
 art.historiqueHTML = '';
-art.imageFile = '';
 art.soundFile = '';
 art.type = '';
 art.id ='';
 var nameart;
+var dropzoneDescription;
+var dropzonePresentationVideo;
+var dropzonePresentationSound;
+var dropzonePhotography;
+var dropzoneHistoric;
 var dateart;
 var latitudeart;
 var longitudeart;
 var marker;
 var nbVideos = 0;
+var map;
 var player;
+var URI;
 var idxCurrentVideo = 0;
 var owlPhotographyIsSet = false;
 var owlHistoricIsSet = false;
@@ -94,33 +117,410 @@ var confWysywyg = {
       lang: 'fr-FR',
     };
 
-myApp.controller('edit', function ($scope, $http, $sce) {
+myApp.controller('edit', function ($scope, $http, $sce, $location, $q, factoryBiography) {
 
-  $scope.nbAuthors = 0;
-  $scope.nbPhotography = 0;
-  $scope.nbHistoric = 0;
-  $scope.art = {};
-  $scope.art.name = '';
-  $scope.authorBiographyCurrent = '';
-  $scope.hideTitle = true;
-  $scope.hideErrorTitle = true;
-  $scope.hideErrorAuthor = true;
-  $scope.hideOverview = true;
-  $scope.hideBiography = true;
-  $scope.hidePresentation = true;
-  $scope.hidePhotography = true;
-  $scope.hideHistoric = true;
-  $scope.soundHide = true;
-  $scope.videoHide = true;
-  $scope.art.authors = [];
-  $scope.art.architects = [];
-  $scope.art.materials = [];
-  $scope.art.photographyList = [];
-  $scope.art.historicList = [];
-  $scope.art.presentationHTML = '';
-  $scope.art.historicHTML = '';
-  $scope.art.videoList = [];
-  $scope.art.type = 'Architecture'; //Fix bug angularJS - select
+  angular.element(document).ready(function () {
+    $scope.nbAuthors = 0;
+    $scope.nbPhotography = 0;
+    $scope.nbHistoric = 0;
+    $scope.art = {};
+    $scope.art.name = '';
+    $scope.art.imagePath = '';
+    $scope.authorBiographyCurrent = '';
+    $scope.hideTitle = true;
+    $scope.hideErrorTitle = true;
+    $scope.hideErrorAuthor = true;
+    $scope.hideOverview = true;
+    $scope.hideBiography = true;
+    $scope.hidePresentation = true;
+    $scope.hidePhotography = true;
+    $scope.hideHistoric = true;
+    $scope.soundHide = true;
+    $scope.videoHide = true;
+    $scope.authorsArray = [];
+    $scope.art.architects = [];
+    $scope.art.materials = [];
+    $scope.art.photographyList = [];
+    $scope.art.historicList = [];
+    $scope.art.presentationHTML = '';
+    $scope.art.historicHTML = '';
+    $scope.art.soundPath = '';
+    $scope.art.videoList = [];
+    $scope.art.type = 'Architecture'; //Fix bug angularJS - select
+
+    URI = $location.absUrl().split('/')[4];
+    var param = $location.absUrl().split('/')[5];
+    player = document.getElementsByTagName("video")[0];
+    
+    if (URI == 'read' || URI == 'update') {
+      if (URI == 'read') {
+        $scope.hideEditor = true;
+      }
+      $scope.hideTitle = false;
+      $scope.hideOverview = false;
+
+      /*** Ajax - read art ***/
+      var rqt = {
+        method : 'POST',
+        url : '/php/manager/getAllInfoForAnArt.php',
+        data : $.param({nameArt: param}),  
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
+      $http(rqt).success(function(data){
+        if (URI == 'update') {
+          longitudeart = data.key.longitude;
+          latitudeart = data.key.latitude;
+          $scope.art.materials = data.key.materials;
+          $scope.art.architects = data.key.architects;
+          art.id = data.key.idArt;
+          art.name = data.key.artName;
+          nbVideos = data.key.videos.length;
+          nbPhotography = data.key.photos.length;
+          $scope.nbHistoric = data.key.historicImages.length;
+          $scope.nbAuthors = data.key.authors.length;
+        }
+
+        $scope.art.name = data.key.artName; 
+        $scope.art.date = Number(data.key.creationYear);
+        $scope.art.type = data.key.artType;
+        showAuthorListOnTitle(data.key.authors);
+        $scope.art.location = data.key.nameLocation;
+        showMaterialOnOverview(data.key.materials);
+        showArchitectOnOverview(data.key.architects);
+        if (data.key.presentationImage != null) {
+          $scope.art.imagePath = '/assets/oeuvres/' + 
+           $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.presentationImage;
+          $scope.art.imageAlt = data.key.presentationImage;
+        }
+
+        if (data.key.presentationHTML != null || data.key.videos.length > 0 || data.key.soundFile != null) {
+          $scope.hidePresentation = false;
+
+          /**Get content presentation HTML **/
+          var rqt = {
+            method : 'GET',
+            url : '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + '/description.html',
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            $scope.art.presentationHTML = $sce.trustAsHtml(data);
+            art.presentationHTML = data;
+          });
+
+          if (data.key.videos.length > 0) {
+            for (var i = 0; i < data.key.videos.length; i++) {
+              $scope.art.videoList[i] = {};
+              $scope.art.videoList[i].fullName = data.key.videos[i];
+              $scope.art.videoList[i].name = data.key.videos[i].split('.')[0];
+              $scope.art.videoList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.videos[i];
+            }
+            if (data.key.videos.length !=0 ) {
+              $scope.videoHide = false;
+              $scope.art.videoList[0].active = true;
+              player.src = $scope.art.videoList[0].path;
+              player.load();
+              player.play();
+            }
+          }
+          if (data.key.soundFile != null) {
+            $scope.soundHide = false;
+            $scope.art.soundFullName = data.key.soundFile;
+            $scope.art.soundName = data.key.soundFile.split('.')[0];
+            $scope.art.soundPath = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.soundFile;
+          }
+        }
+
+        $scope.nbPhotography = data.key.photos.length;
+        if ($scope.nbPhotography > 0) {
+          $scope.hidePhotography = false;
+          for (var i = 0; i < $scope.nbPhotography; i++) {
+            $scope.art.photographyList[i] = {};
+            $scope.art.photographyList[i].name = data.key.photos[i].split('.')[0];
+            $scope.art.photographyList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.photos[i];
+          }
+        }
+
+        $scope.nbHistoric = data.key.historicImages.length;
+        if ($scope.nbHistoric > 0) {
+          $scope.hideHistoric = false;
+          for (var i = 0; i < $scope.nbHistoric; i++) {
+            $scope.art.historicList[i] = {};
+            $scope.art.historicList[i].fullName = data.key.historicImages[i];
+            $scope.art.historicList[i].name = data.key.historicImages[i].split('.')[0];
+            $scope.art.historicList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.historicImages[i];
+          }
+        }
+
+        if (data.key.historicHTMLFile != null) {
+          /*** Get content historic text **/
+          var rqt = {
+            method : 'GET',
+            url : '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + '/historic.html',
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            $scope.art.historicHTML = $sce.trustAsHtml(data);
+            art.historicHTML = data;
+          });
+        }
+
+        if (data.key.authors.length > 0) {
+          $scope.art.authors = [];
+          var i = 0;
+          for (var idx = 0; idx < data.key.authors.length; idx++) {
+            if (URI == 'update') {
+              $scope.authorsArray[idx] = {};
+              $scope.authorsArray[idx].name = data.key.authors[idx].name;
+              $scope.authorsArray[idx].yearBirth = data.key.authors[idx].yearbirth;
+              $scope.authorsArray[idx].yearDeath = data.key.authors[idx].yeardeath;
+              art.authors.push($scope.authorsArray[idx]);
+            }
+
+            $scope.art.authors.push(data.key.authors[idx]);
+            $scope.hideBiography = false;
+
+/*            $scope.art.authors[idx].biography = (function (artName, authorName) {
+              var defer = $q.defer();
+              $http.get('/assets/oeuvres/' + artName.replace(new RegExp(" ", 'g'), "_") + '/biography' + 
+                  authorName.replace(new RegExp(" ", 'g'), "_") + '.html')
+                .success(function(data){
+                  defer.resolve(data);
+              });
+                $scope.test;
+               defer.promise.then(
+                function(result) {
+                   $scope.test = result;
+                }
+              );
+                console.log($scope.test);
+              return defer.promise.then(
+                function(result) {
+                   return result;
+                }
+              );
+            })($scope.art.name, $scope.art.authors[idx].name);*/
+
+
+            factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).then(
+              function(res) { 
+                $scope.art.authors[i].biography = res;
+                i++; 
+              }
+            );
+/*            $scope.art.authors[idx].biography = factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).
+              then(
+                function(result) {
+                   return result;
+                }
+              );*/
+          }
+        }
+      });
+    }
+    else if (URI == 'create') {
+      $('#modal-title').modal('show');
+      $('#modal-title').modal({backdrop: 'static', keyboard: false});    
+    }
+
+    $('.navbar').draggabilly();
+
+    $('#wysywygPresentation').summernote(confWysywyg);
+    $('#wysywygHistoric').summernote(confWysywyg);
+    $('#wysywygBiography').summernote(confWysywyg);
+
+    //DROPZONE DESCRIPTION
+    dropzoneDescription = new Dropzone("#dropzoneDescription", {
+      url: '/php/manager/uploadImageArt.php',
+      paramName: 'file',
+      method: 'post',
+      maxFiles: 1,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif, .ico, .bnp, . tiff',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deleteImageArt.php',
+          data : $.param({file: file.name, nameArt: $scope.art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          $scope.art.imagePath = '';
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.imagePath = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.imageAlt = file.name;
+        formData.append("nameArt", $scope.art.name);
+      },
+      dictDefaultMessage: 'Ajouter une photo de l\'art',
+    });
+
+    //DROPZONE PRESENTATION - VIDEOS
+    dropzonePresentationVideo = new Dropzone("#dropzonePresentationVideos", {
+      url: '/php/manager/uploadPresentationVideo.php',
+      paramName: 'video',
+      method: 'post',
+      maxFiles: 15,
+      acceptedFiles: '.avi, .wmv, .mov, .mkv, .mp4, .mpeg4',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deletePresentationVideo.php',
+          data : $.param({video: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i < $scope.art.videoList.length; i++ ) {
+            if($scope.art.videoList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.videoList.splice( idx, 1 );
+          nbVideos--;
+          idxCurrentVideo = 0;
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.videoList[nbVideos] = {};
+        $scope.art.videoList[nbVideos].name = file.name.split('.')[0];
+        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        if (nbVideos!=0) {
+          $scope.art.videoList[nbVideos].active = false;
+        }
+        else {
+          $scope.art.videoList[0].active = true;
+        }
+        nbVideos++;
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des vidéos de présentation (AVI, WMV, MOV, MP4, MPEG4)'
+    });
+
+    //DROPZONE PRESENTATION - SOUND
+    dropzonePresentationSound = new Dropzone("#dropzonePresentationSound", {
+      url: '/php/manager/uploadSound.php',
+      paramName: 'sound',
+      method: 'post',
+      maxFiles: 1,
+      acceptedFiles: '.wav, .mp3, .wma, .ogg',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deleteSound.php',
+          data : $.param({sound: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          $scope.soundHide = true;
+          $scope.art.soundPath = '';
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.soundHide = false;
+        $scope.art.soundName = file.name.split('.')[0];
+        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
+    });
+
+    //DROPZONE PHOTOGRAPHY
+    dropzonePhotography = new Dropzone("#dropzonePhotography", {
+      url: '/php/manager/uploadPhotography.php',
+      paramName: 'photo',
+      method: 'post',
+      maxFiles: 50,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deletePhotography.php',
+          data : $.param({photo: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i <$scope.art.photographyList.length; i++ ) {
+            if($scope.art.photographyList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.photographyList.splice( idx, 1 );
+          $scope.nbPhotography--;
+          destroyCarouselPhotograph();
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.photographyList[$scope.nbPhotography] = {};
+        $scope.art.photographyList[$scope.nbPhotography].name = file.name.split('.')[0];
+        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.nbPhotography++;
+        owlPhotographyIsSet = false;
+        destroyCarouselPhotograph();
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
+    });
+
+    //DROPZONE HISTORIC
+    dropzoneHistoric = new Dropzone("#dropzoneHistoric", {
+      url: '/php/manager/uploadHistoric.php',
+      paramName: 'photo',
+      method: 'post',
+      maxFiles: 50,
+      acceptedFiles: '.jpg, .png, .jpeg, .gif',
+      removedfile: function(file) {
+        var rqt = {
+          method : 'POST',
+          url : '/php/manager/deleteHistoric.php',
+          data : $.param({photo: file.name, nameArt: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+        };
+        $http(rqt).success(function(data){
+          var idx;
+          for( var i = 0; i <$scope.art.historicList.length; i++ ) {
+            if($scope.art.historicList[i].name === file.name.split('.')[0]) {
+              idx = i;
+              break;
+            }
+          }
+          $scope.art.historicList.splice( idx, 1 );
+          $scope.nbHistoric--;
+          destroyCarouselHistoric();
+          var _ref; 
+          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        });
+      },
+      addRemoveLinks: true,
+      sending: function(file, xhr, formData) {
+        $scope.art.historicList[$scope.nbHistoric] = {};
+        $scope.art.historicList[$scope.nbHistoric].name = file.name.split('.')[0];
+        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.nbHistoric++;
+        owlHistoricIsSet = false;
+        destroyCarouselHistoric();
+        formData.append("nameArt", art.name);
+      },
+      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
+    });
+
+    autocompleteLocation();
+
+  });
 
   /** MODAL TITLE **/
   $scope.openTitle = function($event) {
@@ -128,6 +528,17 @@ myApp.controller('edit', function ($scope, $http, $sce) {
     $('#modal-title').modal({backdrop: 'static', keyboard: false});
     autocompleteLocation();
   };
+
+  $scope.forceGoogleRefresh = function() {
+    google.maps.event.trigger(map,'resize');
+    if (!angular.isUndefined(latitudeart) ) {
+      placeMarker(new google.maps.LatLng(latitudeart, longitudeart));
+    }
+  }
+
+  $scope.modalTitleLoad = function() {
+    initMap();
+  }
 
   $scope.completeTitle = function() {
     if (angular.isUndefined($scope.art.name) || $scope.art.name == '') {
@@ -161,9 +572,9 @@ myApp.controller('edit', function ($scope, $http, $sce) {
       var rqt = {
         method : 'POST',
         url : '/php/manager/createArt.php',
-        data : $.param({name: art.name, presentationHTMLFile : art.presentationHTMLFile, historiqueHTMLFile: art.historiqueHTMLFile,
-          creationYear: art.date, isPublic: 0, type: art.type, soundFile: art.soundFile, location: art.location, latitude: art.latitude,
-          longitude: art.longitude, idArt: art.id, imageFile: art.imageFile}),  
+        data : $.param({name: art.name, creationYear: art.date, isPublic: 0, type: art.type,
+          location: art.location, latitude: art.latitude,
+          longitude: art.longitude, idArt: art.id}),  
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
       };
       $http(rqt).success(function(data){
@@ -280,10 +691,17 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   };
 
   /** MODAL DESCRIPTION **/
-
   $scope.addDescription = function() {
     $('#modal-description').modal('show');
     $('#modal-description').modal({backdrop: 'static', keyboard: false});
+    if (URI == 'update' && $scope.art.imagePath != '' && dropzoneDescription.files.length == 0) {
+      var mockFile = { name: $scope.art.imageAlt, accepted: true }; 
+      dropzoneDescription.emit("addedfile", mockFile);
+      dropzoneDescription.createThumbnailFromUrl(mockFile, $scope.art.imagePath);
+      dropzoneDescription.emit("success", mockFile);
+      dropzoneDescription.emit("complete", mockFile);
+      dropzoneDescription.files.push(mockFile);
+    }
   };
 
   $scope.materialAdd = function(tag) {
@@ -359,10 +777,30 @@ myApp.controller('edit', function ($scope, $http, $sce) {
 
   /*** Modal presentation ***/
   $scope.addPresentation = function() {
-    player = document.getElementsByTagName("video")[0];
 
     $('#modal-presentation').modal('show');
     //$('#modal-presentation').modal({backdrop: 'static', keyboard: false});
+    if (URI == 'update' && art.presentationHTML != '') {
+      $('#wysywygPresentation').summernote('code', art.presentationHTML);
+      if (dropzonePresentationVideo.files.length == 0) {
+        for (var i = 0; i<nbVideos; i++ ) {
+          var mockFile = { name: $scope.art.videoList[i].fullName, accepted: true }; 
+          dropzonePresentationVideo.emit("addedfile", mockFile);
+          dropzonePresentationVideo.createThumbnailFromUrl(mockFile, $scope.art.videoList[i].path);
+          dropzonePresentationVideo.emit("success", mockFile);
+          dropzonePresentationVideo.emit("complete", mockFile);
+          dropzonePresentationVideo.files.push(mockFile);
+        }
+      }
+      if ($scope.art.soundPath != '' && dropzonePresentationSound.files.length == 0) {
+        var mockFile = { name: $scope.art.soundFullName, accepted: true }; 
+        dropzonePresentationSound.emit("addedfile", mockFile);
+        dropzonePresentationSound.createThumbnailFromUrl(mockFile, $scope.art.soundPath);
+        dropzonePresentationSound.emit("success", mockFile);
+        dropzonePresentationSound.emit("complete", mockFile);
+        dropzonePresentationSound.files.push(mockFile);
+      }
+    }
   };
 
   $scope.completePresentation = function () {
@@ -403,13 +841,26 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   /*** Modal photography ***/
   $scope.addPhotography = function () {
     $('#modal-photography').modal('show');
+
+    if (URI == 'update' && art.presentationHTML != '') {
+      if (dropzonePhotography.files.length == 0) {
+        for (var i = 0; i<nbPhotography; i++ ) {
+          var mockFile = { name: $scope.art.photographyList[i].name, accepted: true }; 
+          dropzonePhotography.emit("addedfile", mockFile);
+          dropzonePhotography.createThumbnailFromUrl(mockFile, $scope.art.photographyList[i].path);
+          dropzonePhotography.emit("success", mockFile);
+          dropzonePhotography.emit("complete", mockFile);
+          dropzonePhotography.files.push(mockFile);
+        }
+      }
+    }
   }
 
   $scope.completePhotography = function() {
     $('#modal-photography').modal('hide');
 
     if (owlPhotographyIsSet) {
-      initCarouselPhotograph();
+      initCarouselPhotography();
     }
     if ($scope.nbPhotography==0) {
       $scope.hidePhotography = true;
@@ -420,11 +871,15 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   }
 
   $scope.$on('ngRepeatFinishedPhotography', function(ngRepeatFinishedEvent) {
-    initCarouselPhotograph();
+    initCarouselPhotography();
     owlPhotographyIsSet = true;
   });
 
-  function initCarouselPhotograph() {
+  function initCarouselPhotography() {
+    var nbPhotography = $scope.nbPhotography;
+    if (nbPhotography >= 3) {
+      nbPhotography = 3;
+    }
     $(".carousel-photograph").owlCarousel({
       navigation: true,
       navText: [
@@ -435,7 +890,7 @@ myApp.controller('edit', function ($scope, $http, $sce) {
       loop:true,
       autoWidth:true,
       autoHeight:true,
-      items:3,
+      items:nbPhotography,
       center: true,
     });
   }
@@ -448,6 +903,22 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   /***Modal historic***/
   $scope.addHistoric = function () {
     $('#modal-historic').modal('show');
+
+    if (URI == 'update') {
+      if (art.historicHTML != '') {
+        $('#wysywygHistoric').summernote('code', art.historicHTML);
+      }
+      if (dropzoneHistoric.files.length == 0) {
+        for (var i = 0; i<$scope.nbHistoric; i++ ) {
+          var mockFile = { name: $scope.art.historicList[i].fullName, accepted: true }; 
+          dropzoneHistoric.emit("addedfile", mockFile);
+          dropzoneHistoric.createThumbnailFromUrl(mockFile, $scope.art.historicList[i].path);
+          dropzoneHistoric.emit("success", mockFile);
+          dropzoneHistoric.emit("complete", mockFile);
+          dropzoneHistoric.files.push(mockFile);
+        }
+      }
+    }
   }
 
   $scope.completeHistoric = function() {
@@ -456,15 +927,17 @@ myApp.controller('edit', function ($scope, $http, $sce) {
     var emptyWysywyg = $('#wysywygHistoric').summernote('isEmpty');
     if (emptyWysywyg) {
       $scope.art.historicHTML = '';
+      art.historicHTML = '';
     }
     else {
       $scope.art.historicHTML = $sce.trustAsHtml($('#wysywygHistoric').summernote('code'));
+      art.historicHTML = $('#wysywygHistoric').summernote('code');
     }
 
     var rqt = {
       method : 'POST',
       url : '/php/manager/addHistoricFile.php',
-      data : $.param({artName: art.name, historicHTMLContent : $scope.art.historicHTML}),  
+      data : $.param({artName: art.name, historicHTMLContent : art.historicHTML}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -486,6 +959,10 @@ myApp.controller('edit', function ($scope, $http, $sce) {
   });
 
   function initCarouselHistoric() {
+    var nbHistoric = $scope.nbHistoric;
+    if (nbHistoric >= 3) {
+      nbHistoric = 3;
+    }
     $(".carousel-historic").owlCarousel({
         navigation : true,
         navText: [
@@ -496,7 +973,7 @@ myApp.controller('edit', function ($scope, $http, $sce) {
         loop:true,
         autoWidth:true,
         autoHeight:true,
-        items:3,
+        items:nbHistoric,
         center: true,
       });
   }
@@ -541,10 +1018,12 @@ myApp.controller('edit', function ($scope, $http, $sce) {
 
   $scope.completeEditBiography = function() {
     $('#modal-editBiography').modal('hide');
-
+    console.log($scope.art.videoList);
+    console.log($scope.art.authors);
+    console.log($scope.art.authors.length);
     var emptyWysywyg = $('#wysywygBiography').summernote('isEmpty');
     var idx = 0;
-    for (var i = 0; i < $scope.art.authors.length; i++) {
+    for (var i = 1; i < $scope.art.authors.length; i++) {
       if ($scope.art.authors[i].name == $scope.authorBiographyCurrent) {
         idx = i;
         break;
@@ -563,221 +1042,18 @@ myApp.controller('edit', function ($scope, $http, $sce) {
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
+    console.log($scope.authors);
   }
 
   function nbBiography() {
     var nbBiography = 0;
-    for (var i = 0; i < $scope.art.authors.length; i++) {
+    for (var i = 1; i < $scope.art.authors.length; i++) {
       if ($scope.art.authors[i].biography != '' && !angular.isUndefined($scope.art.authors[i].biography)) {
         nbBiography++;
       } 
     }
     return nbBiography;
   }
-
-  angular.element(document).ready(function () {
-    $('.navbar').draggabilly();
-
-    $('#modal-title').modal('show');
-    $('#modal-title').modal({backdrop: 'static', keyboard: false});
-
-    $('#wysywygPresentation').summernote(confWysywyg);
-    $('#wysywygHistoric').summernote(confWysywyg);
-    $('#wysywygBiography').summernote(confWysywyg);
-
-    //DROPZONE DESCRIPTION
-    $("#dropzoneDescription").dropzone({
-      url: '/php/manager/uploadImageArt.php',
-      paramName: 'file',
-      method: 'post',
-      maxFiles: 1,
-      acceptedFiles: '.jpg, .png, .jpeg, .gif, .ico, .bnp, . tiff',
-      removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteImageArt.php',
-          data : $.param({file: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          $scope.art.imagePath = '';
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
-      },
-      addRemoveLinks: true,
-      sending: function(file, xhr, formData) {
-        art.imageFile = file.name;
-        $scope.art.imagePath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
-        $scope.art.imageAlt = file.name;
-        formData.append("nameArt", art.name);
-      },
-      dictDefaultMessage: 'Ajouter une photo de l\'art'
-    });
-
-    //DROPZONE PRESENTATION - VIDEOS
-    $("#dropzonePresentationVideos").dropzone({
-      url: '/php/manager/uploadPresentationVideo.php',
-      paramName: 'video',
-      method: 'post',
-      maxFiles: 15,
-      acceptedFiles: '.avi, .wmv, .mov, .mkv, .mp4, .mpeg4',
-      removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deletePresentationVideo.php',
-          data : $.param({video: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i < $scope.art.videoList.length; i++ ) {
-            if($scope.art.videoList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
-            }
-          }
-          $scope.art.videoList.splice( idx, 1 );
-          nbVideos--;
-          idxCurrentVideo = 0;
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
-      },
-      addRemoveLinks: true,
-      sending: function(file, xhr, formData) {
-        $scope.art.videoList[nbVideos] = {};
-        $scope.art.videoList[nbVideos].name = file.name.split('.')[0];
-        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
-        if (nbVideos!=0) {
-          $scope.art.videoList[nbVideos].active = false;
-        }
-        else {
-          $scope.art.videoList[0].active = true;
-        }
-        nbVideos++;
-        formData.append("nameArt", art.name);
-      },
-      dictDefaultMessage: 'Glisser des vidéos de présentation (AVI, WMV, MOV, MP4, MPEG4)'
-    });
-
-    //DROPZONE PRESENTATION - SOUND
-    $("#dropzonePresentationSound").dropzone({
-      url: '/php/manager/uploadSound.php',
-      paramName: 'sound',
-      method: 'post',
-      maxFiles: 1,
-      acceptedFiles: '.wav, .mp3, .wma, .ogg',
-      removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteSound.php',
-          data : $.param({sound: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          $scope.soundHide = true;
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
-      },
-      addRemoveLinks: true,
-      sending: function(file, xhr, formData) {
-        $scope.soundHide = false;
-        $scope.art.soundName = file.name.split('.')[0];
-        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
-        formData.append("nameArt", art.name);
-      },
-      dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
-    });
-
-    //DROPZONE PHOTOGRAPHY
-    $("#dropzonePhotography").dropzone({
-      url: '/php/manager/uploadPhotography.php',
-      paramName: 'photo',
-      method: 'post',
-      maxFiles: 50,
-      acceptedFiles: '.jpg, .png, .jpeg, .gif',
-      removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deletePhotography.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i <$scope.art.photographyList.length; i++ ) {
-            if($scope.art.photographyList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
-            }
-          }
-          $scope.art.photographyList.splice( idx, 1 );
-          $scope.nbPhotography--;
-          destroyCarouselPhotograph();
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
-      },
-      addRemoveLinks: true,
-      sending: function(file, xhr, formData) {
-        $scope.art.photographyList[$scope.nbPhotography] = {};
-        $scope.art.photographyList[$scope.nbPhotography].name = file.name.split('.')[0];
-        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
-        $scope.nbPhotography++;
-        owlPhotographyIsSet = false;
-        destroyCarouselPhotograph();
-        formData.append("nameArt", art.name);
-      },
-      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
-    });
-
-    //DROPZONE HISTORIC
-    $("#dropzoneHistoric").dropzone({
-      url: '/php/manager/uploadHistoric.php',
-      paramName: 'photo',
-      method: 'post',
-      maxFiles: 50,
-      acceptedFiles: '.jpg, .png, .jpeg, .gif',
-      removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteHistoric.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i <$scope.art.historicList.length; i++ ) {
-            if($scope.art.historicList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
-            }
-          }
-          $scope.art.historicList.splice( idx, 1 );
-          $scope.nbHistoric--;
-          destroyCarouselHistoric();
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
-      },
-      addRemoveLinks: true,
-      sending: function(file, xhr, formData) {
-        $scope.art.historicList[$scope.nbHistoric] = {};
-        $scope.art.historicList[$scope.nbHistoric].name = file.name.split('.')[0];
-        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
-        $scope.nbHistoric++;
-        owlHistoricIsSet = false;
-        destroyCarouselHistoric();
-        formData.append("nameArt", art.name);
-      },
-      dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
-    });
-
-    autocompleteLocation();
-
-  });
 
   function autocompleteLocation() {
     var rqt = {
@@ -840,63 +1116,96 @@ myApp.controller('edit', function ($scope, $http, $sce) {
       $("#oeuvre-name").easyAutocomplete(options);
     });
   }
-});
 
-var map
+  function showAuthorListOnTitle(authorList) {
+    $scope.authorsList = '';
+    for( var i = 0; i < authorList.length; i++ ) {
+      if (i != 0) {
+        $scope.authorsList += ", ";
+      }
+      $scope.authorsList += authorList[i].name + " (" + authorList[i].yearbirth; 
+      if ( authorList[i].yeardeath != null ) {
+        $scope.authorsList += " - " + authorList[i].yeardeath;
+      }
+      $scope.authorsList += ")";
+    }
+  }
+
+  function showMaterialOnOverview(materialList) {
+    $scope.art.material = '';
+    for( var i = 0; i < materialList.length; i++ ) {
+      $scope.art.material += materialList[i];
+      if (i != materialList.length - 1) {
+        $scope.art.material += ', ';
+      }
+    }
+  }
+
+  function showArchitectOnOverview(architectList) {
+    $scope.art.architect = '';
+    for( var i = 0; i < architectList.length; i++ ) {
+      $scope.art.architect += architectList[i];
+      if (i != architectList.length - 1) {
+        $scope.art.architect += ', ';
+      }
+    }
+  }
+
+});
 
 function initMap() {
 
-  var placeSearch;
+    var placeSearch;
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 43.602272978692746, lng: 3.8836669921875},
-    zoom: 13
-  });
-
-  var geocoder = new google.maps.Geocoder();
-  var autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('art-adress')),{types: ['geocode']}
-    );
-
-  autocomplete.addListener('place_changed', adressEnter);
-
-  function adressEnter() {
-    adress = document.getElementById('art-adress').value;
-    geocoder.geocode({'address': adress}, function(results, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        placeMarker(results[0].geometry.location);
-      } else {
-        alert("L'adresse n'existe pas : " + status);
-      }
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 43.602272978692746, lng: 3.8836669921875},
+      zoom: 13
     });
-  }
 
-  map.addListener('click', function(event) {
-    placeMarker(event.latLng);
-    geocoder.geocode({'location': event.latLng}, function(results, status) {
-      document.getElementById('art-adress').value = results[1].formatted_address;
-    });
-  });
+    var geocoder = new google.maps.Geocoder();
+    var autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('art-adress')),{types: ['geocode']}
+      );
 
-  function geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        autocomplete.setBounds(circle.getBounds());
+    autocomplete.addListener('place_changed', adressEnter);
+
+    function adressEnter() {
+      adress = document.getElementById('art-adress').value;
+      geocoder.geocode({'address': adress}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          placeMarker(results[0].geometry.location);
+        } else {
+          alert("L'adresse n'existe pas : " + status);
+        }
       });
     }
-  }
-}
 
-function placeMarker(location) {
+    map.addListener('click', function(event) {
+      placeMarker(event.latLng);
+      geocoder.geocode({'location': event.latLng}, function(results, status) {
+        document.getElementById('art-adress').value = results[1].formatted_address;
+      });
+    });
+
+    function geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var circle = new google.maps.Circle({
+            center: geolocation,
+            radius: position.coords.accuracy
+          });
+          autocomplete.setBounds(circle.getBounds());
+        });
+      }
+    }
+  }
+
+  function placeMarker(location) {
     map.setCenter(location);
     if ( marker ) {
       marker.setPosition(location);

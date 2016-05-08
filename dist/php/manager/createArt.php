@@ -7,16 +7,12 @@
 
 	$name = $_POST['name'];
 	$creationYear = $_POST['creationYear'];
-	$presentationHTMLFile = $_POST['presentationHTMLFile'];
-	$historiqueHTMLFile = $_POST['historiqueHTMLFile'];
-	$soundFile = $_POST['soundFile'];
 	$isPublic = $_POST['isPublic'];
 	$type = $_POST['type'];
 	$location = $_POST['location'];
 	$latitude = $_POST['latitude'];
 	$longitude = $_POST['longitude'];
 	$artId = $_POST['idArt'];
-	$imageFile = $_POST['imageFile'];
 
 	if (empty($name)) {
 		$res = array('error' => true, 'key' => 'Veuillez saisir le nom de l\'oeuvre');
@@ -31,7 +27,7 @@
 		$res = array('error' => true, 'key' => 'Veuillez la localisation de l\'oeuvre');
 	}
 	else {
-		$art = new Art($name, $creationYear, $location, $presentationHTMLFile, $historiqueHTMLFile, $soundFile, $isPublic, $type, $artId, $imageFile);
+		$art = new Art($name, $creationYear, $location, null, null, null, $isPublic, $type, $artId, null);
 		$file = new File($name);
 		$location = new Location($location, $longitude, $latitude);
 		if (!$location->exist()) {
@@ -55,7 +51,10 @@
 		else {
 			if ($art->existById()) { //MAJ - name
 				$file->renameFolder($art->getName());
-				$art->update();
+				$art->setNameById($name);
+				$art->setCreationYear($creationYear);
+				$art->setIsPublicById($isPublic);
+				$art->setType($type);
 				$res = array('error' => false, 'key' => 'L\'oeuvre ' . $name . ' a été mise à jour', 'idArt' => $artId );
 			}
 			else {

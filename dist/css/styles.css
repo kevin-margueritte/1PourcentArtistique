@@ -270,7 +270,7 @@
   margin-left: 100px;
 }
 
-.oeuvre .biography span {
+.oeuvre .biography .content {
   font-family: 'openSans-Regular';
   display: block;
   margin-right: 100px;
@@ -370,12 +370,14 @@
 .edit .btn-add-author,
 .edit .btn-complete,
 .edit .btn-removeAuthor,
-.edit .btn-addDescriptionAuthor {
+.edit .btn-addDescriptionAuthor,
+.edit .btn-forceMap {
   color: white;
 }
 
 .edit .btn-add-author,
-.edit .btn-complete {
+.edit .btn-complete,
+.edit .btn-forceMap {
   display: block;
   width: 30%;
   margin: 0 auto;
@@ -383,7 +385,13 @@
   text-align: center;
 }
 
-.edit .btn-addDescriptionAuthor {
+.edit .btn-forceMap {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.edit .btn-addDescriptionAuthor,
+.edit .btn-forceMap {
   background-color: #2ecc71;
 }
 
@@ -420,7 +428,7 @@
   overflow: hidden;
   height: 0;
   margin-right: 10px;
-  margin-bottom: 35px;
+  margin-bottom: 15px;
   margin-left: 10px;
   padding-top: 16px;
   padding-bottom: 35.25%;
