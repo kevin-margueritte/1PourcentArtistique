@@ -29,15 +29,15 @@
   </head>
 
   <body ng-app="art" class="home">
-  <!-- <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?> -->
-  <div ng-controller="homeMap">
+  <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
+  <div>
     <div id="menu-ui">
       <div id="afficher_filtres">
         <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png">
           <span>FILTRES</span>
         </a>
       </div>
-      <div id="cacher">
+      <div id="cacher" ng-controller="home-map">
         <div id="formulaire_filtre">
           <form enctype="multipart/form-data" name="formulaire_Filtre" id="formulaire_Filtre" action="" method="post">
             <div class="radio">
@@ -138,8 +138,9 @@
   <script src="/js/header.js"></script>
   <script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
   <script src="/js/app.js"></script>
-  <!-- <script src="/js/search.js"></script> -->
-  <script src="/js/homeMap.js"></script>
+  <script src="/js/map.js"></script>
+  <script src="/js/search.js"></script>
+  <!-- <script src="/js/home-map.js"></script> -->
 
   </body>
 </html>

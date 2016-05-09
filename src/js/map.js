@@ -11,7 +11,7 @@ function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/1949133
       }
   }
 
-myApp.controller('homeMap', function ($scope, $http, $window) {
+myApp.controller('home-map', function ($scope, $http, $window) {
   var map, contourearch = [];
 
   /*Manages the movement of the map in the reduction or increase of the window*/
@@ -179,6 +179,7 @@ var rqt = {
   };
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
+    console.log(data);
     artGeoJson = GeoJSON.parse(data, {Point: ['latitude', 'longitude']});
     $scope.filtres();
   });
