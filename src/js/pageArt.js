@@ -73,6 +73,7 @@ var idxCurrentVideo = 0;
 var owlPhotographyIsSet = false;
 var owlHistoricIsSet = false;
 var id_admin;
+var isAdmin = false;
 var token_admin;
 var confWysywyg = {
       height: 200,
@@ -150,6 +151,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.art.type = 'Architecture'; //Fix bug angularJS - select
 
     URI = $location.absUrl().split('/')[4];
+    console.log(URI);
     var param = $location.absUrl().split('/')[5];
     player = document.getElementsByTagName("video")[0];
 
@@ -164,8 +166,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     };
     $http(rqt).success(function(data){
       /*If it is not connected, we redirect it to the login page*/
-      if(data.connected != true) {
-        $window.location.href = '/accueil';
+      if(data.connected == true) {
+        // $window.location.href = '/accueil';
+        isAdmin = true;
       }
     });
 
@@ -542,6 +545,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   /** MODAL TITLE **/
   $scope.openTitle = function($event) {
+    if(isAdmin == false) {
+      console.log('vous n etes pas admin... REDIRECTION')
+    }
     $('#modal-title').modal('show');
     $('#modal-title').modal({backdrop: 'static', keyboard: false});
     autocompleteLocation();
