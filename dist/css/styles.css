@@ -809,7 +809,7 @@ div#texte
 #menu-ui {
   position: absolute;
   z-index: 1;
-  top: 50%;
+  top: 80%;
   left: 15px;
   width: 200px;
   height: 50px;

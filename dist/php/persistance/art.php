@@ -117,6 +117,7 @@
 
 		function selectAllArts()
 		{
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile,
 			 historicHTMLFile, soundFile, isPublic, type, imageFile FROM Art ORDER BY(name) ASC");
 			$query->execute();

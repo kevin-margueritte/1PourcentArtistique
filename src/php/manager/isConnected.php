@@ -16,14 +16,14 @@
 		/*Get the value of the admin with his ID and test if the value of the cookie "TOKEN" is the same as the value in the database
 		If yes, the user is correctly connected, else is not connected.*/
 		$admin = new Admin($id, "", "", "");
-		$tokenDatabase = $admin->recupereTokenById();
+		$tokenDatabase = $admin->getTokenById();
 		$tokenDatabase = $tokenDatabase[0]["token_admin"];
 		if(strcmp($token, $tokenDatabase) == 0)
 		{
 			$res = array('error' => false, 'connected' => true);
 		}
 		else {
-			$res = array('error' => true, 'connected' => false);
+			$res = array('error' => true, 'connected' => true);
 		}
 	}
 	echo json_encode($res);

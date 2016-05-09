@@ -3,7 +3,7 @@ RewriteEngine On
 
 RewriteRule /art/lecture /html/oeuvre.php
 
-RewriteRule /accueil /html/index.php
+RewriteRule /home /html/index.php
 
 RewriteRule /art/edit/ /html/oeuvreEdit.php
 
@@ -15,8 +15,8 @@ RewriteRule /art/create/ /html/oeuvreEdit.php
 
 RewriteRule /recherche /html/search.php
 
-RewriteRule /connection /html/connexionAdmin.php
+RewriteRule /art_auth /html/connexionAdmin.php
 
-RewriteRule /listeoeuvre /html/listeOeuvre.php
+RewriteRule /art/list /html/listeOeuvre.php
 
 RewriteRule /deconnection /html/deconnexion.php
