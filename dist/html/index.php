@@ -111,6 +111,7 @@
     <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
     <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="/lib/cookies/angular-cookies.js"></script>
     <script src="/lib/input-tags/ng-tags-input.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
     <script src="/lib/geojson/geojson.min.js"></script>

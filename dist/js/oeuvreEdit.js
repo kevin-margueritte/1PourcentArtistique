@@ -1,4 +1,5 @@
-myApp.directive('repeatOwlPhotographyPost', function($timeout) {
+var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize', 'ngCookies'])
+  .directive('repeatOwlPhotographyPost', function($timeout) {
     return {
           restrict: 'A',
           link: function (scope, element, attr) {
@@ -72,8 +73,6 @@ var URI;
 var idxCurrentVideo = 0;
 var owlPhotographyIsSet = false;
 var owlHistoricIsSet = false;
-var id_admin;
-var token_admin;
 var confWysywyg = {
       height: 200,
       fontNames: ['openSans-Bold', 'openSans-BoldItalic', 'openSans-ExtraBold', 'openSans-ExtraBoldItalic', 'openSans-Italic',
@@ -118,7 +117,26 @@ var confWysywyg = {
       lang: 'fr-FR',
     };
 
-myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, factoryBiography, $window, $cookies, $cookieStore) {
+myApp.controller('edit', function ($scope, $http, $sce, $location, $q, factoryBiography, $window, $cookies, $cookieStore) {
+
+  /*REDIRECT THE USER IF NOT ADMIN*/
+  /*Get the values of the cookies*/
+  var id_admin = $cookies.get('id_admin');
+  var token_admin = $cookies.get('token_admin');
+
+  /*Test if the user is connected or not*/
+  var rqt = {
+    method : 'POST',
+    url : '/php/manager/isConnected.php',
+    data : $.param({id: id_admin, token: token_admin}),  
+    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+  };
+  $http(rqt).success(function(data){
+    /*If it is not connected, we redirect it to the login page*/
+    if(data.connected != true) {
+      $window.location.href = '/accueil';
+    }
+  });
 
   angular.element(document).ready(function () {
     $scope.nbAuthors = 0;
@@ -152,22 +170,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     URI = $location.absUrl().split('/')[4];
     var param = $location.absUrl().split('/')[5];
     player = document.getElementsByTagName("video")[0];
-
-    id_admin = $cookies.get('id_admin');
-    token_admin = $cookies.get('token_admin');
-    /*Test if the user is connected or not*/
-    var rqt = {
-      method : 'POST',
-      url : '/php/manager/isConnected.php',
-      data : $.param({id: id_admin, token: token_admin}),  
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    };
-    $http(rqt).success(function(data){
-      /*If it is not connected, we redirect it to the login page*/
-      if(data.connected != true) {
-        $window.location.href = '/accueil';
-      }
-    });
 
     
     if (URI == 'read' || URI == 'update') {

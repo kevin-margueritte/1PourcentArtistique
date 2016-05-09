@@ -164,11 +164,10 @@ GROUP BY art.name");*/
 			return $query;
 		}
 		function getAllForAccueil() {
-			/*$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
-fROM ART, LOCATION, LOCATED, DESIGN
-WHERE ART.name = LOCATED.nameArt
-AND LOCATION.name = LOCATED.nameLocation
-AND DESIGN.nameArt = ART.name
+			/*$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR ", ") AS auteurs
+fROM ART, LOCATION, DESIGN
+WHERE DESIGN.idArt = ART.id
+AND ART.nameLocation = LOCATION.name
 GROUP BY ART.name;");*/
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$query = $this->db->prepare('
