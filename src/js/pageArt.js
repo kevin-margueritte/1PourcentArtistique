@@ -126,6 +126,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.nbHistoric = 0;
     $scope.art = {};
     $scope.art.name = '';
+    $scope.art.authors = [];
     $scope.art.imagePath = '';
     $scope.authorBiographyCurrent = '';
     $scope.hideTitle = true;
@@ -1082,7 +1083,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $http(rqt).success(function(data){
       var options = {
         data: data.key,
-        getValue: "NAME",
+        getValue: "name",
         list: { 
           match: {
             enabled: true
@@ -1091,8 +1092,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             enabled: true
           },
           onClickEvent: function() {
-            var lat = $("#artLocation").getSelectedItemData().LATITUDE;
-            var lng = $("#artLocation").getSelectedItemData().LONGITUDE;
+            var lat = $("#artLocation").getSelectedItemData().latitude;
+            var lng = $("#artLocation").getSelectedItemData().longitude;
             placeMarker(new google.maps.LatLng(lat, lng));
           }
         }
