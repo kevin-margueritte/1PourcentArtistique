@@ -26,22 +26,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 0">
-					<td>{{oeuvre.NAME}}</td>
+				<tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 0">
+					<td>{{oeuvre.name}}</td>
 					<td >
-						<button type="button" ng-click="publishArt(oeuvre.NAME)" class="btn btn-success">Publier</button>
+						<button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-success">Publier</button>
 					</td>
 					<td>
-						<button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button>
+						<button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button>
 					</td>
 				</tr>
-				<tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ISPUBLIC == 1">
-					<td>{{oeuvre.NAME}}</td>
-					<td ng-if="oeuvre.ISPUBLIC == 1">
-						<button type="button" ng-click="unPublishArt(oeuvre.NAME)" class="btn btn-success">Dépublier</button>
+				<tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 1">
+					<td>{{oeuvre.name}}</td>
+					<td ng-if="oeuvre.ispublic == 1">
+						<button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-success">Dépublier</button>
 					</td>
 					<td>
-						<button type="button" ng-click="deleteArt(oeuvre.NAME)" class="btn btn-danger">Supprimer</button>
+						<button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button>
 					</td>
 				</tr>
 			</tbody>

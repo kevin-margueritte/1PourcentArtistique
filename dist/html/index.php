@@ -28,8 +28,8 @@
   </head>
 
   <body ng-app="art" class="home">
-    <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-    <div ng-controller="home-map">
+    <!-- <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?> -->
+    <div ng-controller="homeMap">
       <div id="menu-ui">
         <div id="afficher_filtres">
           <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png"> <span>FILTRES</span> </a>
@@ -118,7 +118,7 @@
     <script src="/js/header.js"></script>
     <script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
     <script src="/js/app.js"></script>
-    <script src="/js/search.js"></script>
+    <!-- <script src="/js/search.js"></script> -->
     <script src="/js/homeMap.js"></script>
   </body>
 

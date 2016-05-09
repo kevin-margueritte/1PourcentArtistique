@@ -53,8 +53,9 @@ require_once 'connectionDB.php';
 		}
 
 		/* Récupérer le token d'un administrateur par son ID */
-		public function recupereTokenById()
+		public function getTokenById()
 		{
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$query = $this->db->prepare("SELECT token_admin FROM Admin WHERE id_admin = :id_admin");
 			$query->execute(array(
 				'id_admin' => $this->id_admin

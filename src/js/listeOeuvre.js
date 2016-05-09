@@ -2,23 +2,27 @@ var myApp = angular.module('myApp', ['ngCookies']);
 
 myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieStore) {
 
-	/*REDIRECT THE USER IF NOT ADMIN*/
 	/*Get the values of the cookies*/
-	var id_admin = $cookies.get('id_admin');
-	var token_admin = $cookies.get('token_admin');
+	var id_admin;
+	var token_admin;
 
-	/*Test if the user is connected or not*/
-	var rqt = {
-		method : 'POST',
-		url : '/php/manager/isConnected.php',
-		data : $.param({id: id_admin, token: token_admin}),  
-		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-	};
-	$http(rqt).success(function(data){
-		/*If it is not connected, we redirect it to the login page*/
-		if(data.connected != true) {
-			$window.location.href = '/accueil';
-		}
+	angular.element(document).ready(function () {
+		id_admin = $cookies.get('id_admin');
+		token_admin = $cookies.get('token_admin');
+
+		/*Test if the user is connected or not*/
+		var rqt = {
+			method : 'POST',
+			url : '/php/manager/isConnected.php',
+			data : $.param({id: id_admin, token: token_admin}),  
+			headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+		};
+		$http(rqt).success(function(data){
+			/*If the user is already connected, we redirect automatically to the liste oeuvre page*/
+			if(data.connected == false) {
+				$window.location.href = '/home';
+			}
+		});
 	});
 
 $scope.admin = {};
@@ -31,7 +35,7 @@ $scope.public = {};
 	headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	};
 	$http(rqt).success(function(data){
-		$scope.allOeuvre = data;
+		$scope.allOeuvre = data.key;
 	});
 
 	/*** AJAX -  Change the boolean isPublic of the art in parameter to 1***/
@@ -44,8 +48,8 @@ $scope.public = {};
       };
       $http(rqt).success(function(data){
       	for (var i=0; i < $scope.allOeuvre.length; i++) {
-      		if ($scope.allOeuvre[i].NAME == name) {
-      			$scope.allOeuvre[i].ISPUBLIC = 1;
+      		if ($scope.allOeuvre[i].name == name) {
+      			$scope.allOeuvre[i].ispublic = 1;
       		}
       	}
       });
@@ -61,8 +65,8 @@ $scope.public = {};
 	  };
 	  $http(rqt).success(function(data){
 	  	for (var i=0; i < $scope.allOeuvre.length; i++) {
-      		if ($scope.allOeuvre[i].NAME == name) {
-      			$scope.allOeuvre[i].ISPUBLIC = 0;
+      		if ($scope.allOeuvre[i].name == name) {
+      			$scope.allOeuvre[i].ispublic = 0;
       		}
       	}
 	  });
