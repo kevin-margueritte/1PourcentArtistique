@@ -108,6 +108,7 @@
 @sm-max: (@md-min - 1);
 @md-max: (@lg-min - 1);
 
+@phone-low:      ~"only screen and (max-width: @{sm-min})";
 @phone:          ~"only screen and (min-width: @{xs-min})";
 @phone-strict:   ~"only screen and (min-width: @{xs-min}) and (max-width: @{xs-max})";
 @tablet:         ~"only screen and (min-width: @{sm-min})";
@@ -464,6 +465,141 @@
 	}
 }
 
+/*** HEADER ***/
+header {
+	#logoUMSlogan {
+
+		margin-left: 10%;
+    	float: left;
+
+		#logo-UM {
+
+			float: left;
+			padding: 25px;
+
+			img {
+				width: 195px;
+			}
+		}
+
+		#slogan {
+
+			float: left;
+			padding-top: 40px;
+
+			h1 {
+				margin: inherit;
+				width: 280px;
+				color: @silver;
+				font-family: @openSans-BoldItalic;
+			}
+
+		}
+	}
+
+	.collapse-trigger {
+		margin: 0 auto;
+	    display: block;
+	    text-align: center;
+
+	    i {
+	    	font-size: 25px;
+	    	color: @asbestos;
+	    }
+	}
+
+	#search {
+		width: 75%;
+	    margin: 0 auto;
+	    padding-top: 15px;
+
+	    input {
+	    	font-family: @openSans-Italic;
+	    }
+
+	    #logo-search {
+	    	background-color: #ff5660;
+	    }
+
+	    i {
+	    	color: white;
+   			width: 50px;
+	    }
+
+	}
+
+	#logo-artistique {
+
+		padding: 45px;
+    	margin-right: 10%;
+
+    	img {
+    		float: right;
+    		width: 180px;
+    	}
+	}
+
+	@media @tablet-strict {
+		#logoUMSlogan {
+			margin-left: inherit;
+		}
+
+		#logo-artistique {
+			margin-right: inherit;
+		}
+	}
+
+	@media @phone-low {
+		#logoUMSlogan {
+
+			margin-left: inherit;
+	    	float: inherit;
+
+			#logo-UM {
+
+				float: inherit;
+				padding: inherit;
+				margin: 0 auto;
+			    text-align: center;
+			    padding: 15px;
+			}
+
+			#slogan {
+
+				float: inherit;
+				padding-top: inherit;
+
+				h1 {
+					margin: inherit;
+					color: @silver;
+					font-family: @openSans-BoldItalic;
+					width: 55%;
+				    margin: 0 auto;
+				    text-align: center;
+				    font-size: 30px;
+				}
+
+			}
+		}
+
+		#search {
+
+			padding-top: 15px;
+
+		    i {
+		    	color: white;
+	   			width: 10px;
+		    }
+
+		}
+
+		#logo-artistique {
+
+			display: none;
+		}
+	}
+}
+
 /*** FIX MAP GOOGLE BUG ***/
 .edit {
 
@@ -517,7 +653,7 @@
 	}
 
 	.navbar {
-		max-width:300px;
+		max-width:225px;
 		margin-right: 0;
 		margin-left: 0;
 		float: left;
@@ -540,6 +676,27 @@
 
 nav {
 	position: fixed !important;
+
+	.navbar-brand {
+		color :#ff5660 !important;
+		font-family: @openSans-Bold;
+		font-size: 22px;
+		padding-top: 15px;
+	    margin: inherit;
+	}
+
+	li {
+
+		a {
+			color: @wet_asphalt;
+			font-family: @openSans-Semibold;
+		}
+
+	}
+
+	li:hover {
+		background-color: @clouds;
+	}
 }
 
 /*** Connexion page ***/
@@ -680,6 +837,15 @@ nav {
 }
 
 /*PAGE ACCUEIL*/
+.home {
+	header {
+		z-index: 1;
+		position: absolute;
+		background-color: white;
+	}
+}
+
+
 /*Nom et prénom de l'artiste dans la popup en gras*/
 div#nom-prenom-artiste {
   font-weight: bold;
@@ -705,12 +871,12 @@ div#texte {
 #menu-ui {
     background: #fff;
     position: absolute;
-    top: 100px;
+    top: 50%;
     left: 15px;
     z-index: 1;
     border-radius: 3px;
-    width: 170px;
-    height: 35px;
+    width: 200px;
+    height: 50px;
     border: 1px solid rgba(0,0,0,0.4);
     margin:0;padding:0;
     -webkit-appearance:none;
@@ -718,21 +884,8 @@ div#texte {
             appearance:none;
 }
 
-/*Menu filtre lorsqu'il est selectionné*/
 #menu-ui.selectionner {
-    background: #fff;
-    position: absolute;
-    top: 100px;
-    left: 15px;
-    z-index: 1;
-    border-radius: 3px;
-    width: 170px;
     height: auto;
-    border: 1px solid rgba(0,0,0,0.4);
-    margin:0;padding:0;
-    -webkit-appearance:none;
-       -moz-appearance:none;
-            appearance:none;
 }
 
 /*Enlever les points du radio button dans le formulaire*/
@@ -748,21 +901,48 @@ div#texte {
   text-decoration: none;
 }
 
-/*Effet pour le titre "Filtres"*/
-a#filtre {
-  text-align: left;
-  font-weight: bold;
-  font-size: 25px;
-  color: #2C3E50;
-  margin-left: 10px;
-  margin-top: 10px;
+#menu-ui {
+	#cacher {
+		margin-top: 7px;
+
+		.radio {
+			padding-top: 2px;
+	    	padding-bottom: 8px;
+	    	margin: inherit;
+		}
+
+		#texteFiltre:hover {
+			opacity: 1;
+		}
+
+		#texteFiltre {
+			span {
+				font-family: @openSans-Regular;
+				color: @wet_asphalt;
+				padding-left: 20px;
+			}
+		}
+	}
+
+	#afficher_filtres {
+		padding-top: 10px;
+
+		img {
+			padding-left: 20px;
+		}
+
+		span {
+			font-family: @openSans-Bold;
+			color: @wet_asphalt;
+			font-size: 20px;
+    		margin-left: 17px;
+		}
+	}
 }
 
 /*Effet de mise en avant pour l'element selectionné*/
 div.radio label > input:checked + div {
   opacity: 1;
-  font-weight: bold;
-  font-size: 17px; 
 }
 
 /*Effet de mise en retrait pour les autres elements non selectionnés*/
