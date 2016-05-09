@@ -163,10 +163,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       data : $.param({id: id_admin, token: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
-    $$http(rqt).success(function(data){
+    $http(rqt).success(function(data){
       /*If it is not connected, we redirect it to the login page*/
+      console.log(id_admin);
+      console.log(token_admin);
        if(data.connected != true) {
-         $window.location.href = '/accueil';
+         //$window.location.href = '/html';
        }
     });
 
@@ -358,7 +360,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         var rqt = {
           method : 'POST',
           url : '/php/manager/deleteImageArt.php',
-          data : $.param({file: file.name, nameArt: $scope.art.name}),  
+          data : $.param({file: file.name, nameArt: $scope.art.name, id_admin: id_admin, token_admin: token_admin}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
@@ -387,7 +389,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         var rqt = {
           method : 'POST',
           url : '/php/manager/deletePresentationVideo.php',
-          data : $.param({video: file.name, nameArt: art.name}),  
+          data : $.param({video: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
@@ -433,7 +435,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         var rqt = {
           method : 'POST',
           url : '/php/manager/deleteSound.php',
-          data : $.param({sound: file.name, nameArt: art.name}),  
+          data : $.param({sound: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
@@ -464,7 +466,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         var rqt = {
           method : 'POST',
           url : '/php/manager/deletePhotography.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
+          data : $.param({photo: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
@@ -506,7 +508,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         var rqt = {
           method : 'POST',
           url : '/php/manager/deleteHistoric.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
+          data : $.param({photo: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
           headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
         };
         $http(rqt).success(function(data){
@@ -593,7 +595,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         url : '/php/manager/createArt.php',
         data : $.param({name: art.name, creationYear: art.date, isPublic: 0, type: art.type,
           location: art.location, latitude: art.latitude,
-          longitude: art.longitude, idArt: art.id}),  
+          longitude: art.longitude, idArt: art.id, id_admin: id_admin, token_admin: token_admin}),  
         headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
       };
       $http(rqt).success(function(data){
@@ -622,7 +624,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
               method : 'POST',
               url : '/php/manager/createAuthor.php',
               data : $.param({idArt: data.idArt, fullName : art.authors[i].name, biographyHTMLFile: art.authors[i].biographyHTMLFile,
-                yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath}),  
+                yearBirth: art.authors[i].yearBirth, yearDeath: art.authors[i].yearDeath, id_admin: id_admin, token_admin: token_admin}),  
               headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
             };
             $http(rqt);
@@ -655,7 +657,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/deleteDesign.php',
-      data : $.param({authorName:name ,idArt: art.id}),  
+      data : $.param({authorName:name ,idArt: art.id, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -727,7 +729,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addMaterial.php',
-      data : $.param({artId: art.id, materialName : tag.text}),  
+      data : $.param({artId: art.id, materialName : tag.text, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -737,7 +739,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/deleteMaterial.php',
-      data : $.param({artId: art.id, materialName : tag.text}),  
+      data : $.param({artId: art.id, materialName : tag.text, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -747,7 +749,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addArchitect.php',
-      data : $.param({artId: art.id, architectName : tag.text}),  
+      data : $.param({artId: art.id, architectName : tag.text, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -757,7 +759,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/deleteArchitect.php',
-      data : $.param({artId: art.id, architectName : tag.text}),  
+      data : $.param({artId: art.id, architectName : tag.text, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -831,7 +833,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addPresentation.php',
-      data : $.param({artName: art.name, presentationHTMLContent : art.presentationHTML}),  
+      data : $.param({artName: art.name, presentationHTMLContent : art.presentationHTML, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -956,7 +958,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addHistoricFile.php',
-      data : $.param({artName: art.name, historicHTMLContent : art.historicHTML}),  
+      data : $.param({artName: art.name, historicHTMLContent : art.historicHTML, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
@@ -1057,7 +1059,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addBiography.php',
-      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, authorName: $scope.authorBiographyCurrent}),  
+      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, authorName: $scope.authorBiographyCurrent, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
