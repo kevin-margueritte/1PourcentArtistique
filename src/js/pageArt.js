@@ -1,5 +1,4 @@
-var myApp = angular.module('art-edit', ['ngTagsInput', 'ngSanitize'])
-  .directive('repeatOwlPhotographyPost', function($timeout) {
+myApp.directive('repeatOwlPhotographyPost', function($timeout) {
     return {
           restrict: 'A',
           link: function (scope, element, attr) {
@@ -117,7 +116,7 @@ var confWysywyg = {
       lang: 'fr-FR',
     };
 
-myApp.controller('edit', function ($scope, $http, $sce, $location, $q, factoryBiography) {
+myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, factoryBiography) {
 
   angular.element(document).ready(function () {
     $scope.nbAuthors = 0;

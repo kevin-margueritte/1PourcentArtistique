@@ -52,6 +52,7 @@
 		}
 
 		function getAll() {
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$get = $this->db->prepare("SELECT * FROM LOCATION");
 			$get->execute();
 			return $get->fetchAll();

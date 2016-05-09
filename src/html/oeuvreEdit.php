@@ -16,31 +16,31 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique - Création</title>
 </head>
-<body ng-app="art-edit" ng-controller="edit">
+<body ng-app="art">
 	<?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-	<nav ng-hide="hideEditor" class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<h1 class="navbar-brand">Editeur d'oeuvre</h1>
-		</div>
+	<div class="oeuvre edition" ng-controller="page-art">
+		<nav ng-hide="hideEditor" class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<h1 class="navbar-brand">Editeur d'oeuvre</h1>
+			</div>
 
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="#" ng-click="openTitle()">Informations générales</a></li>
-				<li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
-				<li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
-				<li><a href="#" ng-click="addPhotography()">Photographies de l'oeuvre</a></li>
-				<li><a href="#" ng-click="addHistoric()">Historiques de l'oeuvre</a></li>
-				<li><a href="#" ng-click="addBiography()">Biographies des auteurs</a></li>
-			</ul>
-		</div>
-	</nav>
-	<div class="oeuvre edition">
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="#" ng-click="openTitle()">Informations générales</a></li>
+					<li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
+					<li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
+					<li><a href="#" ng-click="addPhotography()">Photographies de l'oeuvre</a></li>
+					<li><a href="#" ng-click="addHistoric()">Historiques de l'oeuvre</a></li>
+					<li><a href="#" ng-click="addBiography()">Biographies des auteurs</a></li>
+				</ul>
+			</div>
+		</nav>
 		<div ng-hide="hideTitle" class="title">
 			<h1 id="name">
 				{{art.name}} - {{art.date}}
@@ -329,24 +329,25 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
-			<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"   integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI="   crossorigin="anonymous"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-			<script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
-			<script src="/lib/caroussel/owl.carousel.js"></script>
-			<script src="/lib/overview/js/lightbox.js"></script>
-			<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-			<script src="/lib/input-tags/ng-tags-input.min.js"></script>
-			<script src="/lib/dropzone/dropzone.js"></script>
-			<!-- <script src="/js/oeuvre.js"></script> -->
-			<script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
-			<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
-			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
-			<script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap"
-			async defer></script>
-			<script src="/js/header.js"></script>
-			<script src="/js/oeuvreEdit.js"></script>
-		</body>
-		</html>
+	</div>
+	<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"   integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI="   crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
+	<script src="/lib/caroussel/owl.carousel.js"></script>
+	<script src="/lib/overview/js/lightbox.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
+	<script src="/lib/dropzone/dropzone.js"></script>
+	<script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
+	<script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap"
+	async defer></script>
+	<script src="/js/header.js"></script>
+	<script src="/js/app.js"></script>
+	<script src="/js/pageArt.js"></script>
+	<script src="/js/search.js"></script>
+</body>
+</html>

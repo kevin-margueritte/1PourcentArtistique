@@ -125,10 +125,22 @@
 
 		function getAllArtsForSearch()
 		{
-			$query = $this->db->prepare("SELECT art.name, art.creationYear, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
+/*			$query = $this->db->prepare("SELECT art.name, art.creationYear, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
 FROM art, DESIGN
 WHERE art.name = DESIGN.nameArt
-GROUP BY art.name");
+GROUP BY art.name");*/
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+			$query = $this->db->prepare('
+				SELECT 
+					ART.name as name, 
+					ART.creationYear as creationYear, 
+					LISTAGG(DESIGN.nameAuthor, \', \') 
+						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs
+				FROM ART, DESIGN
+				WHERE DESIGN.idart = ART.id
+				GROUP BY (ART.name, ART.creationYear) 
+				ORDER BY ART.name'
+			);
 			$query->execute();
 			return $query->fetchAll();
 		}
@@ -161,12 +173,12 @@ GROUP BY ART.name;");*/
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$query = $this->db->prepare('
 				SELECT 
-					LOWER(ART.name) as name, 
-					LOWER(ART.creationYear) as creationYear, 
-					LOWER(ART.type) as type, 
-					LOWER(ART.imageFile) as imageFile, 
-					LOWER(LOCATION.longitude) as longitude, 
-					LOWER(LOCATION.latitude) as latitude, 
+					ART.name as name, 
+					ART.creationYear as creationYear, 
+					ART.type as type, 
+					ART.imageFile as imageFile, 
+					LOCATION.longitude as longitude, 
+					LOCATION.latitude as latitude, 
 					LISTAGG(DESIGN.nameAuthor, \', \') 
 						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs
 				FROM ART, LOCATION, DESIGN

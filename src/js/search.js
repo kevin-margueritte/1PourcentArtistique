@@ -1,11 +1,9 @@
-var myApp = angular.module('search', []);
-
 myApp.controller('search', function ($scope, $http, $window) {
 	/*Array containing all data*/
 	var allData = {
-		"lieux": [
-		], 
-		"oeuvres": [
+		"arts": [
+		],
+		"location": [
 		]
 	}
 
@@ -16,13 +14,13 @@ myApp.controller('search', function ($scope, $http, $window) {
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt).success(function(data){
-    	/*Create the different objects in the array "allData.oeuvres"*/
+    	/*Create the different objects in the array "allData.arts"*/
     	for(var i = 0; i<data.key.length; i++){
     		var newArt = new Object();
     		newArt.name = data.key[i].name;
-			newArt.creationYear = data.key[i].creationYear;
+			newArt.creationYear = data.key[i].creationyear;
 			newArt.auteurs = data.key[i].auteurs;
-    		allData.oeuvres[i] = newArt;
+    		allData.arts[i] = newArt;
     	}
     });
 
@@ -33,13 +31,13 @@ myApp.controller('search', function ($scope, $http, $window) {
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt).success(function(data){
-    	/*Create the different objects in the array "allData.lieux"*/
+    	/*Create the different objects in the array "allData.location"*/
     	for(var i = 0; i<data.key.length; i++){
     		var newLocation = new Object();
 			newLocation.name = data.key[i].name;
 			newLocation.longitude = data.key[i].longitude;
 			newLocation.latitude = data.key[i].latitude;
-    		allData.lieux[i] = newLocation;
+    		allData.location[i] = newLocation;
     	}
     });
 
@@ -55,25 +53,25 @@ myApp.controller('search', function ($scope, $http, $window) {
 			type: "custom",
 			method: function(value, item) {
 				var res = value;
-				if(item.auteurs != null) {
-					res+= ", <i>" + item.auteurs + "</i>";
-				}
 				if(item.creationYear != null) {
-					res += " <i>(" +item.creationYear+")</i>";
+					res += " <span>(" +item.creationYear+")</span>";
+				}
+				if(item.auteurs != null) {
+					res+= ", <span>" + item.auteurs + "</span>";
 				}
 				return res;
 			}
 		},
 
 		/*Defined the two categories*/
-	    categories: [
-	        { 
-	            listLocation: "lieux",
-	            header: "<b><u>-- Lieux --</u></b>"
-	        }, 
+	    categories: [ 
 	        {
-	            listLocation: "oeuvres",
-	            header: "<b><u>-- Oeuvres d'art --</u></b>"
+	            listLocation: "arts",
+	            header: "<span>Œuvres</span>"
+	        },
+	        { 
+	            listLocation: "location",
+	            header: "<span>Lieux</span>"
 	        }
 	    ],
 
@@ -93,8 +91,8 @@ myApp.controller('search', function ($scope, $http, $window) {
 		            $window.location.href = path;
 				}
 				else {
-					var nameArt = value.name.replace(" ", "_");
-		            var path = '/art/lecture?artName=' + nameArt;
+					var nameArt = value.name.replace(new RegExp(" ", 'g'), "_");
+		            var path = '/art/read/' + nameArt;
 		            $window.location.href = path;
 				}
 			},

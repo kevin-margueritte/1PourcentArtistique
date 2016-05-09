@@ -1,5 +1,3 @@
-var myApp = angular.module('accueil', []);
-
 function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
       var allParameter = window.location.search.substring(1); // Get a string with all parameters
       var sURLVariables = allParameter.split('&'); // Split in an array each parameters
@@ -13,7 +11,7 @@ function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/1949133
       }
   }
 
-myApp.controller('accueil', function ($scope, $http, $window) {
+myApp.controller('home-map', function ($scope, $http, $window) {
   var map, contourearch = [];
 
   /*Manages the movement of the map in the reduction or increase of the window*/
@@ -199,7 +197,7 @@ var rqt = {
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
         /*Get the image path*/
-        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(" ", "_") + "/"+ feature.properties.imagefile;
+        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(new RegExp(" ", 'g'), "_") + "/"+ feature.properties.imagefile;
         /*Create the content of the pop-up with the elements of the art*/
         var content = 
           "<div id=\"contenu-pop-up\">"+
@@ -214,7 +212,7 @@ var rqt = {
                 "<p>" + feature.properties.name + " (" + feature.properties.creationYear + ")</p>"+
               "</div>"+
               "<div id=\"plus-infos\">"+
-                "<a href=\"/art/lecture?artName="+feature.properties.name.replace(" ", "_")+"\">+ infos</a>"+
+                "<a href=\"/art/read/="+feature.properties.name.replace(new RegExp(" ", 'g'), "_")+"\">+ infos</a>"+
               "</div>"+
             "</div>"+
           "</div>";

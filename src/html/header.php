@@ -1,11 +1,11 @@
-<header class="clearfix">
+<header ng-controller="search" class="clearfix">
 	<div id="logo" class="clearfix collapse in">
 		<div class="clearfix" id="logoUMSlogan">
 			<div id="logo-UM">
 				<img src="/assets/img/logo_um.png" alt="Logo de l'universite de Montpellier">
 			</div>
 			<div id="slogan">
-			  	<h1>L'app du 1% artistique de l'université de Montpellier</h1>
+			  	<h1>L'app' du 1% artistique de l'Université de Montpellier</h1>
 			</div>
 		</div>
 		<div id="logo-artistique">
@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<div class="input-group" id="search">
-		<input type="text" class="form-control" placeholder="Chercher une oeuvre d'art, un lieu">
+		<input type="text" class="form-control basics" placeholder="Chercher une oeuvre d'art, un lieu">
 		<div class="input-group-addon" id="logo-search">
 			<i class='glyphicon glyphicon-search'></i>
 		</div>

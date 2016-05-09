@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
     <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
     <link rel="stylesheet" href="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
 
     <!-- <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon-76.png">
@@ -27,95 +28,96 @@
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"> -->
   </head>
 
-  <body ng-app="accueil" ng-controller="accueil" class="home">
+  <body ng-app="art" class="home">
   <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-  <div id="menu-ui">
-    <div id="afficher_filtres">
-      <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png">
-        <span>FILTRES</span>
-      </a>
-    </div>
-    <div id="cacher">
-      <div id="formulaire_filtre">
-        <form enctype="multipart/form-data" name="formulaire_Filtre" id="formulaire_Filtre" action="" method="post">
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="all" checked/>
-              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
-               <span>Tous</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="architecture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
-                <span>Architecture</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="art numérique"/>
-              <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
-                <span>Architecture</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="art décoratif"/>
-              <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
-                <span>Art décoratif</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="cinéma"/>
-              <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png">
-                <span>Cinéma</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="musique"/>
-              <div id="texteFiltre"><img src="/assets/filtres/musique-20.png">
-                <span>Musique</span> 
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="peinture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png">
-                <span>Peinture</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="photographie"/>
-              <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png">
-                <span>Photographie</span>
-              </div>
-            </label>
-          </div>
-          <div class="radio">
-            <label ng-click="filtres()">
-              <input type="radio" name="oeuvres" value="sculpture"/>
-              <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png">
-                <span>Sculpture</span>
-              </div>
-            </label>
-          </div>
-        </form> 
-      </div> <!-- formulaire_filtre -->
-    </div> <!-- cacher -->
-  </div> <!-- menu-ui-->
-
-  <div id="map"></div>
+  <div ng-controller="home-map">
+    <div id="menu-ui">
+      <div id="afficher_filtres">
+        <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png">
+          <span>FILTRES</span>
+        </a>
+      </div>
+      <div id="cacher">
+        <div id="formulaire_filtre">
+          <form enctype="multipart/form-data" name="formulaire_Filtre" id="formulaire_Filtre" action="" method="post">
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="all" checked/>
+                <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+                 <span>Tous</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="architecture"/>
+                <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+                  <span>Architecture</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="art numérique"/>
+                <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
+                  <span>Architecture</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="art décoratif"/>
+                <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
+                  <span>Art décoratif</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="cinéma"/>
+                <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png">
+                  <span>Cinéma</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="musique"/>
+                <div id="texteFiltre"><img src="/assets/filtres/musique-20.png">
+                  <span>Musique</span> 
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="peinture"/>
+                <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png">
+                  <span>Peinture</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="photographie"/>
+                <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png">
+                  <span>Photographie</span>
+                </div>
+              </label>
+            </div>
+            <div class="radio">
+              <label ng-click="filtres()">
+                <input type="radio" name="oeuvres" value="sculpture"/>
+                <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png">
+                  <span>Sculpture</span>
+                </div>
+              </label>
+            </div>
+          </form> 
+        </div> <!-- formulaire_filtre -->
+      </div> <!-- cacher -->
+    </div> <!-- menu-ui-->
+    <div id="map"></div>
+  </div>
 
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -129,10 +131,14 @@
   <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
   <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="/lib/input-tags/ng-tags-input.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
   <script src="/lib/geojson/geojson.min.js"></script>
   <script src="/js/header.js"></script>
-  <script src="/js/mapAccueil.js"></script>
-
+  <script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/search.js"></script>
+  <script src="/js/homeMap.js"></script>
 
   </body>
 </html>
