@@ -1,4 +1,29 @@
-function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+myApp.controller('home-map', function ($scope, $http, $window) {
+  var map, contourearch = [];
+
+  /*Manages the movement of the map in the reduction or increase of the window*/
+  $(window).resize(function() {
+    sizeLayerControl();
+  });
+
+  /*ADD POINTS AND FILTERS*/
+  /*Shows or hides filters on the rifght*/
+  $scope.listeDeroulante = function() {
+    console.log("toto");
+    if(document.getElementById('cacher').style.visibility=="hidden" || document.getElementById('cacher').style.visibility == ""  )
+    {
+      document.getElementById('cacher').style.visibility="visible";
+      $('#menu-ui').addClass("selectionner");
+    }
+    else
+    {
+      document.getElementById('cacher').style.visibility="hidden";
+      $('#menu-ui').removeClass("selectionner");
+    }
+    return true;
+  }
+
+  function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
       var allParameter = window.location.search.substring(1); // Get a string with all parameters
       var sURLVariables = allParameter.split('&'); // Split in an array each parameters
       for (var i = 0; i < sURLVariables.length; i++) // Retrieves the correct parameters and send it 
@@ -11,13 +36,7 @@ function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/1949133
       }
   }
 
-myApp.controller('home-map', function ($scope, $http, $window) {
-  var map, contourearch = [];
 
-  /*Manages the movement of the map in the reduction or increase of the window*/
-  $(window).resize(function() {
-    sizeLayerControl();
-  });
 
   function sizeLayerControl() {
     $(".leaflet-control-layers").css("max-height", $("#map").height() - 50);
@@ -120,22 +139,6 @@ myApp.controller('home-map', function ($scope, $http, $window) {
       timeout: 10000
     }
   }).addTo(map);
-
-  /*ADD POINTS AND FILTERS*/
-  /*Shows or hides filters on the rifght*/
-  $scope.listeDeroulante = function() {
-    if(document.getElementById('cacher').style.visibility=="hidden" || document.getElementById('cacher').style.visibility == ""  )
-    {
-      document.getElementById('cacher').style.visibility="visible";
-      $('#menu-ui').addClass("selectionner");
-    }
-    else
-    {
-      document.getElementById('cacher').style.visibility="hidden";
-      $('#menu-ui').removeClass("selectionner");
-    }
-    return true;
-  }
     
   /*Create icons according to the type of the art*/
   var icones = new Array();
@@ -179,7 +182,6 @@ var rqt = {
   };
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
-    console.log(data);
     artGeoJson = GeoJSON.parse(data, {Point: ['latitude', 'longitude']});
     $scope.filtres();
   });

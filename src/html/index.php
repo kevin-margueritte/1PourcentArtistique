@@ -32,8 +32,8 @@
   <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
   <div>
     <div id="menu-ui">
-      <div id="afficher_filtres">
-        <a href='#' id='filtre' data-filter='filtre' ng-click="listeDeroulante()"><img class="menu" src="/assets/filtres/menu-20.png">
+      <div id="afficher_filtres" ng-click="listeDeroulante()">
+        <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/filtres/menu-20.png">
           <span>FILTRES</span>
         </a>
       </div>
@@ -118,6 +118,7 @@
     </div> <!-- menu-ui-->
     <div id="map"></div>
   </div>
+  <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
 
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
