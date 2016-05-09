@@ -265,6 +265,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap" async defer></script>
         <script src="/js/header.js"></script>
         <script src="/js/oeuvreEdit.js"></script>
+        <script src="/lib/cookies/angular-cookies.js"></script>
   </body>
 
 </html>

@@ -2,6 +2,7 @@ var myApp = angular.module('myApp', ['ngCookies']);
 
 myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieStore) {
 
+	/*REDIRECT THE USER IF NOT ADMIN*/
 	/*Get the values of the cookies*/
 	var id_admin = $cookies.get('id_admin');
 	var token_admin = $cookies.get('token_admin');
@@ -16,7 +17,7 @@ myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieS
 	$http(rqt).success(function(data){
 		/*If it is not connected, we redirect it to the login page*/
 		if(data.connected != true) {
-			$window.location.href = '/connection';
+			$window.location.href = '/accueil';
 		}
 	});
 

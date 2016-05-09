@@ -45,6 +45,7 @@
     <script src="/lib/dropzone/dropzone.js"></script>
     <script src="/lib/fso/fso.min.js"></script>
     <script src="/js/createaccount.js"></script>
+    <script src="/lib/cookies/angular-cookies.js"></script>
   </body>
 
 </html>

@@ -348,5 +348,6 @@
 			async defer></script>
 			<script src="/js/header.js"></script>
 			<script src="/js/oeuvreEdit.js"></script>
+			<script src="/lib/cookies/angular-cookies.js"></script>
 		</body>
 		</html>
