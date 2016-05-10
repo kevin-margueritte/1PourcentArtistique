@@ -19,7 +19,7 @@ myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieS
 		};
 		$http(rqt).success(function(data){
 			/*If the user is already connected, we redirect automatically to the liste oeuvre page*/
-			if(data.connected == false) {
+			if(data.connected != true) {
 				$window.location.href = '/home';
 			}
 		});
@@ -91,4 +91,8 @@ $scope.public = {};
 		});
 	  });
 	};
+
+	$scope.informationsArt = function(name) {
+		$window.location.href = '/art/read/' + name.replace(new RegExp(" ", 'g'), "_");
+	}
 });

@@ -29,7 +29,7 @@
         </thead>
         <tbody>
           <tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 0">
-            <td>{{oeuvre.name}}</td>
+            <td> <a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a> </td>
             <td> <button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-success">Publier</button> </td>
             <td> <button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button> </td>
           </tr>
