@@ -22,3 +22,5 @@ RewriteRule /art/list /html/listeOeuvre.php
 RewriteRule /deconnection /html/deconnexion.php
 
 RewriteRule /art/createaccount /html/createaccount.php
+
+RewriteRule /art/myaccount /html/myaccount.php
