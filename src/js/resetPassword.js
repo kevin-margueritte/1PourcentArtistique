@@ -15,9 +15,9 @@ myApp.controller('resetPassword', function ($scope, $http, $window, $cookies, $c
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	};
 	$http(rqt).success(function(data){
-		/*If it is not connected, we redirect it to the login page*/
-		if(data.connected != true) {
-			$window.location.href = '/accueil';
+		/*If it is already connected, we redirect it to the list art page*/
+		if(data.error != true) {
+			$window.location.href = '/art/list';
 		}
 	});
 
@@ -39,6 +39,8 @@ $scope.bouttonChangePassword = function(email) {
 		        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		};
         $http(rqt).success(function(data){
+        	$scope.hideError = true;
+        	$scope.hideSuccess = true;
         	if(data.send) {
         		$scope.titleSuccess = data.key;
 	    		$scope.hideSuccess = false;

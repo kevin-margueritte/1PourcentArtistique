@@ -22,3 +22,5 @@ RewriteRule /deconnection /html/deconnexion.php
 RewriteRule /art/createaccount /html/createaccount.php
 
 RewriteRule /art/changepassword /html/myaccount.php
+
+RewriteRule /art/resetpassword /html/resetPassword.php

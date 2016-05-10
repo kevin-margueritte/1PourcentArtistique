@@ -54,7 +54,7 @@ myApp.controller('connexionAdmin', function ($scope, $http, $window, $cookies, $
 	};
 	/*** Load a new page to enter email adress to change his password */
 	$scope.boutonMotDePasseOublier = function() {
-		$window.location.href = '/html/resetPassword.php';
+		$window.location.href = '/art/resetpassword';
 	};
 
 });
