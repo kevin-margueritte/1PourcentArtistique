@@ -17,7 +17,7 @@ myApp.controller('createAccountAdmin', function ($scope, $http, $window, $cookie
 	$http(rqt).success(function(data){
 		/*If it is not connected, we redirect it to the login page*/
 		if(data.connected != true) {
-			$window.location.href = '/accueil';
+			$window.location.href = '/home';
 		}
 	});
 

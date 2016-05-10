@@ -10,7 +10,7 @@ myApp.controller('deconnexionAdmin', function ($scope, $http, $window) {
 		};
 		$http(rqt).success(function(data){
 			if(data.disconnected) {
-				$window.location.href = '/accueil';
+				$window.location.href = '/home';
 			}
 		});
 });

@@ -13,8 +13,6 @@ RewriteRule /art/update/ /html/oeuvreEdit.php
 
 RewriteRule /art/create/ /html/oeuvreEdit.php
 
-RewriteRule /recherche /html/search.php
-
 RewriteRule /art_auth /html/connexionAdmin.php
 
 RewriteRule /art/list /html/listeOeuvre.php
@@ -23,4 +21,4 @@ RewriteRule /deconnection /html/deconnexion.php
 
 RewriteRule /art/createaccount /html/createaccount.php
 
-RewriteRule /art/myaccount /html/myaccount.php
+RewriteRule /art/changepassword /html/myaccount.php
