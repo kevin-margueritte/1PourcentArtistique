@@ -35,6 +35,12 @@ $scope.public = {};
 	headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	};
 	$http(rqt).success(function(data){
+		/*Test if the art have author(s), if not we redefine the name to "Aucun"*/
+		for(var i = 0; i < data.key.length; i++) {
+			if(data.key[i].auteurs == null) {
+				data.key[i].auteurs = "Aucun";
+			}
+		}
 		$scope.allOeuvre = data.key;
 	});
 

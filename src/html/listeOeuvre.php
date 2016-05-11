@@ -17,10 +17,11 @@
 <body ng-app="myApp" class="artList">
 	<div ng-controller="artList">
 		<h1>Liste des oeuvres</h1>
-		<table class="table">
+		<table class="table table-hover">
 			<thead class="thead-default">
 				<tr>
 					<th>Nom oeuvre</th>
+					<th>Auteur(s)</th>
 					<th>Publier</th>
 					<th>Supprimer</th>
 				</tr>
@@ -30,6 +31,7 @@
 					<td>
 						<a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
 					</td>
+					<td>{{oeuvre.auteurs}}</td>
 					<td >
 						<button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-success">Publier</button>
 					</td>
@@ -41,6 +43,7 @@
 					<td>
 						<a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
 					</td>
+					<td>{{oeuvre.auteurs}}</td>
 					<td ng-if="oeuvre.ispublic == 1">
 						<button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-success">Dépublier</button>
 					</td>
