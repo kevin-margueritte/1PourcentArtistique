@@ -32,13 +32,13 @@
           <tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 0">
             <td> <a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a> </td>
             <td>{{oeuvre.auteurs}}</td>
-            <td> <button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-success">Publier</button> </td>
+            <td> <button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-default">Publier</button> </td>
             <td> <button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button> </td>
           </tr>
           <tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 1">
             <td> <a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a> </td>
             <td>{{oeuvre.auteurs}}</td>
-            <td ng-if="oeuvre.ispublic == 1"> <button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-success">Dépublier</button> </td>
+            <td ng-if="oeuvre.ispublic == 1"> <button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-default">Dépublier</button> </td>
             <td> <button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button> </td>
           </tr>
         </tbody>

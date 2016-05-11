@@ -33,7 +33,7 @@
 					</td>
 					<td>{{oeuvre.auteurs}}</td>
 					<td >
-						<button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-success">Publier</button>
+						<button type="button" ng-click="publishArt(oeuvre.name)" class="btn btn-default">Publier</button>
 					</td>
 					<td>
 						<button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button>
@@ -45,7 +45,7 @@
 					</td>
 					<td>{{oeuvre.auteurs}}</td>
 					<td ng-if="oeuvre.ispublic == 1">
-						<button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-success">Dépublier</button>
+						<button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-default">Dépublier</button>
 					</td>
 					<td>
 						<button type="button" ng-click="deleteArt(oeuvre.name)" class="btn btn-danger">Supprimer</button>
