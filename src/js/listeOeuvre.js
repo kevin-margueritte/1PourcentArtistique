@@ -87,7 +87,7 @@ $scope.public = {};
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		};
 		$http(rqt1).success(function(data){
-			$scope.allOeuvre = data;
+			$scope.allOeuvre = data.key;
 		});
 	  });
 	};

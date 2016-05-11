@@ -38,7 +38,9 @@
 					</td>
 				</tr>
 				<tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 1">
-					<td>{{oeuvre.name}}</td>
+					<td>
+						<a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
+					</td>
 					<td ng-if="oeuvre.ispublic == 1">
 						<button type="button" ng-click="unPublishArt(oeuvre.name)" class="btn btn-success">Dépublier</button>
 					</td>
