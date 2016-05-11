@@ -18,6 +18,7 @@
   </head>
 
   <body ng-app="resetPassword" ng-controller="resetPassword" class="resetPassword">
+    <?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
     <h1>Mot de passe oublié</h1>
     <div id="formResetPassword">
       <div class="form-group"> <label class="control-label">Email</label>

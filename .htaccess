@@ -17,7 +17,7 @@ RewriteRule /art_auth /html/connexionAdmin.php
 
 RewriteRule /art/list /html/listeOeuvre.php
 
-RewriteRule /deconnection /html/deconnexion.php
+RewriteRule /art/deconnexion /html/deconnexion.php
 
 RewriteRule /art/createaccount /html/createaccount.php
 

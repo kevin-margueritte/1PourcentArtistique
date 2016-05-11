@@ -7,17 +7,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/art/myaccount">Administrateur</a>
+      <a class="navbar-brand" href="/art/changepassword">Administrateur</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/html">Accueil</a></li>
+        <li class="active"><a href="/home">Accueil</a></li>
         <li><a href="/art/list">Liste des œuvres</a></li>
         <li><a href="/art/create/">Créer une œuvre</a></li>
         <li><a href="/art/createaccount">Créer un compte</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/deconnection">Déconnexion</a></li>
+        <li><a href="/art/deconnexion">Déconnexion</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
