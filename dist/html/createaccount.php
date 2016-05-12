@@ -17,23 +17,19 @@
     <title>1% artistique</title>
   </head>
 
-  <body ng-app="createAccountAdmin" ng-controller="createAccountAdmin">
-    <form method="post" class="form-horizontal center" name="form_create_account">
-      <h3>Créer un compte:</h3>
-      <div class="createaccount admin">
-        <div class="form-group"> <label class="col-sm-4 control-label">Email du compte à créer</label>
-          <div class="col-sm-3"> <input type="email" class="form-control" ng-model="email" placeholder="Ex: xxx@yyy.zzz"> </div>
-        </div>
-        <div class="form-group"> <label class="col-sm-4 control-label">Mot de passe du compte à créer</label>
-          <div class="col-sm-3"> <input type="password" class="form-control" ng-model="password" placeholder="Ex: pErTe4(E"> </div>
-        </div>
-        <div class="form-group">
-          <div class="col-sm-offset-5"> <button name="create" class="btn btn-success" ng-click="boutonCreate(email, password)">Créer</button> </div>
-        </div>
-        <div ng-hide="hideError" class="alert alert-danger"> <strong>Erreur! </strong>{{titleError}} </div>
-        <div ng-hide="hideSuccess" class="alert alert-success"> <strong>Success! </strong>{{titleSuccess}} </div>
+  <body ng-app="createAccountAdmin" ng-controller="createAccountAdmin" class="createAccount">
+    <h1>Créer un compte</h1>
+    <div id="formCreateAccount">
+      <div class="form-group"> <label class="control-label">Email du compte à créer</label>
+        <div> <input type="email" class="form-control" ng-model="email" placeholder="Ex: xxx@yyy.zzz"> </div>
       </div>
-    </form>
+      <div class="form-group"> <label class="control-label">Mot de passe du compte à créer</label>
+        <div> <input type="password" class="form-control" ng-model="password" placeholder="Ex: pErTe4(E"> </div>
+      </div>
+      <div class="form-group"> <button name="create" class="btn btn-success" ng-click="boutonCreate(email, password)">Créer</button> </div>
+      <div ng-hide="hideError" class="alert alert-danger"> <strong>Erreur! </strong>{{titleError}} </div>
+      <div ng-hide="hideSuccess" class="alert alert-success"> <strong>Success! </strong>{{titleSuccess}} </div>
+    </div>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

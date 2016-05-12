@@ -21,16 +21,16 @@ require_once 'connectionDB.php';
 		}
 
 		/* Insérer un administrateur */
-		public function creerAdmin()
+		public function createAdmin()
 		{
 			$query = $this->db->prepare("INSERT INTO Admin (id_admin, email_admin, mdp_admin, token_admin) VALUES (:id_admin, :email_admin, :mdp_admin, :token_admin);");
-			$val = $query->execute(array(
+			$query->execute(array(
 				'id_admin' => $this->id_admin,
 				'email_admin' => $this->email_admin,
 				'mdp_admin' => $this->mdp_admin,
 				'token_admin' => $this->token_admin
 				));
-			return $val;
+			return $query;
 		}
 
 		/* Changer le token de l'administrateur lors de sa connexion pour correspondre au cookie géneré */

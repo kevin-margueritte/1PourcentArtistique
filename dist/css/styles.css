@@ -872,6 +872,54 @@ nav li:hover {
   margin-top: 10px;
   text-align: center;
 }
+
+.createAccount #formCreateAccount {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.createAccount h1 {
+  font-family: 'openSans-Bold';
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.createAccount button {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.resetPassword #formResetPassword {
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.resetPassword h1 {
+  font-family: 'openSans-Bold';
+  font-size: 50px;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  text-align: center;
+  color: #ff5660;
+}
+
+.resetPassword button {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+  text-align: center;
+}
 /*** OVEVERRIDE - TAGS INPUT ANGULARJS ***/
 .tag-item {
   font-family: 'openSans-Regular' !important;

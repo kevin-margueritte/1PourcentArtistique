@@ -19,7 +19,7 @@ myApp.controller('artList', function ($scope, $http, $window, $cookies, $cookieS
 		};
 		$http(rqt).success(function(data){
 			/*If the user is already connected, we redirect automatically to the liste oeuvre page*/
-			if(data.connected == false) {
+			if(data.connected != true) {
 				$window.location.href = '/home';
 			}
 		});
@@ -35,6 +35,12 @@ $scope.public = {};
 	headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 	};
 	$http(rqt).success(function(data){
+		/*Test if the art have author(s), if not we redefine the name to "Aucun"*/
+		for(var i = 0; i < data.key.length; i++) {
+			if(data.key[i].auteurs == null) {
+				data.key[i].auteurs = "Aucun";
+			}
+		}
 		$scope.allOeuvre = data.key;
 	});
 
@@ -87,8 +93,12 @@ $scope.public = {};
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
 		};
 		$http(rqt1).success(function(data){
-			$scope.allOeuvre = data;
+			$scope.allOeuvre = data.key;
 		});
 	  });
 	};
+
+	$scope.informationsArt = function(name) {
+		$window.location.href = '/art/read/' + name.replace(new RegExp(" ", 'g'), "_");
+	}
 });

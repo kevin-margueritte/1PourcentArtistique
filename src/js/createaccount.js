@@ -17,7 +17,7 @@ myApp.controller('createAccountAdmin', function ($scope, $http, $window, $cookie
 	$http(rqt).success(function(data){
 		/*If it is not connected, we redirect it to the login page*/
 		if(data.connected != true) {
-			$window.location.href = '/accueil';
+			$window.location.href = '/home';
 		}
 	});
 
@@ -43,13 +43,13 @@ $scope.boutonCreate = function(email, password) {
 	    $http(rqt).success(function(data){
 	    	$scope.hideError = true;
 	    	$scope.hideSuccess = true;
-	    	if(data == "true") {
-	    		$scope.titleSuccess = "L\'utilisateur à bien été ajouté à la base de données.";
-    			$scope.hideSuccess = false;
+	    	if(data.error) {
+	    		$scope.titleError = data.key;
+	    		$scope.hideError = false;
 	    	}
 	    	else {
-	    		$scope.titleError = "L'utilisateur que vous voulez inscrire est déjà présent dans la base de données.";
-    			$scope.hideError = false;
+	    		$scope.titleSuccess = data.key;
+	    		$scope.hideSuccess = false;
 	    	}
 	    });
 	}
