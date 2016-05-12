@@ -560,11 +560,11 @@ header #logoUMSlogan {
 
 header #logoUMSlogan #logo-UM {
   float: left;
-  padding: 25px;
+  padding: 15px;
 }
 
 header #logoUMSlogan #logo-UM img {
-  width: 195px;
+  width: 100px;
 }
 
 @media only screen and (max-width: 480px) {
@@ -575,12 +575,13 @@ header #logoUMSlogan #logo-UM img {
 
 header #logoUMSlogan #slogan {
   float: left;
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 header #logoUMSlogan #slogan h1 {
   font-family: 'openSans-BoldItalic';
-  width: 280px;
+  font-size: 20px;
+  width: 240px;
   margin: inherit;
   color: #bdc3c7;
 }
@@ -651,7 +652,7 @@ header #logo-artistique {
 
 header #logo-artistique img {
   float: right;
-  width: 180px;
+  width: 85px;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -752,17 +753,16 @@ header #logo-artistique img {
     overflow-x: visible;
   }
 
-  .navbar {
+  .nav-update {
     float: left;
     max-width: 225px;
     margin-right: 0;
     margin-left: 0;
   }
 
-  .navbar-nav,
-    .navbar-nav > li,
+  .nav-update,
+    .nav-update > li,
     .navbar-left,
-    .navbar-right,
     .navbar-header {
     float: none !important;
   }
@@ -777,8 +777,15 @@ header #logo-artistique img {
   }
 }
 
-nav {
+.nav-update {
   position: fixed !important;
+  top: 50px;
+}
+
+@media (max-width: 768px) {
+  .nav-update {
+    width: 70%;
+  }
 }
 
 nav .navbar-brand {
@@ -796,6 +803,31 @@ nav li a {
 
 nav li:hover {
   background-color: #ecf0f1;
+}
+
+.nav-admin {
+  margin: inherit;
+}
+
+@media (min-width: 768px) {
+  .nav-admin .navbar-header {
+    float: left !important;
+  }
+}
+
+.nav-admin .container {
+  width: 100%;
+  margin-right: inherit;
+  margin-left: 10px;
+  padding-right: 15px;
+  padding-left: 10px;
+}
+
+.nav-admin .navbar-toggle {
+  width: inherit;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
 }
 /*** Connexion page ***/
 .connexion #formConnexion {
@@ -1145,7 +1177,6 @@ img.menu {
 /** FOOTER **/
 footer {
   bottom: 0;
-    /*position: absolute;*/
   width: 100%;
   border-top: 5px solid #ff5660;
   background-color: #34495e;
@@ -1158,4 +1189,8 @@ footer p {
   padding-bottom: 18px;
   padding-left: 5px;
   color: white;
+}
+
+.home footer {
+  position: absolute;
 }

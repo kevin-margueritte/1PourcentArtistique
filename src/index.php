@@ -29,6 +29,7 @@
   </head>
 
   <body ng-app="art" class="home">
+  <?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
   <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
   <div ng-controller="home-map">
     <div id="menu-ui">
@@ -117,9 +118,8 @@
       </div> <!-- cacher -->
     </div> <!-- menu-ui-->
     <div id="map"></div>
+    <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
   </div>
-  <!-- <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?> -->
-
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -141,6 +141,7 @@
   <script src="/js/app.js"></script>
   <script src="/js/map.js"></script>
   <script src="/js/search.js"></script>
+  <script src="/js/navAdmin.js"></script>
   <!-- <script src="/js/home-map.js"></script> -->
 
   </body>

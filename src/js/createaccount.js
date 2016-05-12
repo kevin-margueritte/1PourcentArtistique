@@ -1,5 +1,3 @@
-var myApp = angular.module('createAccountAdmin', ['ngCookies']);
-
 myApp.controller('createAccountAdmin', function ($scope, $http, $window, $cookies, $cookieStore) {
 
 	/*REDIRECT THE USER IF NOT ADMIN*/

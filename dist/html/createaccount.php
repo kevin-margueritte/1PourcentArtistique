@@ -17,9 +17,10 @@
     <title>1% artistique</title>
   </head>
 
-  <body ng-app="createAccountAdmin" ng-controller="createAccountAdmin" class="createAccount">
+  <body ng-app="art" class="createAccount">
+    <?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
     <h1>Créer un compte</h1>
-    <div id="formCreateAccount">
+    <div id="formCreateAccount" ng-controller="createAccountAdmin">
       <div class="form-group"> <label class="control-label">Email du compte à créer</label>
         <div> <input type="email" class="form-control" ng-model="email" placeholder="Ex: xxx@yyy.zzz"> </div>
       </div>
@@ -39,9 +40,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="/lib/input-tags/ng-tags-input.min.js"></script>
     <script src="/lib/dropzone/dropzone.js"></script>
-    <script src="/lib/fso/fso.min.js"></script>
-    <script src="/js/createaccount.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
     <script src="/lib/cookies/angular-cookies.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/navAdmin.js"></script>
+    <script src="/js/createaccount.js"></script>
   </body>
 
 </html>

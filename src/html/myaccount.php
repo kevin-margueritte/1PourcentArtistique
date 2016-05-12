@@ -15,8 +15,9 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique</title>
 </head>
-<body ng-app="myAccountAdmin" ng-controller="myAccountAdmin" class="modifyAccount">
-	<form method="post" class="form-horizontal center" name="myaccount">
+<body ng-app="art" class="modifyAccount">
+	<?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
+	<form method="post" class="form-horizontal center" name="myaccount" ng-controller="myAccountAdmin">
 		<h1>Modification du mot de passe</h1>
 		<div class="myaccount admin">
 			<div class="form-group">
@@ -57,8 +58,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 	<script src="/lib/dropzone/dropzone.js"></script>
-	<script src="/lib/fso/fso.min.js"></script>
-	<script src="/js/myaccount.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
 	<script src="/lib/cookies/angular-cookies.js"></script>
+	<script src="/js/app.js"></script>
+	<script src="/js/navAdmin.js"></script>
+	<script src="/js/myaccount.js"></script>
 </body>
 </html>

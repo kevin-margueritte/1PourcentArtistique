@@ -579,10 +579,10 @@ header {
 		#logo-UM {
 
 			float: left;
-			padding: 25px;
+			padding: 15px;
 
 			img {
-				width: 195px;
+				width: 100px;
 
 				@media @phone-low {
 					width: 125px;
@@ -593,13 +593,14 @@ header {
 		#slogan {
 
 			float: left;
-			padding-top: 40px;
+			padding-top: 30px;
 
 			h1 {
 				margin: inherit;
-				width: 280px;
+				width: 240px;
 				color: @silver;
 				font-family: @openSans-BoldItalic;
+				font-size: 20px;
 
 				@media @phone-low {
 					font-size: 20px !important;
@@ -673,7 +674,7 @@ header {
 
     	img {
     		float: right;
-    		width: 180px;
+    		width: 85px;
     	}
 	}
 
@@ -790,17 +791,16 @@ header {
 		overflow-x: visible;
 	}
 
-	.navbar {
+	.nav-update {
 		max-width:225px;
 		margin-right: 0;
 		margin-left: 0;
 		float: left;
 	}	
 
-	.navbar-nav,
-	.navbar-nav > li,
+	.nav-update,
+	.nav-update > li,
 	.navbar-left,
-	.navbar-right,
 	.navbar-header
 	{
 		float:none !important;
@@ -812,8 +812,16 @@ header {
 	}
 }
 
-nav {
+.nav-update {
 	position: fixed !important;
+	top: 50px;
+
+	@media (max-width: 768px) {
+		width: 70%;
+	}
+}
+
+nav {
 
 	.navbar-brand {
 		color :#ff5660 !important;
@@ -835,6 +843,33 @@ nav {
 	li:hover {
 		background-color: @clouds;
 	}
+}
+
+.nav-admin {
+
+	margin: inherit;
+
+	.navbar-header {
+		@media (min-width: 768px) {
+			float: left !important;
+		}
+	}
+
+	.container {
+		width: 100%;
+		padding-right: 15px;
+		padding-left: 10px;
+	    margin-right: inherit;
+	    margin-left: 10px;
+	}
+
+	.navbar-toggle {
+		width: inherit;
+		margin-top: 8px;
+	    margin-right: 15px;
+	    margin-bottom: 8px;
+	}
+
 }
 
 /*** Connexion page ***/
@@ -1195,7 +1230,6 @@ footer {
 	background-color: #34495e;
     border-top: 5px solid @rouge_um;
 	bottom: 0px;
-    /*position: absolute;*/
     width: 100%;
 
     p {
@@ -1206,4 +1240,10 @@ footer {
 	    padding-left: 5px;
 	    margin-bottom: inherit;
     }
+}
+
+.home {
+	footer {
+		position: absolute;
+	}
 }

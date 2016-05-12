@@ -15,9 +15,10 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique</title>
 </head>
-<body ng-app="createAccountAdmin" ng-controller="createAccountAdmin" class="createAccount">
+<body ng-app="art" class="createAccount">
+	<?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
 	<h1>Créer un compte</h1>
-	<div id="formCreateAccount">
+	<div id="formCreateAccount" ng-controller="createAccountAdmin">
 		<div class="form-group">
 			<label class="control-label" >Email du compte à créer</label>
 			<div>
@@ -40,7 +41,6 @@
 			<strong>Success! </strong>{{titleSuccess}}
 		</div>
 	</div>
-
 	<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"   integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI="   crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
@@ -50,8 +50,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 	<script src="/lib/dropzone/dropzone.js"></script>
-	<script src="/lib/fso/fso.min.js"></script>
-	<script src="/js/createaccount.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
 	<script src="/lib/cookies/angular-cookies.js"></script>
+	<script src="/js/app.js"></script>
+	<script src="/js/navAdmin.js"></script>
+	<script src="/js/createaccount.js"></script>
 </body>
 </html>
