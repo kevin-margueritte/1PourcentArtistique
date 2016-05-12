@@ -108,9 +108,10 @@
 @sm-max: (@md-min - 1);
 @md-max: (@lg-min - 1);
 
-@phone-low:      ~"only screen and (max-width: @{sm-min})";
+@phone-low:      ~"only screen and (max-width: @{xs-min})";
 @phone:          ~"only screen and (min-width: @{xs-min})";
 @phone-strict:   ~"only screen and (min-width: @{xs-min}) and (max-width: @{xs-max})";
+@tablet-low:      ~"only screen and (max-width: @{sm-min})";
 @tablet:         ~"only screen and (min-width: @{sm-min})";
 @tablet-strict:  ~"only screen and (min-width: @{sm-min}) and (max-width: @{sm-max})";
 @desktop-low:    ~"only screen and (max-width: @{md-min})";
@@ -127,12 +128,22 @@
 		h1 {
 			color: @rouge_um;
 			padding-top: 10px;
-			font-size: 50px;		
+			font-size: 50px;
+
+			@media @phone-low {
+				font-size: 26px;
+			}		
+
 		}
 
 		h2 {
 			color: @concrete;
 			padding-bottom: 10px;
+
+			@media @phone-low {
+				font-size: 16px;
+			}
+
 		}
 
 		h1, h2 {
@@ -140,6 +151,12 @@
 			margin-left: 50px;
 			margin-top: inherit;
 			margin-bottom: inherit;
+
+			@media @phone-low {
+				margin-left: inherit;
+				text-align: center;
+			}
+
 		}
 
 	}
@@ -168,22 +185,40 @@
     			padding-right: 50px;
     		}
 
+    		@media @phone-low {
+    			padding-right: 10px;
+    		}
+
 			.description {
 
 				padding-left: 50px;
 				margin-top: 18px;
 
+				@media @phone-low {
+	    			padding-left: 18px;
+	    		}
+
 				.name {
 					color: @wet_asphalt;
 					font-family: @openSans-Semibold;
 					font-size: 17px;
+
+					@media @phone-low {
+						width: 14px;
+					}
+
 				}
 
 				.entitled {
 					float: right;
 					font-family: @openSans-SemiboldItalic;
 					text-align: right;
-					width: 60%
+					width: 60%;
+
+					@media @phone-low {
+						font-size: 10px;
+					}
+
 				}
 
 			}
@@ -230,18 +265,36 @@
 			color: @wet_asphalt;
 			margin-left: 50px;
 			margin-bottom: 30px;
+			padding-top: 20px;
+
+			@media @phone-low {
+				margin-left: inherit;
+				font-size: 24px;
+				text-align: center;
+			}
+
 		}
 
 		h2 {
 			font-size: 30px;
 		    margin-left: 100px;
 		    font-family: @openSans-Semibold;
+
+		    @media @phone-low {
+		    	margin-left: inherit;
+			    text-align: center;
+			    font-size: 20px;
+		    }
 		}
 
 		#playlist {
 			width: 45%;
 			margin: 0 auto;
 			margin-top: 15px;
+
+			@media @phone-low {
+				width: 90%;
+			}
 
 			th {
 				font-size: 20px;
@@ -274,6 +327,13 @@
     		display: block;
     		margin-left: 100px;
    			margin-right: 100px;
+
+   			@media @phone-low {
+   				margin-right: 10px;
+    			margin-left: 10px;
+    			font-size: 11px;
+   			}
+
 		}
 
 		.video-js {
@@ -282,6 +342,11 @@
 			width: 60%;
 			height: 400px;
 			margin-top: 20px;
+
+			@media @phone-low {
+				width: 95%;
+				height: 340px;
+			}
 		}
 
 		audio {
@@ -293,16 +358,28 @@
 		}
 	}
 
+	.gray {
+		background-color: @clouds;
+	}
+
 	.biography {
 
 		padding-bottom: 15px;
-		background-color: @clouds;
 
 		h1 {
 			font-family: @openSans-Bold;
 			color: @wet_asphalt;
 			margin-left: 50px;
 			margin-bottom: 30px;
+			padding-top: 20px;
+
+			@media @phone-low {
+				padding-top: 20px;
+				font-size: 24px;
+				margin-left: inherit;
+				text-align: center;
+			}
+			
 		}
 
 		h2 {
@@ -318,6 +395,12 @@
     		display: block;
     		margin-left: 100px;
    			margin-right: 100px;
+
+   			@media @phone-low {
+				margin-left: 10px;
+   				margin-right: 10px;
+   				font-size: 11px;
+			}
 		}
 
 		.biographyLimit {
@@ -327,7 +410,6 @@
 
 	.photograph {
 
-		background-color: @clouds;
 		padding-bottom: 30px;
 
 		h1 {
@@ -336,6 +418,12 @@
 			margin-left: 50px;
 			margin-bottom: 30px;
 			padding-top: 20px;
+
+			@media @phone-low {
+				margin-left: inherit;
+				text-align: center;
+				font-size: 24px;
+			}
 		}
 
 		.carousel-photograph {
@@ -360,6 +448,12 @@
 			margin-left: 50px;
 			margin-bottom: 30px;
 			padding-top: 20px;
+
+			@media @phone-low {
+				font-size: 24px;
+				text-align: center;
+				margin-left: inherit;
+			}
 		}
 
 		.carousel-historic {
@@ -381,6 +475,13 @@
     		margin-top: 30px;
     		margin-left: 100px;
    			margin-right: 100px;
+
+   			@media @phone-low {
+   				margin-left: 10px;
+   				margin-right: 10px;
+   				font-size: 10px;
+   			}
+
 		}
 
 	}
@@ -467,6 +568,9 @@
 
 /*** HEADER ***/
 header {
+
+	width: 100%;
+
 	#logoUMSlogan {
 
 		margin-left: 10%;
@@ -479,6 +583,10 @@ header {
 
 			img {
 				width: 195px;
+
+				@media @phone-low {
+					width: 125px;
+				}
 			}
 		}
 
@@ -492,6 +600,11 @@ header {
 				width: 280px;
 				color: @silver;
 				font-family: @openSans-BoldItalic;
+
+				@media @phone-low {
+					font-size: 20px !important;
+				}
+
 			}
 
 		}
@@ -574,7 +687,7 @@ header {
 		}
 	}
 
-	@media @phone-low {
+	@media @tablet-low {
 		#logoUMSlogan {
 
 			margin-left: inherit;
@@ -844,17 +957,29 @@ nav {
   left: 0;
   display: inherit !important;
   left: -70px;
+
+  @media @phone-low {
+  	left: -40px;
+  }
 }
 
 .owl-prev i, .owl-next i {
 	font-size: 65px;
 	color: @wet_asphalt;
+
+	@media @phone-low {
+		font-size: 35px;
+	}
 }
 
 .owl-controls .owl-next {
   right: 0;
   display: inherit !important;
   right: -70px;
+
+  @media @phone-low {
+  	right: -40px;
+  }
 }
 
 .owl-controls .owl-dots {
@@ -868,38 +993,6 @@ nav {
 		position: absolute;
 		background-color: white;
 	}
-
-	footer {
-		bottom: 0px;
-	    position: absolute;
-	    width: 100%;
-
-	    p {
-	    	margin: inherit;
-	    }
-	}
-}
-
-
-/*Nom et prénom de l'artiste dans la popup en gras*/
-div#nom-prenom-artiste {
-  font-weight: bold;
-}
-
-/*Nom de l'oeuvre et + infos dans la popup en italic*/
-div#nom-oeuvre, div#plus-infos {
-  font-style: italic;
-}
-
-/*Met l'image dans la popup a gauche*/
-div#image {
-  float: left;
-  width: 105px;
-}
-
-/*Met le texte dans la popup a droite*/
-div#texte {
-  margin-left: 105px;
 }
 
 /*Menu filtres lorsqu'il est non selectionné*/
@@ -975,18 +1068,41 @@ div#texte {
 	}
 }
 
-/** FOOTER **/
-footer {
-	background-color: #34495e;
-    border-top: 5px solid @rouge_um;
+.leaflet-popup {
+	width: 315px;
 
-    p {
-    	color: white;
-	    padding-top: 18px;
-	    padding-bottom: 18px;
-	    font-size: 10px;
-	    padding-left: 5px;
-    }
+	.leaflet-popup-content {
+		width: inherit !important;
+
+		img {
+			width: 100%;
+			float: left;
+		}
+
+		#texte {
+			float: left;
+			margin-left: 10px;
+
+			#nom-prenom-artiste {
+				margin-bottom: 5px;
+				span {
+					color: @rouge_um;
+					font-family: @openSans-Bold;
+					font-size: 15px;
+				}
+			}
+
+			#nom-oeuvre {
+				font-family: @openSans-Regular;
+				color: @wet_asphalt;
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	#image {
+		width: 45%;
+	}
 }
 
 /*Effet de mise en avant pour l'element selectionné*/
@@ -1018,4 +1134,22 @@ div#texteFiltre {
 /*Centre l'image du filtre*/
 img.menu {
   margin-bottom: 5px;
+}
+
+/** FOOTER **/
+footer {
+	background-color: #34495e;
+    border-top: 5px solid @rouge_um;
+	bottom: 0px;
+    /*position: absolute;*/
+    width: 100%;
+
+    p {
+    	color: white;
+	    padding-top: 18px;
+	    padding-bottom: 18px;
+	    font-size: 10px;
+	    padding-left: 5px;
+	    margin-bottom: inherit;
+    }
 }

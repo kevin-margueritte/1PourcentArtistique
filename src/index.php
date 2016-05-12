@@ -30,82 +30,82 @@
 
   <body ng-app="art" class="home">
   <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-  <div>
+  <div ng-controller="home-map">
     <div id="menu-ui">
       <div id="afficher_filtres" ng-click="listeDeroulante()">
         <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/filtres/menu-20.png">
           <span>FILTRES</span>
         </a>
       </div>
-      <div id="cacher" ng-controller="home-map">
+      <div id="cacher">
         <div id="formulaire_filtre">
           <form enctype="multipart/form-data" name="formulaire_Filtre" id="formulaire_Filtre" action="" method="post">
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="all" checked/>
                 <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
                  <span>Tous</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="architecture"/>
                 <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
                   <span>Architecture</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="art numérique"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
                   <span>Architecture</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="art décoratif"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
                   <span>Art décoratif</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="cinéma"/>
                 <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png">
                   <span>Cinéma</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="musique"/>
                 <div id="texteFiltre"><img src="/assets/filtres/musique-20.png">
                   <span>Musique</span> 
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="peinture"/>
                 <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png">
                   <span>Peinture</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="photographie"/>
                 <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png">
                   <span>Photographie</span>
                 </div>
               </label>
             </div>
-            <div class="radio">
-              <label ng-click="filtres()">
+            <div class="radio" ng-click="filtres()">
+              <label>
                 <input type="radio" name="oeuvres" value="sculpture"/>
                 <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png">
                   <span>Sculpture</span>
@@ -118,7 +118,7 @@
     </div> <!-- menu-ui-->
     <div id="map"></div>
   </div>
-  <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
+  <!-- <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?> -->
 
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>

@@ -7,21 +7,6 @@
 		$res = array('error' => true, 'key' => 'Entrer un nom d\'oeuvre');
 	}
 	else {
-		function unique_multidim_array($array, $key) { 
-		    $temp_array = array(); 
-		    $i = 0; 
-		    $key_array = array(); 
-		    
-		    foreach($array as $val) { 
-		        if (!in_array($val[$key], $key_array)) { 
-		            $key_array[$i] = $val[$key]; 
-		            $temp_array[$i] = $val; 
-		        } 
-		        $i++; 
-		    } 
-		    return $temp_array; 
-		} 
-
 		$art = new Art($nameArt, "", "", "", "", "", "", "", "", "");
 		$res = $art->getAllInfoForAnArt();
 		$idArt = $res[0]['id'];
@@ -36,23 +21,53 @@
 		$artType = $res[0]['type'];
 		$longitude = $res[0]['longitude'];
 		$latitude = $res[0]['latitude'];
-		$videos = array_values(array_unique(array_column($res, 'video')));
-		$photos = array_values(array_unique(array_column($res, 'photo')));
-		$historicImages = array_values(array_unique(array_column($res, 'historic')));
-		$materials = array_values(array_unique(array_column($res, 'material')));
-		$authorsName = array_unique(array_column($res, 'fullname'));
-		$architectsName = array_values(array_unique(array_column($res, 'architectname')));
-		$key = array_keys($authorsName);
-		$authors = array();
-		if (count($authorsName) > 0) {
-			for ($i = 0; $i < count($key); $i++) {
-				$authors[$key[$i]]['name'] = $authorsName[$key[$i]];
-				$authors[$key[$i]]['yearbirth'] = $res[$key[$i]]['yearbirth'];
-				$authors[$key[$i]]['yeardeath'] = $res[$key[$i]]['yeardeath'];
-				$authors[$key[$i]]['biography'] = $res[$key[$i]]['biography'];
-			}
+		if (array_column($res, 'video')[0] == null) {
+			$videos = null;
 		}
-		$authors = array_values($authors);
+		else {
+			$videos = array_values(array_unique(array_column($res, 'video')));
+		}
+		if (array_column($res, 'photo')[0] == null) {
+			$photos = null;
+		}
+		else {
+			$photos = array_values(array_unique(array_column($res, 'photo')));
+		}
+		if (array_column($res, 'historic')[0] == null) {
+			$historicImages = null;
+		}
+		else {
+			$historicImages = array_values(array_unique(array_column($res, 'historic')));
+		}
+		if (array_column($res, 'material')[0] == null) {
+			$materials = null;
+		}
+		else {
+			$materials = array_values(array_unique(array_column($res, 'material')));
+		}
+		$authorsName = array_unique(array_column($res, 'fullname'));
+		if (array_column($res, 'architectname')[0] == null) {
+			$architectsName = null;
+		}
+		else {
+			$architectsName = array_values(array_unique(array_column($res, 'architectname')));
+		}
+		$key = array_keys($authorsName);
+		if ($authorsName[0] == null) {
+			$authors = null;
+		}
+		else {
+			$authors = array();
+			if (count($authorsName) > 0) {
+				for ($i = 0; $i < count($key); $i++) {
+					$authors[$key[$i]]['name'] = $authorsName[$key[$i]];
+					$authors[$key[$i]]['yearbirth'] = $res[$key[$i]]['yearbirth'];
+					$authors[$key[$i]]['yeardeath'] = $res[$key[$i]]['yeardeath'];
+					$authors[$key[$i]]['biography'] = $res[$key[$i]]['biography'];
+				}
+			}
+			$authors = array_values($authors);
+		}
 	}
 	echo json_encode(
 		array('error' => false, 

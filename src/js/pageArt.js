@@ -55,7 +55,10 @@ art.historiqueHTML = '';
 art.soundFile = '';
 art.type = '';
 art.id ='';
+var formatVideo = ['avi', 'wmv', 'mov', 'mkv', 'mp4', 'mpeg4'];
+var formatImage = ['jpg', 'png', 'jpeg', 'gif', 'ico', 'bnp', 'tiff'];
 var nameart;
+var currentSectionGray = true;
 var dropzoneDescription;
 var dropzonePresentationVideo;
 var dropzonePresentationSound;
@@ -133,12 +136,16 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.hideErrorTitle = true;
     $scope.hideErrorAuthor = true;
     $scope.hideOverview = true;
+    $scope.hideErrorDescription = true;
     $scope.hideBiography = true;
     $scope.hidePresentation = true;
     $scope.hidePhotography = true;
     $scope.hideHistoric = true;
     $scope.soundHide = true;
     $scope.videoHide = true;
+    $scope.sectionPhotographyGray = true;
+    $scope.sectionHistoricGray = true;
+    $scope.sectionBiographyGray = true;
     $scope.authorsArray = [];
     $scope.art.architects = [];
     $scope.art.materials = [];
@@ -151,30 +158,31 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.art.type = 'Architecture'; //Fix bug angularJS - select
 
     URI = $location.absUrl().split('/')[4];
-    var param = $location.absUrl().split('/')[5];
+    var param = $location.absUrl().split('/')[5].replace(new RegExp("_", 'g'), " ");
     player = document.getElementsByTagName("video")[0];
-
-    id_admin = $cookies.get('id_admin');
-    token_admin = $cookies.get('token_admin');
-    /*Test if the user is connected or not*/
-    var rqt = {
-      method : 'POST',
-      url : '/php/manager/isConnected.php',
-      data : $.param({id: id_admin, token: token_admin}),  
-      headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-    };
-    $http(rqt).success(function(data){
-      /*If it is not connected, we redirect it to the login page*/
-      if(data.connected != true) {
-        $window.location.href = '/accueil';
-      }
-    });
-
     
+    if (URI == 'create' || URI == 'update') {
+      id_admin = $cookies.get('id_admin');
+      token_admin = $cookies.get('token_admin');
+      /*Test if the user is connected or not*/
+      var rqt = {
+        method : 'POST',
+        url : '/php/manager/isConnected.php',
+        data : $.param({id: id_admin, token: token_admin}),  
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
+      $http(rqt).success(function(data){
+        /*If it is not connected, we redirect it to the login page*/
+        if(data.connected != true) {
+          $window.location.href = '/home';
+        }
+      });
+    }
     if (URI == 'read' || URI == 'update') {
       if (URI == 'read') {
         $scope.hideEditor = true;
       }
+
       $scope.hideTitle = false;
       $scope.hideOverview = false;
 
@@ -189,14 +197,26 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         if (URI == 'update') {
           longitudeart = data.key.longitude;
           latitudeart = data.key.latitude;
-          $scope.art.materials = data.key.materials;
-          $scope.art.architects = data.key.architects;
+          if (data.key.materials != null) {
+            $scope.art.materials = data.key.materials;
+          }
+          if (data.key.architects != null) {
+            $scope.art.architects = data.key.architects;
+          }
           art.id = data.key.idArt;
           art.name = data.key.artName;
-          nbVideos = data.key.videos.length;
-          nbPhotography = data.key.photos.length;
-          $scope.nbHistoric = data.key.historicImages.length;
-          $scope.nbAuthors = data.key.authors.length;
+          if (data.key.videos != null) {
+            nbVideos = data.key.videos.length;
+          }
+          if (data.key.photos != null) {
+            $scope.nbPhotography = data.key.photos.length;
+          }
+          if (data.key.historicImages != null) {
+            $scope.nbHistoric = data.key.historicImages.length;
+          }
+          if (data.key.authors != null) {
+            $scope.nbAuthors = data.key.authors.length;
+          }
         }
 
         $scope.art.name = data.key.artName; 
@@ -212,8 +232,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           $scope.art.imageAlt = data.key.presentationImage;
         }
 
-        if (data.key.presentationHTML != null || data.key.videos.length > 0 || data.key.soundFile != null) {
+        if (data.key.presentationHTML != null || data.key.videos !=null || data.key.soundFile != null) {
           $scope.hidePresentation = false;
+          currentSectionGray = !currentSectionGray;
 
           /**Get content presentation HTML **/
           var rqt = {
@@ -226,7 +247,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             art.presentationHTML = data;
           });
 
-          if (data.key.videos.length > 0) {
+          if (data.key.videos != null) {
             for (var i = 0; i < data.key.videos.length; i++) {
               $scope.art.videoList[i] = {};
               $scope.art.videoList[i].fullName = data.key.videos[i];
@@ -249,9 +270,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           }
         }
 
-        $scope.nbPhotography = data.key.photos.length;
-        if ($scope.nbPhotography > 0) {
+        if (data.key.photos != null) {
+          $scope.nbPhotography = data.key.photos.length;
           $scope.hidePhotography = false;
+          currentSectionGray = !currentSectionGray;
+          $scope.sectionPhotographyGray = currentSectionGray;
+
           for (var i = 0; i < $scope.nbPhotography; i++) {
             $scope.art.photographyList[i] = {};
             $scope.art.photographyList[i].name = data.key.photos[i].split('.')[0];
@@ -259,9 +283,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           }
         }
 
-        $scope.nbHistoric = data.key.historicImages.length;
-        if ($scope.nbHistoric > 0) {
+        if (data.key.historicImages !=null) {
+          $scope.nbHistoric = data.key.historicImages.length;
           $scope.hideHistoric = false;
+          currentSectionGray = !currentSectionGray;
+          $scope.sectionHistoricGray = currentSectionGray;
+
           for (var i = 0; i < $scope.nbHistoric; i++) {
             $scope.art.historicList[i] = {};
             $scope.art.historicList[i].fullName = data.key.historicImages[i];
@@ -283,7 +310,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           });
         }
 
-        if (data.key.authors.length > 0) {
+        if (data.key.authors != null) {
           $scope.art.authors = [];
           var i = 0;
           for (var idx = 0; idx < data.key.authors.length; idx++) {
@@ -297,6 +324,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
             $scope.art.authors.push(data.key.authors[idx]);
             $scope.hideBiography = false;
+            currentSectionGray = !currentSectionGray;
+            $scope.sectionBiographyGray = currentSectionGray;
 
 /*            $scope.art.authors[idx].biography = (function (artName, authorName) {
               var defer = $q.defer();
@@ -322,7 +351,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
             factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).then(
               function(res) { 
-                $scope.art.authors[i].biography = res;
+                $scope.art.authors[i].biography = $sce.trustAsHtml(res);
                 i++; 
               }
             );
@@ -337,8 +366,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       });
     }
     else if (URI == 'create') {
+      $('#modal-title').modal({backdrop: 'static', keyboard: false});
       $('#modal-title').modal('show');
-      $('#modal-title').modal({backdrop: 'static', keyboard: false});    
     }
 
     $('.navbar').draggabilly();
@@ -353,19 +382,22 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       paramName: 'file',
       method: 'post',
       maxFiles: 1,
-      acceptedFiles: '.jpg, .png, .jpeg, .gif, .ico, .bnp, . tiff',
+      acceptedFiles: '.jpg, .png, .jpeg, .gif, .ico, .bnp, .tiff',
       removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteImageArt.php',
-          data : $.param({file: file.name, nameArt: $scope.art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          $scope.art.imagePath = '';
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
+        if (angular.isUndefined(file.status) || file.status == 'success') {
+          var rqt = {
+            method : 'POST',
+            url : '/php/manager/deleteImageArt.php',
+            data : $.param({file: file.name, nameArt: $scope.art.name}),  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            $scope.art.imagePath = '';
+            $scope.art.imageAlt = '';
+          });
+        }
+        var _ref; 
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
@@ -373,7 +405,24 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         $scope.art.imageAlt = file.name;
         formData.append("nameArt", $scope.art.name);
       },
-      dictDefaultMessage: 'Ajouter une photo de l\'art',
+      accept: function (file, done) {
+        var fileNameWithoutExt = file.name.split('.')[0];
+        if (file.name == $scope.art.imageAlt) {
+          done('Fichier déjà ajouté');
+        }
+        for (var i = 0; i < $scope.art.photographyList.length; i++) {
+          if ($scope.art.photographyList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté dans la section photographies");
+          }
+        }
+        for (var i = 0; i < $scope.art.historicList.length; i++) {
+          if ($scope.art.historicList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté dans la section historique");
+          }
+        }
+        done();
+      },
+      dictDefaultMessage: 'Glisser une photo de présentation de l\'oeuvre (JPG, PNG, JPEG, GIF)',
     });
 
     //DROPZONE PRESENTATION - VIDEOS
@@ -384,26 +433,29 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       maxFiles: 15,
       acceptedFiles: '.avi, .wmv, .mov, .mkv, .mp4, .mpeg4',
       removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deletePresentationVideo.php',
-          data : $.param({video: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i < $scope.art.videoList.length; i++ ) {
-            if($scope.art.videoList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
+        console.log(file.status);
+        if (angular.isUndefined(file.status) || file.status == 'success') {
+          var rqt = {
+            method : 'POST',
+            url : '/php/manager/deletePresentationVideo.php',
+            data : $.param({video: file.name, nameArt: art.name}),  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            var idx;
+            for( var i = 0; i < $scope.art.videoList.length; i++ ) {
+              if($scope.art.videoList[i].name === file.name.split('.')[0]) {
+                idx = i;
+                break;
+              }
             }
-          }
-          $scope.art.videoList.splice( idx, 1 );
-          nbVideos--;
-          idxCurrentVideo = 0;
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
+            $scope.art.videoList.splice( idx, 1 );
+            nbVideos--;
+            idxCurrentVideo = 0;
+          });
+        }
+        var _ref; 
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
@@ -419,6 +471,15 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         nbVideos++;
         formData.append("nameArt", art.name);
       },
+      accept: function (file, done) {
+        var fileNameWithoutExt = file.name.split('.')[0];
+        for (var i = 0; i < $scope.art.videoList.length; i++) {
+          if ($scope.art.videoList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté");
+          }
+        }
+        done();
+      },
       dictDefaultMessage: 'Glisser des vidéos de présentation (AVI, WMV, MOV, MP4, MPEG4)'
     });
 
@@ -430,18 +491,20 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       maxFiles: 1,
       acceptedFiles: '.wav, .mp3, .wma, .ogg',
       removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteSound.php',
-          data : $.param({sound: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          $scope.soundHide = true;
-          $scope.art.soundPath = '';
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
+        if (angular.isUndefined(file.status) || file.status == 'success') {
+          var rqt = {
+            method : 'POST',
+            url : '/php/manager/deleteSound.php',
+            data : $.param({sound: file.name, nameArt: art.name}),  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            $scope.soundHide = true;
+            $scope.art.soundPath = '';
+          });
+        }
+        var _ref; 
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
@@ -461,26 +524,28 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       maxFiles: 50,
       acceptedFiles: '.jpg, .png, .jpeg, .gif',
       removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deletePhotography.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i <$scope.art.photographyList.length; i++ ) {
-            if($scope.art.photographyList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
+        if (angular.isUndefined(file.status) || file.status == 'success') {
+          var rqt = {
+            method : 'POST',
+            url : '/php/manager/deletePhotography.php',
+            data : $.param({photo: file.name, nameArt: art.name}),  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            var idx;
+            for( var i = 0; i <$scope.art.photographyList.length; i++ ) {
+              if($scope.art.photographyList[i].name === file.name.split('.')[0]) {
+                idx = i;
+                break;
+              }
             }
-          }
-          $scope.art.photographyList.splice( idx, 1 );
-          $scope.nbPhotography--;
-          destroyCarouselPhotograph();
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
+            $scope.art.photographyList.splice( idx, 1 );
+            $scope.nbPhotography--;
+            destroyCarouselPhotograph();
+          });
+        }
+        var _ref; 
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
@@ -491,6 +556,23 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         owlPhotographyIsSet = false;
         destroyCarouselPhotograph();
         formData.append("nameArt", art.name);
+      },
+      accept: function (file, done) {
+        var fileNameWithoutExt = file.name.split('.')[0];
+        if (file.name == $scope.art.imageAlt) {
+          done('Fichier déjà ajouté comme image principale');
+        }
+        for (var i = 0; i < $scope.art.photographyList.length; i++) {
+          if ($scope.art.photographyList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté");
+          }
+        }
+        for (var i = 0; i < $scope.art.historicList.length; i++) {
+          if ($scope.art.historicList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté dans la section historique");
+          }
+        }
+        done();
       },
       dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
     });
@@ -503,26 +585,28 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       maxFiles: 50,
       acceptedFiles: '.jpg, .png, .jpeg, .gif',
       removedfile: function(file) {
-        var rqt = {
-          method : 'POST',
-          url : '/php/manager/deleteHistoric.php',
-          data : $.param({photo: file.name, nameArt: art.name}),  
-          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-        };
-        $http(rqt).success(function(data){
-          var idx;
-          for( var i = 0; i <$scope.art.historicList.length; i++ ) {
-            if($scope.art.historicList[i].name === file.name.split('.')[0]) {
-              idx = i;
-              break;
+        if (angular.isUndefined(file.status) || file.status == 'success') {
+          var rqt = {
+            method : 'POST',
+            url : '/php/manager/deleteHistoric.php',
+            data : $.param({photo: file.name, nameArt: art.name}),  
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+          };
+          $http(rqt).success(function(data){
+            var idx;
+            for( var i = 0; i <$scope.art.historicList.length; i++ ) {
+              if($scope.art.historicList[i].name === file.name.split('.')[0]) {
+                idx = i;
+                break;
+              }
             }
-          }
-          $scope.art.historicList.splice( idx, 1 );
-          $scope.nbHistoric--;
-          destroyCarouselHistoric();
-          var _ref; 
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        });
+            $scope.art.historicList.splice( idx, 1 );
+            $scope.nbHistoric--;
+            destroyCarouselHistoric();
+          });
+        }
+        var _ref; 
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
@@ -534,6 +618,23 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         destroyCarouselHistoric();
         formData.append("nameArt", art.name);
       },
+      accept: function (file, done) {
+        var fileNameWithoutExt = file.name.split('.')[0];
+        if (file.name == $scope.art.imageAlt) {
+          done('Fichier déjà ajouté comme image principale');
+        }
+        for (var i = 0; i < $scope.art.photographyList.length; i++) {
+          if ($scope.art.photographyList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté dans la section photographies");
+          }
+        }
+        for (var i = 0; i < $scope.art.historicList.length; i++) {
+          if ($scope.art.historicList[i].name == fileNameWithoutExt) {
+            done("Fichier déjà ajouté");
+          }
+        }
+        done();
+      },
       dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
     });
 
@@ -543,8 +644,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   /** MODAL TITLE **/
   $scope.openTitle = function($event) {
-    $('#modal-title').modal('show');
     $('#modal-title').modal({backdrop: 'static', keyboard: false});
+    $('#modal-title').modal('show');
     autocompleteLocation();
   };
 
@@ -604,6 +705,11 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         else {
           art.id = data.idArt;
           $('#modal-title').modal('hide');
+
+          if ($scope.art.imagePath == '') {
+            $('#modal-description').modal({backdrop: 'static', keyboard: false});
+            $('#modal-description').modal('show');
+          }
           $scope.hideTitle = false;
 
           $scope.authorsList = '';
@@ -712,7 +818,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
   /** MODAL DESCRIPTION **/
   $scope.addDescription = function() {
     $('#modal-description').modal('show');
-    $('#modal-description').modal({backdrop: 'static', keyboard: false});
     if (URI == 'update' && $scope.art.imagePath != '' && dropzoneDescription.files.length == 0) {
       var mockFile = { name: $scope.art.imageAlt, accepted: true }; 
       dropzoneDescription.emit("addedfile", mockFile);
@@ -765,31 +870,50 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   $scope.completeDescription = function() {
   
-    $scope.art.material = '';
-    $scope.art.architect = '';
-    $scope.hideOverview = false;
-
-    $('#modal-description').modal('hide');
-
-    /**JSon & display**/
-    for( var i = 0; i < $scope.art.materials.length; i++ ) {
-      art.materials.push(
-        $scope.art.materials[i].text
-      );
-
-      $scope.art.material += $scope.art.materials[i].text;
-      if (i != $scope.art.materials.length - 1) {
-        $scope.art.material += ', ';
-      }
+    if ($scope.art.imagePath == '') {
+      $scope.hideErrorDescription = false;
+      $scope.errorDescription = 'Veuillez entrer une photo de l\'oeuvre pour continuer';
     }
-    for( var i = 0; i < $scope.art.architects.length; i++ ) {
-      art.architects.push(
-        $scope.art.architects[i].text
-      );
+    else{
+      $scope.hideErrorDescription = true;
+      $('#modal-description').modal('hide');
+      $scope.hideOverview = false;
 
-      $scope.art.architect += $scope.art.architects[i].text;
-      if (i != $scope.art.architects.length - 1) {
-        $scope.art.architect += ', ';
+      if ($scope.art.materials.length > 0) {
+        $scope.art.material = '';
+  
+        /**JSon & display**/
+        for( var i = 0; i < $scope.art.materials.length; i++ ) {
+          art.materials.push(
+            $scope.art.materials[i].text
+          );
+
+          $scope.art.material += $scope.art.materials[i].text;
+          if (i != $scope.art.materials.length - 1) {
+            $scope.art.material += ', ';
+          }
+        }
+      }
+      else {
+         $scope.art.material = 'Aucun';
+      }
+      
+      if ($scope.art.architects.length > 0) {
+        $scope.art.architect = '';
+
+        for( var i = 0; i < $scope.art.architects.length; i++ ) {
+          art.architects.push(
+            $scope.art.architects[i].text
+          );
+
+          $scope.art.architect += $scope.art.architects[i].text;
+          if (i != $scope.art.architects.length - 1) {
+            $scope.art.architect += ', ';
+          }
+        }
+      }
+      else {
+        $scope.art.architect = 'Aucun';
       }
     }
   }
@@ -798,7 +922,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
   $scope.addPresentation = function() {
 
     $('#modal-presentation').modal('show');
-    //$('#modal-presentation').modal({backdrop: 'static', keyboard: false});
+    
     if (URI == 'update' && art.presentationHTML != '') {
       $('#wysywygPresentation').summernote('code', art.presentationHTML);
       if (dropzonePresentationVideo.files.length == 0) {
@@ -824,9 +948,15 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   $scope.completePresentation = function () {
     $('#modal-presentation').modal('hide');
-    $scope.hidePresentation = false;
-    art.presentationHTML = $('#wysywygPresentation').summernote('code');
-    $scope.art.presentationHTML = $sce.trustAsHtml(art.presentationHTML);
+
+    if ($('#wysywygPresentation').summernote('isEmpty')) {
+      $scope.art.presentationHTML = '';
+      art.presentationHTML = '';
+    }
+    else {
+      $scope.art.presentationHTML = $sce.trustAsHtml(art.presentationHTML);
+      art.presentationHTML = $('#wysywygPresentation').summernote('code');
+    }
 
     var rqt = {
       method : 'POST',
@@ -845,6 +975,13 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     else {
       $scope.videoHide = true;
     }
+    if ( !$('#wysywygPresentation').summernote('isEmpty') || $scope.art.videoList.length > 0 || $scope.art.soundPath != '') {
+      $scope.hidePresentation = false;
+      currentSectionGray = !currentSectionGray;
+    }
+    else {
+      $scope.hidePresentation = true;
+    }
   }
 
   $scope.play = function(name, index) {
@@ -861,9 +998,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
   $scope.addPhotography = function () {
     $('#modal-photography').modal('show');
 
-    if (URI == 'update' && art.presentationHTML != '') {
+    if (URI == 'update') {
       if (dropzonePhotography.files.length == 0) {
-        for (var i = 0; i<nbPhotography; i++ ) {
+        for (var i = 0; i<$scope.nbPhotography; i++ ) {
           var mockFile = { name: $scope.art.photographyList[i].name, accepted: true }; 
           dropzonePhotography.emit("addedfile", mockFile);
           dropzonePhotography.createThumbnailFromUrl(mockFile, $scope.art.photographyList[i].path);
@@ -883,15 +1020,22 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if ($scope.nbPhotography==0) {
       $scope.hidePhotography = true;
+      currentSectionGray = !currentSectionGray;
+      $scope.sectionHistoricGray = !$scope.sectionHistoricGray;
+      $scope.sectionBiographyGray = !$scope.sectionBiographyGray;
     }
     else {
       $scope.hidePhotography = false;
+      currentSectionGray = !currentSectionGray;
+      $scope.sectionPhotographyGray = currentSectionGray;
     }
   }
 
   $scope.$on('ngRepeatFinishedPhotography', function(ngRepeatFinishedEvent) {
-    initCarouselPhotography();
-    owlPhotographyIsSet = true;
+    if ($("#collapsePhotography").hasClass("in")) {
+      initCarouselPhotography();
+      owlPhotographyIsSet = true;
+    }
   });
 
   function initCarouselPhotography() {
@@ -966,15 +1110,21 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if ($scope.nbHistoric==0 && $scope.art.historicHTML == '') {
       $scope.hideHistoric = true;
+      currentSectionGray = !currentSectionGray;
+      $scope.sectionBiographyGray = !$scope.sectionBiographyGray;
     }
     else {
       $scope.hideHistoric = false;
+      currentSectionGray = !currentSectionGray;
+      $scope.sectionHistoricGray = currentSectionGray;
     }
   }
 
   $scope.$on('ngRepeatFinishedHistoric', function(ngRepeatFinishedEvent) {
-    initCarouselHistoric();
-    owlHistoricIsSet = true;
+    if ($("#collapseHistoric").hasClass("in")) {
+      initCarouselHistoric();
+      owlHistoricIsSet = true;
+    }
   });
 
   function initCarouselHistoric() {
@@ -1012,9 +1162,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $('#modal-biography').modal('hide');
     if (nbBiography() == 0 ) {
       $scope.hideBiography = true;
+      currentSectionGray = !currentSectionGray;
     }
     else {
       $scope.hideBiography = false;
+      currentSectionGray = !currentSectionGray;
+      $scope.sectionBiographyGray = currentSectionGray;
     }
   }
 
@@ -1037,9 +1190,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   $scope.completeEditBiography = function() {
     $('#modal-editBiography').modal('hide');
-    console.log($scope.art.videoList);
-    console.log($scope.art.authors);
-    console.log($scope.art.authors.length);
     var emptyWysywyg = $('#wysywygBiography').summernote('isEmpty');
     var idx = 0;
     for (var i = 1; i < $scope.art.authors.length; i++) {
@@ -1061,7 +1211,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);
-    console.log($scope.authors);
   }
 
   function nbBiography() {
@@ -1137,36 +1286,48 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
   }
 
   function showAuthorListOnTitle(authorList) {
-    $scope.authorsList = '';
-    for( var i = 0; i < authorList.length; i++ ) {
-      if (i != 0) {
-        $scope.authorsList += ", ";
+    if (authorList !=null) {
+      $scope.authorsList = '';
+      for( var i = 0; i < authorList.length; i++ ) {
+        if (i != 0) {
+          $scope.authorsList += ", ";
+        }
+        $scope.authorsList += authorList[i].name + " (" + authorList[i].yearbirth; 
+        if ( authorList[i].yeardeath != null ) {
+          $scope.authorsList += " - " + authorList[i].yeardeath;
+        }
+        $scope.authorsList += ")";
       }
-      $scope.authorsList += authorList[i].name + " (" + authorList[i].yearbirth; 
-      if ( authorList[i].yeardeath != null ) {
-        $scope.authorsList += " - " + authorList[i].yeardeath;
-      }
-      $scope.authorsList += ")";
     }
   }
 
   function showMaterialOnOverview(materialList) {
-    $scope.art.material = '';
-    for( var i = 0; i < materialList.length; i++ ) {
-      $scope.art.material += materialList[i];
-      if (i != materialList.length - 1) {
-        $scope.art.material += ', ';
+    if (materialList != null) {
+      $scope.art.material = '';
+      for( var i = 0; i < materialList.length; i++ ) {
+        $scope.art.material += materialList[i];
+        if (i != materialList.length - 1) {
+          $scope.art.material += ', ';
+        }
       }
+    }
+    else {
+      $scope.art.material = 'Aucun';
     }
   }
 
   function showArchitectOnOverview(architectList) {
+    if (architectList != null) {
     $scope.art.architect = '';
-    for( var i = 0; i < architectList.length; i++ ) {
-      $scope.art.architect += architectList[i];
-      if (i != architectList.length - 1) {
-        $scope.art.architect += ', ';
+      for( var i = 0; i < architectList.length; i++ ) {
+        $scope.art.architect += architectList[i];
+        if (i != architectList.length - 1) {
+          $scope.art.architect += ', ';
+        }
       }
+    }
+    else {
+      $scope.art.architect = 'Aucun';
     }
   }
 
@@ -1174,64 +1335,64 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
 function initMap() {
 
-    var placeSearch;
+  var placeSearch;
 
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 43.602272978692746, lng: 3.8836669921875},
-      zoom: 13
-    });
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 43.602272978692746, lng: 3.8836669921875},
+    zoom: 13
+  });
 
-    var geocoder = new google.maps.Geocoder();
-    var autocomplete = new google.maps.places.Autocomplete(
-        (document.getElementById('art-adress')),{types: ['geocode']}
-      );
+  var geocoder = new google.maps.Geocoder();
+  var autocomplete = new google.maps.places.Autocomplete(
+      (document.getElementById('art-adress')),{types: ['geocode']}
+    );
 
-    autocomplete.addListener('place_changed', adressEnter);
+  autocomplete.addListener('place_changed', adressEnter);
 
-    function adressEnter() {
-      adress = document.getElementById('art-adress').value;
-      geocoder.geocode({'address': adress}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          placeMarker(results[0].geometry.location);
-        } else {
-          alert("L'adresse n'existe pas : " + status);
-        }
-      });
-    }
-
-    map.addListener('click', function(event) {
-      placeMarker(event.latLng);
-      geocoder.geocode({'location': event.latLng}, function(results, status) {
-        document.getElementById('art-adress').value = results[1].formatted_address;
-      });
-    });
-
-    function geolocate() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var geolocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          var circle = new google.maps.Circle({
-            center: geolocation,
-            radius: position.coords.accuracy
-          });
-          autocomplete.setBounds(circle.getBounds());
-        });
+  function adressEnter() {
+    adress = document.getElementById('art-adress').value;
+    geocoder.geocode({'address': adress}, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        placeMarker(results[0].geometry.location);
+      } else {
+        alert("L'adresse n'existe pas : " + status);
       }
-    }
+    });
   }
 
-  function placeMarker(location) {
-    map.setCenter(location);
-    if ( marker ) {
-      marker.setPosition(location);
-    } else {
-      marker = new google.maps.Marker({
-        position: location,
-        map: map
+  map.addListener('click', function(event) {
+    placeMarker(event.latLng);
+    geocoder.geocode({'location': event.latLng}, function(results, status) {
+      document.getElementById('art-adress').value = results[1].formatted_address;
+    });
+  });
+
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        autocomplete.setBounds(circle.getBounds());
       });
     }
   }
+}
+
+function placeMarker(location) {
+  map.setCenter(location);
+  if ( marker ) {
+    marker.setPosition(location);
+  } else {
+    marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+  }
+}

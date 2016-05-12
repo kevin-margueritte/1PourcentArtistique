@@ -90,9 +90,21 @@
   color: #ff5660;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .title h1 {
+    font-size: 26px;
+  }
+}
+
 .oeuvre .title h2 {
   padding-bottom: 10px;
   color: #95a5a6;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .title h2 {
+    font-size: 16px;
+  }
 }
 
 .oeuvre .title h1,
@@ -101,6 +113,14 @@
   margin-top: inherit;
   margin-bottom: inherit;
   margin-left: 50px;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .title h1,
+    .oeuvre .title h2 {
+    margin-left: inherit;
+    text-align: center;
+  }
 }
 
 .oeuvre .overview {
@@ -131,9 +151,21 @@
   }
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .overview .descriptions {
+    padding-right: 10px;
+  }
+}
+
 .oeuvre .overview .descriptions .description {
   margin-top: 18px;
   padding-left: 50px;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .overview .descriptions .description {
+    padding-left: 18px;
+  }
 }
 
 .oeuvre .overview .descriptions .description .name {
@@ -142,11 +174,23 @@
   color: #34495e;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .overview .descriptions .description .name {
+    width: 14px;
+  }
+}
+
 .oeuvre .overview .descriptions .description .entitled {
   font-family: 'openSans-SemiboldItalic';
   float: right;
   width: 60%;
   text-align: right;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .overview .descriptions .description .entitled {
+    font-size: 10px;
+  }
 }
 
 .oeuvre .overview .photo {
@@ -190,7 +234,16 @@
   font-family: 'openSans-Bold';
   margin-bottom: 30px;
   margin-left: 50px;
+  padding-top: 20px;
   color: #34495e;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .presentation h1 {
+    font-size: 24px;
+    margin-left: inherit;
+    text-align: center;
+  }
 }
 
 .oeuvre .presentation h2 {
@@ -199,10 +252,24 @@
   margin-left: 100px;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .presentation h2 {
+    font-size: 20px;
+    margin-left: inherit;
+    text-align: center;
+  }
+}
+
 .oeuvre .presentation #playlist {
   width: 45%;
   margin: 0 auto;
   margin-top: 15px;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .presentation #playlist {
+    width: 90%;
+  }
 }
 
 .oeuvre .presentation #playlist th {
@@ -236,12 +303,27 @@
   color: #2c3e50;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .presentation span {
+    font-size: 11px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
 .oeuvre .presentation .video-js {
   width: 60%;
   height: 400px;
   margin: 0 auto;
   margin-top: 20px;
   text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .presentation .video-js {
+    width: 95%;
+    height: 340px;
+  }
 }
 
 .oeuvre .presentation audio {
@@ -252,16 +334,29 @@
   text-align: center;
 }
 
+.oeuvre .gray {
+  background-color: #ecf0f1;
+}
+
 .oeuvre .biography {
   padding-bottom: 15px;
-  background-color: #ecf0f1;
 }
 
 .oeuvre .biography h1 {
   font-family: 'openSans-Bold';
   margin-bottom: 30px;
   margin-left: 50px;
+  padding-top: 20px;
   color: #34495e;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .biography h1 {
+    font-size: 24px;
+    margin-left: inherit;
+    padding-top: 20px;
+    text-align: center;
+  }
 }
 
 .oeuvre .biography h2 {
@@ -279,13 +374,20 @@
   color: #2c3e50;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .biography .content {
+    font-size: 11px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+
 .oeuvre .biography .biographyLimit {
   margin-bottom: 75px;
 }
 
 .oeuvre .photograph {
   padding-bottom: 30px;
-  background-color: #ecf0f1;
 }
 
 .oeuvre .photograph h1 {
@@ -294,6 +396,14 @@
   margin-left: 50px;
   padding-top: 20px;
   color: #34495e;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .photograph h1 {
+    font-size: 24px;
+    margin-left: inherit;
+    text-align: center;
+  }
 }
 
 .oeuvre .photograph .carousel-photograph {
@@ -318,6 +428,14 @@
   color: #34495e;
 }
 
+@media only screen and (max-width: 480px) {
+  .oeuvre .historic h1 {
+    font-size: 24px;
+    margin-left: inherit;
+    text-align: center;
+  }
+}
+
 .oeuvre .historic .carousel-historic {
   width: 80%;
   margin: 0 auto;
@@ -336,6 +454,14 @@
   margin-left: 100px;
   text-align: justify;
   color: #2c3e50;
+}
+
+@media only screen and (max-width: 480px) {
+  .oeuvre .historic span {
+    font-size: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
 }
 
 .edit {
@@ -423,6 +549,10 @@
   color: #2c3e50 !important;
 }
 /*** HEADER ***/
+header {
+  width: 100%;
+}
+
 header #logoUMSlogan {
   float: left;
   margin-left: 10%;
@@ -437,6 +567,12 @@ header #logoUMSlogan #logo-UM img {
   width: 195px;
 }
 
+@media only screen and (max-width: 480px) {
+  header #logoUMSlogan #logo-UM img {
+    width: 125px;
+  }
+}
+
 header #logoUMSlogan #slogan {
   float: left;
   padding-top: 40px;
@@ -447,6 +583,12 @@ header #logoUMSlogan #slogan h1 {
   width: 280px;
   margin: inherit;
   color: #bdc3c7;
+}
+
+@media only screen and (max-width: 480px) {
+  header #logoUMSlogan #slogan h1 {
+    font-size: 20px !important;
+  }
 }
 
 header .collapse-trigger {
@@ -762,16 +904,35 @@ nav li:hover {
   display: inherit !important;
 }
 
+@media only screen and (max-width: 480px) {
+  .owl-controls .owl-prev {
+    left: -40px;
+  }
+}
+
 .owl-prev i,
 .owl-next i {
   font-size: 65px;
   color: #34495e;
 }
 
+@media only screen and (max-width: 480px) {
+  .owl-prev i,
+    .owl-next i {
+    font-size: 35px;
+  }
+}
+
 .owl-controls .owl-next {
   right: 0;
   right: -70px;
   display: inherit !important;
+}
+
+@media only screen and (max-width: 480px) {
+  .owl-controls .owl-next {
+    right: -40px;
+  }
 }
 
 .owl-controls .owl-dots {
@@ -783,144 +944,170 @@ nav li:hover {
   z-index: 1;
   background-color: white;
 }
-
-.home footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
-
-.home footer p {
-  margin: inherit;
-}
-/*Nom et prénom de l'artiste dans la popup en gras*/
-div#nom-prenom-artiste
+/*Menu filtres lorsqu'il est non selectionné*/
+#menu-ui
 {
-    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+    top: 80%;
+    left: 15px;
+
+    width: 200px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+
+    border: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px;
+    background: #fff;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
 }
-/*Nom de l'oeuvre et + infos dans la popup en italic*/
-div#nom-oeuvre,
-div#plus-infos {
-  font-style: italic;
+#menu-ui.selectionner
+{
+    height: auto;
 }
-/*Met l'image dans la popup a gauche*/
-div#image
+/*Enlever les points du radio button dans le formulaire*/
+#menu-ui input
+{
+    margin: 0;
+    padding: 0;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+/*Enleve le soulignement sour le lien du menu*/
+#menu-ui a
+{
+    text-decoration: none;
+}
+#menu-ui #cacher
+{
+    margin-top: 7px;
+}
+#menu-ui #cacher .radio
+{
+    margin: inherit;
+    padding-top: 2px;
+    padding-bottom: 8px;
+}
+#menu-ui #cacher #texteFiltre:hover
+{
+    opacity: 1;
+}
+#menu-ui #cacher #texteFiltre span
+{
+    font-family: 'openSans-Regular';
+
+    padding-left: 20px;
+
+    color: #34495e;
+}
+#menu-ui #afficher_filtres
+{
+    padding-top: 10px;
+}
+#menu-ui #afficher_filtres img
+{
+    padding-left: 20px;
+}
+#menu-ui #afficher_filtres span
+{
+    font-family: 'openSans-Bold';
+    font-size: 20px;
+
+    margin-left: 17px;
+
+    color: #34495e;
+}
+.leaflet-popup
+{
+    width: 315px;
+}
+.leaflet-popup .leaflet-popup-content
+{
+    width: inherit !important;
+}
+.leaflet-popup .leaflet-popup-content img
 {
     float: left;
 
-    width: 105px;
+    width: 100%;
 }
-/*Met le texte dans la popup a droite*/
-div#texte
+.leaflet-popup .leaflet-popup-content #texte
 {
-    margin-left: 105px;
-}
-/*Menu filtres lorsqu'il est non selectionné*/
-#menu-ui {
-  position: absolute;
-  z-index: 1;
-  top: 80%;
-  left: 15px;
-  width: 200px;
-  height: 50px;
-  margin: 0;
-  padding: 0;
-  border: 1px solid rgba(0, 0, 0, .4);
-  border-radius: 3px;
-  background: #fff;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
+    float: left;
 
-#menu-ui.selectionner {
-  height: auto;
+    margin-left: 10px;
 }
-/*Enlever les points du radio button dans le formulaire*/
-#menu-ui input {
-  margin: 0;
-  padding: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+.leaflet-popup .leaflet-popup-content #texte #nom-prenom-artiste
+{
+    margin-bottom: 5px;
 }
-/*Enleve le soulignement sour le lien du menu*/
-#menu-ui a {
-  text-decoration: none;
-}
+.leaflet-popup .leaflet-popup-content #texte #nom-prenom-artiste span
+{
+    font-family: 'openSans-Bold';
+    font-size: 15px;
 
-#menu-ui #cacher {
-  margin-top: 7px;
+    color: #ff5660;
 }
+.leaflet-popup .leaflet-popup-content #texte #nom-oeuvre
+{
+    font-family: 'openSans-Regular';
 
-#menu-ui #cacher .radio {
-  margin: inherit;
-  padding-top: 2px;
-  padding-bottom: 8px;
+    margin-bottom: 10px;
+
+    color: #34495e;
 }
-
-#menu-ui #cacher #texteFiltre:hover {
+.leaflet-popup #image
+{
+    width: 45%;
+}
+/*Effet de mise en avant pour l'element selectionné*/
+div.radio label > input:checked + div {
   opacity: 1;
 }
-
-#menu-ui #cacher #texteFiltre span {
-  font-family: 'openSans-Regular';
-  padding-left: 20px;
-  color: #34495e;
+/*Effet de mise en retrait pour les autres elements non selectionnés*/
+div.radio label > input:not(:checked) + div {
+  opacity: .33;
 }
-
-#menu-ui #afficher_filtres {
-  padding-top: 10px;
+/*Rajoute bordure de separation entre chaque type d'oeuvre*/
+div.radio
+{
+    border-top: 1px solid rgba(0, 0, 0, .4);
+    border-radius: 3px;
 }
-
-#menu-ui #afficher_filtres img {
-  padding-left: 20px;
+/*Rajoute une petite marge pour chaque texte*/
+div#texteFiltre
+{
+    margin-top: 4px;
 }
-
-#menu-ui #afficher_filtres span {
-  font-family: 'openSans-Bold';
-  font-size: 20px;
-  margin-left: 17px;
-  color: #34495e;
+/*Masque les filtres au demarrage*/
+#cacher
+{
+    visibility: hidden;
+}
+/*Centre l'image du filtre*/
+img.menu {
+  margin-bottom: 5px;
 }
 /** FOOTER **/
 footer {
+  bottom: 0;
+    /*position: absolute;*/
+  width: 100%;
   border-top: 5px solid #ff5660;
   background-color: #34495e;
 }
 
 footer p {
   font-size: 10px;
+  margin-bottom: inherit;
   padding-top: 18px;
   padding-bottom: 18px;
   padding-left: 5px;
   color: white;
-}
-/*Effet de mise en avant pour l'element selectionné*/
-div.radio label > input:checked + div
-{
-    opacity: 1;
-}
-/*Effet de mise en retrait pour les autres elements non selectionnés*/
-div.radio label > input:not(:checked) + div
-{
-    opacity: .33;
-}
-/*Rajoute bordure de separation entre chaque type d'oeuvre*/
-div.radio {
-  border-top: 1px solid rgba(0, 0, 0, .4);
-  border-radius: 3px;
-}
-/*Rajoute une petite marge pour chaque texte*/
-div#texteFiltre {
-  margin-top: 4px;
-}
-/*Masque les filtres au demarrage*/
-#cacher {
-  visibility: hidden;
-}
-/*Centre l'image du filtre*/
-img.menu
-{
-    margin-bottom: 5px;
 }

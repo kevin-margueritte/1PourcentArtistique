@@ -1,42 +1,25 @@
+function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
+    var allParameter = window.location.search.substring(1); // Get a string with all parameters
+    var sURLVariables = allParameter.split('&'); // Split in an array each parameters
+    for (var i = 0; i < sURLVariables.length; i++) // Retrieves the correct parameters and send it 
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) 
+        {
+            return sParameterName[1];
+        }
+    }
+}
+
 myApp.controller('home-map', function ($scope, $http, $window) {
-  var map, contourearch = [];
+  var contourearch = [];
 
   /*Manages the movement of the map in the reduction or increase of the window*/
   $(window).resize(function() {
     sizeLayerControl();
   });
 
-  /*ADD POINTS AND FILTERS*/
-  /*Shows or hides filters on the rifght*/
-  $scope.listeDeroulante = function() {
-    console.log("toto");
-    if(document.getElementById('cacher').style.visibility=="hidden" || document.getElementById('cacher').style.visibility == ""  )
-    {
-      document.getElementById('cacher').style.visibility="visible";
-      $('#menu-ui').addClass("selectionner");
-    }
-    else
-    {
-      document.getElementById('cacher').style.visibility="hidden";
-      $('#menu-ui').removeClass("selectionner");
-    }
-    return true;
-  }
-
-  function getUrlParameter(sParam) { ///http://stackoverflow.com/questions/19491336/get-url-parameter-jquery
-      var allParameter = window.location.search.substring(1); // Get a string with all parameters
-      var sURLVariables = allParameter.split('&'); // Split in an array each parameters
-      for (var i = 0; i < sURLVariables.length; i++) // Retrieves the correct parameters and send it 
-      {
-          var sParameterName = sURLVariables[i].split('=');
-          if (sParameterName[0] == sParam) 
-          {
-              return sParameterName[1];
-          }
-      }
-  }
-
-
+  $('#menu-ui').draggabilly();
 
   function sizeLayerControl() {
     $(".leaflet-control-layers").css("max-height", $("#map").height() - 50);
@@ -88,7 +71,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   };
 
   /*Defined map*/
-  map = L.map("map", {
+  var map = L.map("map", {
     maxZoom: 17,
     minZoom: 2,
     //center: [43.6109200, 3.8772300],
@@ -139,46 +122,62 @@ myApp.controller('home-map', function ($scope, $http, $window) {
       timeout: 10000
     }
   }).addTo(map);
+
+  /*ADD POINTS AND FILTERS*/
+  /*Shows or hides filters on the rifght*/
+  $scope.listeDeroulante = function() {
+    if(document.getElementById('cacher').style.visibility=="hidden" || document.getElementById('cacher').style.visibility == ""  )
+    {
+      document.getElementById('cacher').style.visibility="visible";
+      $('#menu-ui').addClass("selectionner");
+    }
+    else
+    {
+      document.getElementById('cacher').style.visibility="hidden";
+      $('#menu-ui').removeClass("selectionner");
+    }
+    return true;
+  }
     
   /*Create icons according to the type of the art*/
   var icones = new Array();
-    icones["architecture"] = L.icon({
-      iconUrl: '/assets/epingles/architecture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["art décoratif"] = L.icon({
-      iconUrl: '/assets/epingles/art decoratif.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["art numérique"] = L.icon({
-      iconUrl: '/assets/epingles/art numerique.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["cinéma"] = L.icon({
-      iconUrl: '/assets/epingles/cinema.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["musique"] = L.icon({
-      iconUrl: '/assets/epingles/musique.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["peinture"] = L.icon({
-      iconUrl: '/assets/epingles/peinture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["photographie"] = L.icon({
-      iconUrl: '/assets/epingles/photographie.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
-    });
-    icones["sculpture"] = L.icon({
-      iconUrl: '/assets/epingles/sculpture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  icones["architecture"] = L.icon({
+    iconUrl: '/assets/epingles/architecture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["art décoratif"] = L.icon({
+    iconUrl: '/assets/epingles/art decoratif.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["art numérique"] = L.icon({
+    iconUrl: '/assets/epingles/art numerique.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["cinéma"] = L.icon({
+    iconUrl: '/assets/epingles/cinema.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["musique"] = L.icon({
+    iconUrl: '/assets/epingles/musique.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["peinture"] = L.icon({
+    iconUrl: '/assets/epingles/peinture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["photographie"] = L.icon({
+    iconUrl: '/assets/epingles/photographie.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
+  });
+  icones["sculpture"] = L.icon({
+    iconUrl: '/assets/epingles/sculpture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
   });
 
-/*Adds points on the map*/
-var overlays = L.layerGroup().addTo(map);
-/*Brings together the markers when we zoom out*/
-var markers = new L.MarkerClusterGroup().addTo(overlays);
-/*Stores all arts*/
-var artGeoJson;
+  /*Adds points on the map*/
+  var overlays = L.layerGroup().addTo(map);
+  /*Brings together the markers when we zoom out*/
+  var markers = new L.MarkerClusterGroup().addTo(overlays);
+  /*Stores all arts*/
+  var artGeoJson;
 
-/*Get all informations about art to display on the map*/
-var rqt = {
-  method: 'GET',
-  url : '/php/manager/getAllForAccueil.php',
-  headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+  /*Get all informations about art to display on the map*/
+  var rqt = {
+    method: 'GET',
+    url : '/php/manager/getAllForAccueil.php',
+    headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
   };
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
@@ -202,19 +201,19 @@ var rqt = {
         var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(new RegExp(" ", 'g'), "_") + "/"+ feature.properties.imagefile;
         /*Create the content of the pop-up with the elements of the art*/
         var content = 
-          "<div id=\"contenu-pop-up\">"+
+          "<div id=\"contenu-pop-up\" class=\"clearfix\">"+
             "<div id=\"image\">"+
-              "<img src=\""+pathImage+"\" width=\"100\" height=\"95\"/>"+
+              "<img src=\""+pathImage+"\"/>"+
             "</div>"+
             "<div id=\"texte\">"+
               "<div id=\"nom-prenom-artiste\">"+
-                "<p>" + feature.properties.auteurs + "</p>"+
+                "<span>" + feature.properties.auteurs + "</span>"+
               "</div>"+
               "<div id=\"nom-oeuvre\">"+
-                "<p>" + feature.properties.name + " (" + feature.properties.creationYear + ")</p>"+
+                "<span>" + feature.properties.name + " (" + feature.properties.creationyear + ")</span>"+
               "</div>"+
               "<div id=\"plus-infos\">"+
-                "<a href=\"/art/read/="+feature.properties.name.replace(new RegExp(" ", 'g'), "_")+"\">+ infos</a>"+
+                "<a href=\"/art/read/"+feature.properties.name.replace(new RegExp(" ", 'g'), "_")+"\">+ infos</a>"+
               "</div>"+
             "</div>"+
           "</div>";
@@ -250,6 +249,7 @@ var rqt = {
     //Get lng and lat from the url
     var longitudeURL = getUrlParameter('longitude');
     var latitudeURL = getUrlParameter('latitude');
+
     //If there are parameters, then we zoom on it
     if(longitudeURL != null && latitudeURL != null) {
       map.setView([latitudeURL, longitudeURL], 16);

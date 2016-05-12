@@ -66,7 +66,7 @@ gulp.task('remove', function () {
 });
 
 gulp.task('moveIndex', function () {
-  gulp.src(source + '/index.html')
+  gulp.src(source + '/index.php')
     .pipe(gulp.dest(destination))
 });
 

@@ -9,12 +9,14 @@
 	if (empty($artName)) {
 		$res = array('error' => true, 'key' => 'Entrer le de l\'art');
 	}
-	else if (empty($presentationHTMLContent)) {
-		$res = array('error' => true, 'key' => 'Entrer le contenu de la presentation');
-	}
 	else {
 		$art = new Art($artName);
-		$art->setPresentationHTMLFileByName('presentation.html');
+		if (empty($presentationHTMLContent)) {
+			$art->setPresentationHTMLFileByName(null);
+		}
+		else {
+			$art->setPresentationHTMLFileByName('presentation.html');
+		}
 		$file = new File($artName);
 		$file->createDescriptionHTMLFile($presentationHTMLContent);
 		$res = array('error' => false, 'key' => 'La présentation a été créée');

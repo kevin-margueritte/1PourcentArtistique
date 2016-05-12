@@ -29,7 +29,7 @@
 
   <body ng-app="art" class="home">
     <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-    <div>
+    <div ng-controller="home-map">
       <div id="menu-ui">
         <div id="afficher_filtres" ng-click="listeDeroulante()">
           <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/filtres/menu-20.png"> <span>FILTRES</span> </a>

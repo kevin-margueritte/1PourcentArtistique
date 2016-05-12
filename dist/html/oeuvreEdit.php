@@ -14,13 +14,14 @@
     <link href="/lib/dropzone/basic.min.css" rel="stylesheet">
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css" rel="stylesheet">
     <link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
+    <link href="/lib/back-to-top/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/styles.css">
     <title>1% artistique - Création</title>
   </head>
 
   <body ng-app="art">
     <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
-    <div class="oeuvre edition" ng-controller="page-art">
+    <div class="oeuvre edition cd-container" ng-controller="page-art">
       <nav ng-hide="hideEditor" class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 					<span class="sr-only">Toggle navigation</span>
@@ -56,45 +57,65 @@
           <a ng-href="{{art.imagePath}}" data-lightbox="image-description"> <img ng-src="{{art.imagePath}}" alt="{{art.imageAlt}}"> </a>
         </div>
       </div>
-      <div ng-hide="hidePresentation" class="presentation">
-        <h1>PRESENTATION</h1> <span ng-bind-html="art.presentationHTML"></span>
-        <div ng-hide=videoHide>
-          <h2>Vidéos</h2> <video id="vjs-big-play-centered" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay="true" muted="true" preload="auto" data-setup="{}">
-				</video>
-          <table id="playlist" class="table table-bordered">
-            <thead class="thead-default">
-              <tr>
-                <th>Liste des vidéos</th>
-              </tr>
-            </thead>
-            <tbody ng-repeat="video in art.videoList">
-              <tr ng-click='play(video.name, $index)'>
-                <td ng-class="{'active': video.active == true}">{{video.name}}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div ng-hide="hidePresentation" class="presentation clearfix">
+        <h1 class="collapse-trigger collapse-off" data-toggle="collapse" data-target="#collapsePresentation">
+				PRESENTATION
+				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
+			</h1>
+        <div id="collapsePresentation" class="collapse on"> <span ng-bind-html="art.presentationHTML"></span>
+          <div ng-hide=videoHide>
+            <h2>Vidéos</h2> <video id="vjs-big-play-centered" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay="true" muted="true" preload="auto" data-setup="{}">
+					</video>
+            <table id="playlist" class="table table-bordered">
+              <thead class="thead-default">
+                <tr>
+                  <th>Liste des vidéos</th>
+                </tr>
+              </thead>
+              <tbody ng-repeat="video in art.videoList">
+                <tr ng-click='play(video.name, $index)'>
+                  <td ng-class="{'active': video.active == true}">{{video.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div ng-hide=soundHide>
+            <h2>Son - {{art.soundName}}</h2> <audio ng-src="{{art.soundPath}}" controls></audio> </div>
         </div>
-        <div ng-hide=soundHide>
-          <h2>Son - {{art.soundName}}</h2> <audio ng-src="{{art.soundPath}}" controls></audio> </div>
       </div>
-      <div ng-hide="hidePhotography" class="photograph">
-        <h1>PHOTOGRAPHIES - {{nbPhotography + " photos"}}</h1>
-        <div class="carousel-photograph">
-          <div class="item" ng-repeat="photography in art.photographyList" repeat-owl-photography-post="ngRepeatFinishedHistoric">
-            <a ng-href="{{photography.path}}" data-lightbox="image-photograph" title="<b>{{photography.name}}</b>"> <img ng-src="{{photography.path}}"> </a>
+      <div ng-hide="hidePhotography" class="photograph clearfix" ng-class="{'gray': sectionPhotographyGray == true}">
+        <h1 class="collapse-trigger collapse-off carousel-photography-collapse" data-toggle="collapse" data-target="#collapsePhotography">
+				PHOTOGRAPHIES - {{nbPhotography + " photos"}}
+				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
+			</h1>
+        <div id="collapsePhotography" class="collapse on">
+          <div class="carousel-photograph">
+            <div class="item" ng-repeat="photography in art.photographyList" repeat-owl-photography-post="ngRepeatFinishedHistoric">
+              <a ng-href="{{photography.path}}" data-lightbox="image-photograph" title="<b>{{photography.name}}</b>"> <img ng-src="{{photography.path}}"> </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="historic" ng-hide=hideHistoric>
-        <h1>HISTORIQUES - {{nbHistoric + " photos d'historique"}}</h1>
-        <div class="carousel-historic">
-          <div class="item" ng-repeat="historic in art.historicList" repeat-owl-historic-post="ngRepeatFinished">
-            <a ng-href="{{historic.path}}" data-lightbox="image-photograph" title="<b>{{historic.name}}</b>"> <img ng-src="{{historic.path}}"> </a>
-          </div>
-        </div> <span ng-bind-html="art.historicHTML"></span> </div>
-      <div class="biography" ng-hide=hideBiography>
-        <h1>Biographies</h1>
-        <div ng-repeat="author in art.authors track by $index" ng-if="author.biography != ''" class="biographyLimit"> <span ng-bind-html="author.biography" class="content">{{nbAuthors}}</span> </div>
+      <div class="historic clearfix" ng-hide=hideHistoric ng-class="{'gray': sectionHistoricGray == true}">
+        <h1 class="collapse-trigger collapse-off carousel-historic-collapse" data-toggle="collapse" data-target="#collapseHistoric">
+				HISTORIQUES - {{nbHistoric + " photos d'historique"}}
+				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
+			</h1>
+        <div class="collapse on" id="collapseHistoric">
+          <div class="carousel-historic">
+            <div class="item" ng-repeat="historic in art.historicList" repeat-owl-historic-post="ngRepeatFinished">
+              <a ng-href="{{historic.path}}" data-lightbox="image-photograph" title="<b>{{historic.name}}</b>"> <img ng-src="{{historic.path}}"> </a>
+            </div>
+          </div> <span ng-bind-html="art.historicHTML"></span> </div>
+      </div>
+      <div class="biography clearfix" ng-hide=hideBiography ng-class="{'gray': sectionBiographyGray == true}">
+        <h1 class="collapse-trigger collapse-off" data-toggle="collapse" data-target="#collapseBiography">
+				BIOGRAPHIES
+				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
+			</h1>
+        <div class="collapse on" id="collapseBiography">
+          <div ng-repeat="author in art.authors track by $index" ng-if="author.biography != ''" class="biographyLimit"> <span ng-bind-html="author.biography" class="content">{{nbAuthors}}</span> </div>
+        </div>
       </div>
       <div class="modal fade" id="modal-title" tabindex="-1" role="dialog" aria-labelledby="modal-title">
         <div class="modal-dialog modal-lg">
@@ -159,12 +180,14 @@
             <div class="edit">
               <h1>Description de l'oeuvre</h1>
               <div class="form-group"> <label>Matériaux utilisés</label>
-                <tags-input add-On-Enter=true min-Length=1 on-Tag-Removed="materialDelete($tag)" on-Tag-Added="materialAdd($tag)" ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
+                <tags-input replace-spaces-with-dashes=false add-On-Enter=true min-Length=1 on-Tag-Removed="materialDelete($tag)" on-Tag-Added="materialAdd($tag)" ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
               </div>
               <div class="form-group"> <label>Les architectes</label>
-                <tags-input add-On-Enter=true min-Length=1 on-Tag-Removed="architectDelete($tag)" on-Tag-Added="architectAdd($tag)" ng-model="art.architects" placeholder="Ajouter un architecte"></tags-input>
+                <tags-input replace-spaces-with-dashes=false add-On-Enter=true min-Length=1 on-Tag-Removed="architectDelete($tag)" on-Tag-Added="architectAdd($tag)" ng-model="art.architects" placeholder="Ajouter un architecte"></tags-input>
               </div>
-              <form class="dropzone" id="dropzoneDescription"></form> <button type="button" class="btn btn-complete" ng-click="completeDescription()">Modifier</button> </div>
+              <form class="dropzone" id="dropzoneDescription"></form> <button type="button" class="btn btn-complete" ng-click="completeDescription()">Modifier</button>
+              <div ng-hide="hideErrorDescription" class="alert alert-danger"> <strong>Erreur! </strong>{{errorDescription}} </div>
+            </div>
           </div>
         </div>
       </div>
@@ -247,7 +270,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> <a href="#0" class="cd-top">Top</a>
     <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js" integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI=" crossorigin="anonymous"></script>
@@ -264,6 +287,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
     <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&signed_in=true&libraries=drawing,places&callback=initMap" async defer></script>
+    <script src="/lib/back-to-top/js/modernizr.js"></script>
+    <script src="/lib/back-to-top/js/backtotop.js"></script>
     <script src="/js/header.js"></script>
     <script src="/js/app.js"></script>
     <script src="/js/pageArt.js"></script>

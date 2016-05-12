@@ -87,7 +87,7 @@ myApp.controller('search', function ($scope, $http, $window) {
 				if(value.longitude != null && value.latitude) {
 					var lng = value.longitude;
 					var lat = value.latitude;
-					var path = '/accueil?longitude=' + lng + '&latitude=' + lat;
+					var path = '/?longitude=' + lng + '&latitude=' + lat;
 		            $window.location.href = path;
 				}
 				else {

@@ -3,8 +3,6 @@ RewriteEngine On
 
 RewriteRule /art/lecture /html/oeuvre.php
 
-RewriteRule /home /html/index.php
-
 RewriteRule /art/edit/ /html/oeuvreEdit.php
 
 RewriteRule /art/read/ /html/oeuvreEdit.php
