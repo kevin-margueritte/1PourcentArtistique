@@ -669,13 +669,23 @@ header {
 
 	#logo-artistique {
 
-		padding: 45px;
+		padding-top: 35px;
     	margin-right: 10%;
 
     	img {
     		float: right;
     		width: 85px;
     	}
+	}
+
+	@media @tablet {
+		#responsive-logo-artistique {
+			display: none;
+		}
+
+		#responsive-slogan {
+			display: none;
+		}
 	}
 
 	@media @tablet-strict {
@@ -686,9 +696,102 @@ header {
 		#logo-artistique {
 			margin-right: inherit;
 		}
+
+		#responsive-logo-artistique {
+			display: none;
+		}
+
+		#responsive-slogan {
+			display: none;
+		}
+
+		#logo-artistique {
+			margin-right: 25px; 
+		}
 	}
 
-	@media @tablet-low {
+	@media @phone-strict {
+		#responsive-logo-artistique {
+			display: none;
+		}
+
+		#responsive-slogan {
+			display: none;
+		}
+
+		#slogan {
+			h1 {
+				font-size: 15px !important;
+				width: 105px !important;
+			}
+		}
+
+		#logo-artistique {
+			padding: inherit;
+			padding-top: 25px;
+			margin-right: 25px; 
+		}
+
+		#logoUMSlogan {
+			#logo-UM {
+				img {
+					width: 80px;
+				}
+			}
+			margin-left: inherit;
+		}
+	}
+
+	@media @phone-low {
+		#logoUMSlogan {
+			margin-left: inherit;
+
+			img {
+				width: 80px;
+			}
+		}
+
+		#responsive-slogan {
+			h1 {
+				color: @silver;
+				font-family: @openSans-BoldItalic;
+				width: 55%;
+				margin: 0 auto;
+				text-align: center;
+				font-size: 15px;
+			}
+		}
+
+		#logo-artistique {
+			display: none;
+		}
+
+		#logoUMSlogan {
+			width: 100%;
+
+			#slogan {
+				display: none;
+			}
+
+			#responsive-logo-artistique {
+				float: right;
+				padding-top: 30px;
+				margin-right: 15px;
+
+				img {
+					width: 75px;
+				}
+			}
+
+			#logo-UM {
+				img {
+					width: 80px;
+				}
+			}
+		}
+	}
+
+	/*@media @tablet-low {
 		#logoUMSlogan {
 
 			margin-left: inherit;
@@ -696,7 +799,6 @@ header {
 
 			#logo-UM {
 
-				float: inherit;
 				padding: inherit;
 				margin: 0 auto;
 			    text-align: center;
@@ -717,8 +819,29 @@ header {
 				    text-align: center;
 				    font-size: 30px;
 				}
+				//display: none
 
 			}
+		}
+
+		#responsive-logo-artistique {
+			float: right;
+			padding-top: 30px;
+			margin-right: 15px;
+		}
+
+		#responsive-slogan {
+			margin: inherit;
+			color: @silver;
+			font-family: @openSans-BoldItalic;
+			width: 55%;
+		    margin: 0 auto;
+		    text-align: center;
+
+		    h1 {
+				font-size: 25px;
+			}
+			display: none;
 		}
 
 		#search {
@@ -733,10 +856,9 @@ header {
 		}
 
 		#logo-artistique {
-
 			display: none;
 		}
-	}
+	}*/
 }
 
 /*** FIX MAP GOOGLE BUG ***/

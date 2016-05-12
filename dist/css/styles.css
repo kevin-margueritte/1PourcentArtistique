@@ -551,6 +551,74 @@
 /*** HEADER ***/
 header {
   width: 100%;
+    /*@media @tablet-low {
+		#logoUMSlogan {
+
+			margin-left: inherit;
+	    	float: inherit;
+
+			#logo-UM {
+
+				padding: inherit;
+				margin: 0 auto;
+			    text-align: center;
+			    padding: 15px;
+			}
+
+			#slogan {
+
+				float: inherit;
+				padding-top: inherit;
+
+				h1 {
+					margin: inherit;
+					color: @silver;
+					font-family: @openSans-BoldItalic;
+					width: 55%;
+				    margin: 0 auto;
+				    text-align: center;
+				    font-size: 30px;
+				}
+				//display: none
+
+			}
+		}
+
+		#responsive-logo-artistique {
+			float: right;
+			padding-top: 30px;
+			margin-right: 15px;
+		}
+
+		#responsive-slogan {
+			margin: inherit;
+			color: @silver;
+			font-family: @openSans-BoldItalic;
+			width: 55%;
+		    margin: 0 auto;
+		    text-align: center;
+
+		    h1 {
+				font-size: 25px;
+			}
+			display: none;
+		}
+
+		#search {
+
+			padding-top: 15px;
+
+		    i {
+		    	color: white;
+	   			width: 10px;
+		    }
+
+		}
+
+		#logo-artistique {
+			display: none;
+		}
+	}*/
 }
 
 header #logoUMSlogan {
@@ -647,12 +715,22 @@ header #search .eac-item span {
 
 header #logo-artistique {
   margin-right: 10%;
-  padding: 45px;
+  padding-top: 35px;
 }
 
 header #logo-artistique img {
   float: right;
   width: 85px;
+}
+
+@media only screen and (min-width: 768px) {
+  header #responsive-logo-artistique {
+    display: none;
+  }
+
+  header #responsive-slogan {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -663,48 +741,91 @@ header #logo-artistique img {
   header #logo-artistique {
     margin-right: inherit;
   }
+
+  header #responsive-logo-artistique {
+    display: none;
+  }
+
+  header #responsive-slogan {
+    display: none;
+  }
+
+  header #logo-artistique {
+    margin-right: 25px;
+  }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+  header #responsive-logo-artistique {
+    display: none;
+  }
+
+  header #responsive-slogan {
+    display: none;
+  }
+
+  header #slogan h1 {
+    font-size: 15px !important;
+    width: 105px !important;
+  }
+
+  header #logo-artistique {
+    margin-right: 25px;
+    padding: inherit;
+    padding-top: 25px;
+  }
+
   header #logoUMSlogan {
-    float: inherit;
     margin-left: inherit;
   }
 
-  header #logoUMSlogan #logo-UM {
-    float: inherit;
-    margin: 0 auto;
-    padding: inherit;
-    padding: 15px;
-    text-align: center;
+  header #logoUMSlogan #logo-UM img {
+    width: 80px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  header #logoUMSlogan {
+    margin-left: inherit;
   }
 
-  header #logoUMSlogan #slogan {
-    float: inherit;
-    padding-top: inherit;
+  header #logoUMSlogan img {
+    width: 80px;
   }
 
-  header #logoUMSlogan #slogan h1 {
+  header #responsive-slogan h1 {
     font-family: 'openSans-BoldItalic';
-    font-size: 30px;
+    font-size: 15px;
     width: 55%;
-    margin: inherit;
     margin: 0 auto;
     text-align: center;
     color: #bdc3c7;
   }
 
-  header #search {
-    padding-top: 15px;
-  }
-
-  header #search i {
-    width: 10px;
-    color: white;
-  }
-
   header #logo-artistique {
     display: none;
+  }
+
+  header #logoUMSlogan {
+    width: 100%;
+  }
+
+  header #logoUMSlogan #slogan {
+    display: none;
+  }
+
+  header #logoUMSlogan #responsive-logo-artistique {
+    float: right;
+    margin-right: 15px;
+    padding-top: 30px;
+  }
+
+  header #logoUMSlogan #responsive-logo-artistique img {
+    width: 75px;
+  }
+
+  header #logoUMSlogan #logo-UM img {
+    width: 80px;
   }
 }
 /*** FIX MAP GOOGLE BUG ***/
