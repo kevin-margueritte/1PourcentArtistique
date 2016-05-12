@@ -60,7 +60,7 @@
               <label>
                 <input type="radio" name="oeuvres" value="art numérique"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
-                  <span>Architecture</span>
+                  <span>Art numérique</span>
                 </div>
               </label>
             </div>
@@ -118,7 +118,7 @@
     </div> <!-- menu-ui-->
     <div id="map"></div>
   </div>
-  <!-- <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?> -->
+  <?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
 
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
