@@ -14,8 +14,9 @@
 	<link rel="stylesheet" href="/css/styles.css">
 	<title>1% artistique</title>
 </head>
-<body ng-app="myApp" class="artList">
-	<div ng-controller="artList">
+<body ng-app="art">
+	<?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
+	<div ng-controller="artList" class="artList">
 		<h1>Liste des oeuvres</h1>
 		<table class="table table-hover">
 			<thead class="thead-default">
@@ -63,9 +64,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 	<script src="/lib/dropzone/dropzone.js"></script>
-	<script src="/lib/fso/fso.min.js"></script>
-	<script src="/js/listeOeuvre.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
 	<script src="/lib/cookies/angular-cookies.js"></script>
-
+	<script src="/js/app.js"></script>
+	<script src="/js/navAdmin.js"></script>
+	<script src="/js/listArt.js"></script>
 </body>
 </html>

@@ -118,13 +118,37 @@
 		function selectAllArts()
 		{
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
-			/*$query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile,
-			 historicHTMLFile, soundFile, isPublic, type, imageFile FROM Art ORDER BY(name) ASC");*/
-			 $query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile, historicHTMLFile, soundFile, isPublic, type, imageFile, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
+			$query = $this->db->prepare('
+				SELECT 
+					ART.id, 
+					ART.name, 
+					ART.creationYear, 
+					ART.presentationHTMLFile,
+			 		ART.historicHTMLFile, 
+			 		ART.soundFile, 
+			 		ART.isPublic, 
+			 		ART.type, 
+			 		ART.imageFile,
+			 		LISTAGG(DESIGN.nameAuthor, \', \') 
+						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs 
+			 	FROM 
+			 		ART LEFT JOIN DESIGN ON ART.id = DESIGN.idArt
+				GROUP BY (
+					ART.id,
+					ART.name, 
+					ART.creationYear, 
+					ART.presentationHTMLFile,
+			 		ART.historicHTMLFile, 
+			 		ART.soundFile, 
+			 		ART.isPublic, 
+			 		ART.type, 
+			 		ART.imageFile)
+			 	ORDER BY(ART.name) ASC');
+/*			 $query = $this->db->prepare("SELECT id, name, creationYear, presentationHTMLFile, historicHTMLFile, soundFile, isPublic, type, imageFile, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
 FROM Art
 LEFT JOIN DESIGN ON ART.id = DESIGN.idArt
 GROUP BY(name)
-ORDER BY(name) ASC");
+ORDER BY(name) ASC");*/
 			$query->execute();
 			return $query->fetchAll();
 		}

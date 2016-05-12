@@ -1,5 +1,3 @@
-var myApp = angular.module('resetPassword', ['ngCookies']);
-
 myApp.controller('resetPassword', function ($scope, $http, $window, $cookies, $cookieStore) {
 
 	/*REDIRECT THE USER IF NOT ADMIN*/

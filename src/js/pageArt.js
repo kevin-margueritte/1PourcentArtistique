@@ -174,13 +174,13 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       $http(rqt).success(function(data){
         /*If it is not connected, we redirect it to the login page*/
         if(data.connected != true) {
-          $window.location.href = '/home';
+          $window.location.href = '/';
         }
       });
     }
     if (URI == 'read' || URI == 'update') {
       if (URI == 'read') {
-        $scope.hideEditor = true;
+        $scope.hideUIAdmin = true;
       }
 
       $scope.hideTitle = false;
@@ -370,7 +370,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       $('#modal-title').modal('show');
     }
 
-    $('.navbar').draggabilly();
+    $('.nav-update').draggabilly();
 
     $('#wysywygPresentation').summernote(confWysywyg);
     $('#wysywygHistoric').summernote(confWysywyg);

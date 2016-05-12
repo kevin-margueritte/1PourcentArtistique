@@ -17,10 +17,9 @@
     <title>1% artistique</title>
   </head>
 
-  <body ng-app="resetPassword" ng-controller="resetPassword" class="resetPassword">
-    <?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
+  <body ng-app="art" class="resetPassword">
     <h1>Mot de passe oublié</h1>
-    <div id="formResetPassword">
+    <div id="formResetPassword" ng-controller="resetPassword">
       <div class="form-group"> <label class="control-label">Email</label>
         <div> <input type="email" class="form-control" ng-model="email" placeholder="Ex: xxx@yyy.zzz"> </div>
       </div>
@@ -37,9 +36,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="/lib/input-tags/ng-tags-input.min.js"></script>
     <script src="/lib/dropzone/dropzone.js"></script>
-    <script src="/lib/fso/fso.min.js"></script>
-    <script src="/js/resetPassword.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
     <script src="/lib/cookies/angular-cookies.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/resetPassword.js"></script>
   </body>
 
 </html>

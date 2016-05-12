@@ -20,9 +20,10 @@
   </head>
 
   <body ng-app="art">
+    <?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
     <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
     <div class="oeuvre edition cd-container" ng-controller="page-art">
-      <nav ng-hide="hideEditor" class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <nav ng-hide="hideUIAdmin" class="nav-update navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header"> <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 					<span class="sr-only">Toggle navigation</span>
 					<span class="icon-bar"></span>
@@ -291,6 +292,7 @@
     <script src="/lib/back-to-top/js/backtotop.js"></script>
     <script src="/js/header.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/navAdmin.js"></script>
     <script src="/js/pageArt.js"></script>
     <script src="/js/search.js"></script>
   </body>
