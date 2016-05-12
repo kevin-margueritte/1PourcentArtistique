@@ -61,7 +61,7 @@
               <label>
                 <input type="radio" name="oeuvres" value="art numérique"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
-                  <span>Architecture</span>
+                  <span>Art numérique</span>
                 </div>
               </label>
             </div>
