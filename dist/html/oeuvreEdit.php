@@ -36,9 +36,9 @@
             <li><a href="#" ng-click="openTitle()">Informations générales</a></li>
             <li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
             <li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
-            <li><a href="#" ng-click="addPhotography()">Photographies de l'oeuvre</a></li>
-            <li><a href="#" ng-click="addHistoric()">Historiques de l'oeuvre</a></li>
-            <li><a href="#" ng-click="addBiography()">Biographies des auteurs</a></li>
+            <li><a href="#" ng-click="addPhotography()">Photographie(s) de l'oeuvre</a></li>
+            <li><a href="#" ng-click="addHistoric()">Historique de l'oeuvre</a></li>
+            <li><a href="#" ng-click="addBiography()">Biographie(s) des auteurs</a></li>
           </ul>
         </div>
       </nav>
@@ -65,12 +65,12 @@
 			</h1>
         <div id="collapsePresentation" class="collapse on"> <span ng-bind-html="art.presentationHTML"></span>
           <div ng-hide=videoHide>
-            <h2>Vidéos</h2> <video id="vjs-big-play-centered" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay="true" muted="true" preload="auto" data-setup="{}">
+            <h2>Vidéo(s)</h2> <video id="vjs-big-play-centered" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay="true" muted="true" preload="auto" data-setup="{}">
 					</video>
             <table id="playlist" class="table table-bordered">
               <thead class="thead-default">
                 <tr>
-                  <th>Liste des vidéos</th>
+                  <th>Liste des vidéo(s)</th>
                 </tr>
               </thead>
               <tbody ng-repeat="video in art.videoList">
@@ -86,7 +86,7 @@
       </div>
       <div ng-hide="hidePhotography" class="photograph clearfix" ng-class="{'gray': sectionPhotographyGray == true}">
         <h1 class="collapse-trigger collapse-off carousel-photography-collapse" data-toggle="collapse" data-target="#collapsePhotography">
-				PHOTOGRAPHIES - {{nbPhotography + " photos"}}
+				PHOTOGRAPHIE(S) - {{nbPhotography + " photo(s)"}}
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
 			</h1>
         <div id="collapsePhotography" class="collapse on">
@@ -99,7 +99,7 @@
       </div>
       <div class="historic clearfix" ng-hide=hideHistoric ng-class="{'gray': sectionHistoricGray == true}">
         <h1 class="collapse-trigger collapse-off carousel-historic-collapse" data-toggle="collapse" data-target="#collapseHistoric">
-				HISTORIQUES - {{nbHistoric + " photos d'historique"}}
+				HISTORIQUE - {{nbHistoric + " photo(s) d'historique(s)"}}
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
 			</h1>
         <div class="collapse on" id="collapseHistoric">
@@ -111,7 +111,7 @@
       </div>
       <div class="biography clearfix" ng-hide=hideBiography ng-class="{'gray': sectionBiographyGray == true}">
         <h1 class="collapse-trigger collapse-off" data-toggle="collapse" data-target="#collapseBiography">
-				BIOGRAPHIES
+				BIOGRAPHIE(S)
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
 			</h1>
         <div class="collapse on" id="collapseBiography">
@@ -125,7 +125,7 @@
               <h1>Informations générales</h1>
               <div class="form-group"> <label>Nom de l'oeuvre</label> <input ng-model="art.name" type="text" class="form-control" placeholder="Nom"> </div>
               <div class="form-group"> <label>Année de l'oeuvre</label> <input ng-model="art.date" type="number" min="1" max="2500" class="form-control" placeholder="Année"> </div>
-              <div class="form-group"> <label>Type de oeuvre</label> <select class="form-control" ng-model="art.type">
+              <div class="form-group"> <label>Type d'oeuvre</label> <select class="form-control" ng-model="art.type">
 							    <option ng-selected="true" value="Architecture">Architecture</option>
 							    <option>Arts décoratifs</option>
 							    <option>Arts numériques</option>
@@ -213,7 +213,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="edit">
-              <h1>Photographies de l'oeuvre</h1>
+              <h1>Photographie(s) de l'oeuvre</h1>
               <div class="form-group">
                 <form class="dropzone" id="dropzonePhotography"></form>
               </div> <button type="button" ng-click="completePhotography()" class="btn btn-complete">Ajouter</button> </div>
@@ -224,7 +224,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="edit">
-              <h1>Historiques de l'oeuvre</h1>
+              <h1>Historique de l'oeuvre</h1>
               <div class="form-group">
                 <form class="dropzone" id="dropzoneHistoric"></form>
               </div>
@@ -238,7 +238,7 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="edit">
-              <h1>Biographies des auteurs</h1>
+              <h1>Biographie(s) des auteurs</h1>
               <table class="table">
                 <thead class="thead-default">
                   <tr>
