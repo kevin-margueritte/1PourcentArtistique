@@ -188,6 +188,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   $scope.filtres = function() {
     /*Removing all pins*/
     overlays.clearLayers();
+    console.log("toto");
 
     markers = new L.MarkerClusterGroup().addTo(overlays);
 
@@ -255,8 +256,4 @@ myApp.controller('home-map', function ($scope, $http, $window) {
       map.setView([latitudeURL, longitudeURL], 16);
     }
   }
-});
-
-$( document ).ready(function() {
-  document.getElementById("checkBox").disabled=true;
 });
