@@ -182,19 +182,19 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
     artGeoJson = GeoJSON.parse(data, {Point: ['latitude', 'longitude']});
-    $scope.filtres();
+    $scope.filtres("all");
   });
 
-  $scope.filtres = function() {
+  $scope.filtres = function(name) {
     /*Removing all pins*/
     overlays.clearLayers();
-    console.log("toto");
 
     markers = new L.MarkerClusterGroup().addTo(overlays);
 
     /*Get the filter on which the user clicked*/
     var filter;
-    filter = $('input[name=oeuvres]:checked', '#formulaire_Filtre').val();
+    filter = /*$('input[name=oeuvres]:checked', '#formulaire_Filtre').val();*/ name;
+    console.log(filter);
 
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
