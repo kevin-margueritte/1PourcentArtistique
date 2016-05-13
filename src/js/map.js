@@ -194,7 +194,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
     /*Get the filter on which the user clicked*/
     var filter;
     filter = /*$('input[name=oeuvres]:checked', '#formulaire_Filtre').val();*/ name;
-    console.log(filter);
+    $('input[value=' + name + ']').prop('checked', true);
 
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
