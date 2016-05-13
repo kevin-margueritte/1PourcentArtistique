@@ -256,3 +256,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
     }
   }
 });
+
+$( document ).ready(function() {
+  document.getElementById("checkBox").disabled=true;
+});

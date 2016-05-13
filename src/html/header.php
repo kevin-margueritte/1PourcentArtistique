@@ -2,7 +2,7 @@
 	<div id="logo" class="clearfix collapse in">
 		<div class="clearfix" id="logoUMSlogan">
 			<div id="logo-UM">
-				<img src="/assets/img/logo_um.png" alt="Logo de l'universite de Montpellier">
+				<a href="/"><img src="/assets/img/logo_um.png" alt="Logo de l'universite de Montpellier"></a>
 			</div>
 			<div id="responsive-logo-artistique">
 				<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">

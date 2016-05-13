@@ -278,6 +278,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
           for (var i = 0; i < $scope.nbPhotography; i++) {
             $scope.art.photographyList[i] = {};
+            $scope.art.photographyList[i].fullName = data.key.photos[i];
             $scope.art.photographyList[i].name = data.key.photos[i].split('.')[0];
             $scope.art.photographyList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.photos[i];
           }
@@ -388,7 +389,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           var rqt = {
             method : 'POST',
             url : '/php/manager/deleteImageArt.php',
-            data : $.param({file: file.name, nameArt: $scope.art.name}),  
+            data : $.param({file: file.name, nameArt: $scope.art.name, id_admin: id_admin, token_admin: token_admin}),  
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -437,7 +438,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           var rqt = {
             method : 'POST',
             url : '/php/manager/deletePresentationVideo.php',
-            data : $.param({video: file.name, nameArt: art.name}),  
+            data : $.param({video: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -494,7 +495,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           var rqt = {
             method : 'POST',
             url : '/php/manager/deleteSound.php',
-            data : $.param({sound: file.name, nameArt: art.name}),  
+            data : $.param({sound: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -523,11 +524,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       maxFiles: 50,
       acceptedFiles: '.jpg, .png, .jpeg, .gif',
       removedfile: function(file) {
+        console.log(file);
         if (angular.isUndefined(file.status) || file.status == 'success') {
           var rqt = {
             method : 'POST',
             url : '/php/manager/deletePhotography.php',
-            data : $.param({photo: file.name, nameArt: art.name}),  
+            data : $.param({photo: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -588,7 +590,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           var rqt = {
             method : 'POST',
             url : '/php/manager/deleteHistoric.php',
-            data : $.param({photo: file.name, nameArt: art.name}),  
+            data : $.param({photo: file.name, nameArt: art.name, id_admin: id_admin, token_admin: token_admin}),  
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -816,6 +818,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   /** MODAL DESCRIPTION **/
   $scope.addDescription = function() {
+    $('#modal-description').modal({backdrop: 'static', keyboard: false});
     $('#modal-description').modal('show');
     if (URI == 'update' && $scope.art.imagePath != '' && dropzoneDescription.files.length == 0) {
       var mockFile = { name: $scope.art.imageAlt, accepted: true }; 
@@ -953,8 +956,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       art.presentationHTML = '';
     }
     else {
+      art.presentationHTML  = $('#wysywygPresentation').summernote('code');
       $scope.art.presentationHTML = $sce.trustAsHtml(art.presentationHTML);
-      art.presentationHTML = $('#wysywygPresentation').summernote('code');
     }
 
     var rqt = {
@@ -1000,7 +1003,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     if (URI == 'update') {
       if (dropzonePhotography.files.length == 0) {
         for (var i = 0; i<$scope.nbPhotography; i++ ) {
-          var mockFile = { name: $scope.art.photographyList[i].name, accepted: true }; 
+          var mockFile = { name: $scope.art.photographyList[i].fullName, accepted: true }; 
           dropzonePhotography.emit("addedfile", mockFile);
           dropzonePhotography.createThumbnailFromUrl(mockFile, $scope.art.photographyList[i].path);
           dropzonePhotography.emit("success", mockFile);
@@ -1206,7 +1209,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     var rqt = {
       method : 'POST',
       url : '/php/manager/addBiography.php',
-      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, authorName: $scope.authorBiographyCurrent, id_admin: id_admin, token_admin: token_admin}),  
+      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, 
+        authorName: $scope.authorBiographyCurrent, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt);

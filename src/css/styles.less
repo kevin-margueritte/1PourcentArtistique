@@ -1233,6 +1233,8 @@ nav {
     -webkit-appearance:none;
        -moz-appearance:none;
             appearance:none;
+	width: 0.01px;
+	height: 0.01px;
 }
 
 /*Enleve le soulignement sour le lien du menu*/
@@ -1368,4 +1370,10 @@ footer {
 	footer {
 		position: absolute;
 	}
+}
+
+/*** Bootstrap - override ***/
+a:hover {
+	color: inherit;
+    text-decoration: inherit;
 }

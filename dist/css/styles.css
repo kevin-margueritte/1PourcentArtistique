@@ -1173,6 +1173,8 @@ nav li:hover {
 /*Enlever les points du radio button dans le formulaire*/
 #menu-ui input
 {
+    width: .01px;
+    height: .01px;
     margin: 0;
     padding: 0;
 
@@ -1314,4 +1316,9 @@ footer p {
 
 .home footer {
   position: absolute;
+}
+/*** Bootstrap - override ***/
+a:hover {
+  text-decoration: inherit;
+  color: inherit;
 }
