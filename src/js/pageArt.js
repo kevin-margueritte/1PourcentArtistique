@@ -157,6 +157,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.art.videoList = [];
     $scope.art.type = 'Architecture'; //Fix bug angularJS - select
 
+    initMap();
+
     URI = $location.absUrl().split('/')[4];
     var param = $location.absUrl().split('/')[5].replace(new RegExp("_", 'g'), " ");
     player = document.getElementsByTagName("video")[0];
@@ -640,6 +642,70 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     });
 
     autocompleteLocation();
+
+    function initMap() {
+
+    var placeSearch;
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 43.602272978692746, lng: 3.8836669921875},
+      zoom: 13
+    });
+
+    var geocoder = new google.maps.Geocoder();
+    var autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('art-adress')),{types: ['geocode']}
+      );
+
+    autocomplete.addListener('place_changed', adressEnter);
+
+    function adressEnter() {
+      adress = document.getElementById('art-adress').value;
+      geocoder.geocode({'address': adress}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          placeMarker(results[0].geometry.location);
+        } else {
+          alert("L'adresse n'existe pas : " + status);
+        }
+      });
+    }
+
+    map.addListener('click', function(event) {
+      placeMarker(event.latLng);
+      geocoder.geocode({'location': event.latLng}, function(results, status) {
+        document.getElementById('art-adress').value = results[1].formatted_address;
+      });
+    });
+
+    function geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var geolocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          var circle = new google.maps.Circle({
+            center: geolocation,
+            radius: position.coords.accuracy
+          });
+          autocomplete.setBounds(circle.getBounds());
+        });
+      }
+    }
+  }
+
+  function placeMarker(location) {
+    map.setCenter(location);
+    if ( marker ) {
+      marker.setPosition(location);
+    } else {
+      marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
+    }
+  }
 
   });
 
@@ -1333,69 +1399,4 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       $scope.art.architect = 'Aucun';
     }
   }
-
 });
-
-function initMap() {
-
-  var placeSearch;
-
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 43.602272978692746, lng: 3.8836669921875},
-    zoom: 13
-  });
-
-  var geocoder = new google.maps.Geocoder();
-  var autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('art-adress')),{types: ['geocode']}
-    );
-
-  autocomplete.addListener('place_changed', adressEnter);
-
-  function adressEnter() {
-    adress = document.getElementById('art-adress').value;
-    geocoder.geocode({'address': adress}, function(results, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        placeMarker(results[0].geometry.location);
-      } else {
-        alert("L'adresse n'existe pas : " + status);
-      }
-    });
-  }
-
-  map.addListener('click', function(event) {
-    placeMarker(event.latLng);
-    geocoder.geocode({'location': event.latLng}, function(results, status) {
-      document.getElementById('art-adress').value = results[1].formatted_address;
-    });
-  });
-
-  function geolocate() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        autocomplete.setBounds(circle.getBounds());
-      });
-    }
-  }
-}
-
-function placeMarker(location) {
-  map.setCenter(location);
-  if ( marker ) {
-    marker.setPosition(location);
-  } else {
-    marker = new google.maps.Marker({
-      position: location,
-      map: map
-    });
-  }
-}
