@@ -57,17 +57,17 @@
                 </div>
               </label>
             </div>
-            <div class="radio" ng-click="filtres('art numérique')">
+            <div class="radio" ng-click="filtres('artNumérique')">
               <label>
-                <input type="radio" id="checkBox"  name="oeuvres" value="art numérique"/>
+                <input type="radio" id="checkBox"  name="oeuvres" value="artNumérique"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
                   <span>Art numérique</span>
                 </div>
               </label>
             </div>
-            <div class="radio" ng-click="filtres('art décoratif')">
+            <div class="radio" ng-click="filtres('artDécoratif')">
               <label>
-                <input type="radio" id="checkBox"  name="oeuvres" value="art décoratif"/>
+                <input type="radio" id="checkBox"  name="oeuvres" value="artDécoratif"/>
                 <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
                   <span>Art décoratif</span>
                 </div>
