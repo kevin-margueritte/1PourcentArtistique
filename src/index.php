@@ -33,7 +33,7 @@
   <?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
   <div ng-controller="home-map">
     <div id="menu-ui">
-      <div id="afficher_filtres" ng-click="listeDeroulante()">
+      <div id="afficher_filtres" ng-click="listeDeroulante()" ng-touch="listeDeroulante()">
         <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/filtres/menu-20.png">
           <span>FILTRES</span>
         </a>
@@ -41,7 +41,7 @@
       <div id="cacher">
         <div id="formulaire_filtre">
           <form enctype="multipart/form-data" name="formulaire_Filtre" id="formulaire_Filtre" action="" method="post">
-            <div class="radio" ng-click="filtres()">
+            <div class="radio" ng-click="filtres()" >
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="all" checked/>
                 <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
@@ -132,6 +132,7 @@
   <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
   <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
   <script src="/lib/cookies/angular-cookies.js"></script>
   <script src="/lib/input-tags/ng-tags-input.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>

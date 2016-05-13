@@ -1,1 +1,1 @@
-var myApp = angular.module('art', ['ngTagsInput', 'ngSanitize', 'ngCookies'])
+var myApp = angular.module('art', ['ngTagsInput', 'ngSanitize', 'ngCookies', 'ngTouch'])
