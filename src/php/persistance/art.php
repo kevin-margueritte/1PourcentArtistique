@@ -166,8 +166,9 @@ GROUP BY art.name");*/
 					ART.creationYear as creationYear, 
 					LISTAGG(DESIGN.nameAuthor, \', \') 
 						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs
-				FROM ART, DESIGN
-				WHERE DESIGN.idart = ART.id
+				FROM
+					ART LEFT JOIN DESIGN ON ART.id = DESIGN.idart
+				WHERE ART.isPublic = 1
 				GROUP BY (ART.name, ART.creationYear) 
 				ORDER BY ART.name'
 			);
@@ -193,7 +194,7 @@ GROUP BY art.name");*/
 				));
 			return $query;
 		}
-		function getAllForAccueil() {
+		function getAllForHome() {
 			/*$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR ", ") AS auteurs
 fROM ART, LOCATION, DESIGN
 WHERE DESIGN.idArt = ART.id
@@ -210,8 +211,10 @@ GROUP BY ART.name;");*/
 					LOCATION.latitude as latitude, 
 					LISTAGG(DESIGN.nameAuthor, \', \') 
 						WITHIN GROUP (ORDER BY DESIGN.nameAuthor) as auteurs
-				FROM ART, LOCATION, DESIGN
-				WHERE LOCATION.name = ART.nameLocation AND DESIGN.idart = ART.id
+				FROM 
+					LOCATION,
+					ART LEFT JOIN DESIGN ON ART.id = DESIGN.idArt
+				WHERE LOCATION.name = ART.nameLocation AND ART.ispublic = 1
 				GROUP BY (ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude) 
 				ORDER BY ART.name'
 			);

@@ -8,14 +8,14 @@
 				<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
 			</div>
 			<div id="slogan">
-			  	<h1>L'app' du 1% artistique de l'Université de Montpellier</h1>
+			  	<h1>1% artistique - Université de Montpellier</h1>
 			</div>
 		</div>
 		<div id="logo-artistique">
 			<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
 		</div>
 		<div id="responsive-slogan">
-		  	<h1>L'app' du 1% artistique de l'Université de Montpellier</h1>
+		  	<h1>1% artistique - Université de Montpellier</h1>
 		</div>
 	</div>
 	<div class="input-group" id="search">

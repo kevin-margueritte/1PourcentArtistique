@@ -35,7 +35,7 @@
 				$design = new Design($authorName, $art->getId());
 				if (empty($biographyHTMLContent)) {
 					$design->setBiographyHTMLFile(null);
-					$file->removeFile('biography.html');
+					$file->removeFile('biography' . str_replace(" ", "_", $authorName) . '.html');
 				}
 				else {
 					$design->setBiographyHTMLFile('biography.html');

@@ -13,6 +13,7 @@
 	<link href="/lib/dropzone/basic.min.css" rel="stylesheet">
 	<link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/css/styles.css">
+	<link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
 	<title>1% artistique</title>
 </head>
 <body ng-app="deconnexionAdmin" ng-controller="deconnexionAdmin">
@@ -23,10 +24,10 @@
 	<script src="http://vjs.zencdn.net/5.8.8/video.js"></script>
 	<script src="/lib/caroussel/owl.carousel.js"></script>
 	<script src="/lib/overview/js/lightbox.js"></script>
+	<script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	<script src="/lib/input-tags/ng-tags-input.min.js"></script>
 	<script src="/lib/dropzone/dropzone.js"></script>
-	<script src="/lib/fso/fso.min.js"></script>
 	<script src="/js/deconnexion.js"></script>
 </body>
 </html>

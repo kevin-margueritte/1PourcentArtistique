@@ -2,5 +2,5 @@
 	require_once '../persistance/art.php';
 
 	$art = new Art("", "", "", "", "", "", "");
-	$res = $art->getAllForAccueil();
+	$res = $art->getAllForHome();
 	echo json_encode($res);

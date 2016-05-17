@@ -15,7 +15,8 @@
 	<link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
 	<link href="/lib/back-to-top/css/style.css" rel="stylesheet">
 	<link rel="stylesheet" href="/css/styles.css">
-	<title>1% artistique - Création</title>
+	<link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
+	<title></title>
 </head>
 <body ng-app="art">
 	<?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
@@ -35,11 +36,12 @@
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="#" ng-click="openTitle()">Informations générales</a></li>
-					<li><a href="#" ng-click="addDescription()">Description de l'oeuvre</a></li>
-					<li><a href="#" ng-click="addPresentation()">Présentation de l'oeuvre</a></li>
-					<li><a href="#" ng-click="addPhotography()">Photographie(s) de l'oeuvre</a></li>
-					<li><a href="#" ng-click="addHistoric()">Historique de l'oeuvre</a></li>
+					<li><a href="#" ng-click="addDescription()">Description de l'œuvre</a></li>
+					<li><a href="#" ng-click="addPresentation()">Présentation de l'œuvre</a></li>
+					<li><a href="#" ng-click="addPhotography()">Photographie(s) de l'œuvre</a></li>
+					<li><a href="#" ng-click="addHistoric()">Historique de l'œuvre</a></li>
 					<li><a href="#" ng-click="addBiography()">Biographie(s) des auteurs</a></li>
+					<li><a href="#" ng-click="save()">Enregister</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -152,15 +154,15 @@
 					<div class="edit">
 						<h1>Informations générales</h1>
 						<div class="form-group">
-							<label>Nom de l'oeuvre</label>
+							<label>Nom de l'œuvre</label>
 							<input ng-model="art.name" type="text" class="form-control" placeholder="Nom">
 						</div>
 						<div class="form-group">
-							<label>Année de l'oeuvre</label>
+							<label>Année de l'œuvre</label>
 							<input ng-model="art.date" type="number" min="1" max="2500" class="form-control" placeholder="Année">
 						</div>
 						<div class="form-group">
-							<label>Type d'oeuvre</label>
+							<label>Type d'œuvre</label>
 							<select class="form-control" ng-model="art.type">
 							    <option ng-selected="true" value="Architecture">Architecture</option>
 							    <option>Arts décoratifs</option>
@@ -173,11 +175,11 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label>Localisation de l'oeuvre</label>
+							<label>Localisation de l'œuvre</label>
 							<input id="artLocation" ng-model="art.location">
 						</div>
 						<div class="form-group">
-							<label>Adresse exacte de l'oeuvre</label>
+							<label>Adresse exacte de l'œuvre</label>
 							<input type="text" class="form-control" id="art-adress" placeholder="Adresse">
 						</div>
 						<div id="map"></div>
@@ -240,7 +242,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Description de l'oeuvre</h1>
+						<h1>Description de l'œuvre</h1>
 						<div class="form-group">
 							<label>Matériaux utilisés</label>
 							<tags-input replace-spaces-with-dashes=false add-On-Enter=true min-Length=1 on-Tag-Removed="materialDelete($tag)" on-Tag-Added="materialAdd($tag)" ng-model="art.materials" placeholder="Ajouter un matériau"></tags-input>
@@ -262,9 +264,9 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Présentation de l'oeuvre</h1>
+						<h1>Présentation de l'œuvre</h1>
 						<div class="form-group">
-							<label>Présentation de l'oeuvre</label>
+							<label>Présentation de l'œuvre</label>
 							<div id="wysywygPresentation"></div>
 						</div>
 						<div class="form-group">
@@ -284,7 +286,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Photographie(s) de l'oeuvre</h1>
+						<h1>Photographie(s) de l'œuvre</h1>
 						<div class="form-group">
 							<form class="dropzone" id="dropzonePhotography"></form>
 						</div>
@@ -297,7 +299,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="edit">
-						<h1>Historique de l'oeuvre</h1>
+						<h1>Historique de l'œuvre</h1>
 						<div class="form-group">
 							<form class="dropzone" id="dropzoneHistoric"></form>
 						</div>
@@ -330,7 +332,7 @@
 									<td>{{rowAuthor.yearBirth}}</td>
 									<td>{{rowAuthor.yearDeath}}</td>
 									<td>
-										<button type="button" ng-click="addBiographyAuthor(rowAuthor.name)" class="btn btn-addDescriptionAuthor">Description</button>
+										<button type="button" ng-click="addBiographyAuthor(rowAuthor.name)" class="btn btn-addDescriptionAuthor">Biographie</button>
 									</td>
 								</tr>
 							</tbody>
@@ -349,7 +351,22 @@
 							<label>Biographie</label>
 							<div id="wysywygBiography"></div>
 						</div>
-						<button type="button" ng-click="completeEditBiography()" class="btn btn-add-author">Ajouter la description</button>
+						<button type="button" ng-click="completeEditBiography()" class="btn btn-add-author">Ajouter la biographie</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modal-save" tabindex="-1" role="dialog" aria-labelledby="modal-save">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="edit">
+						<h1>Voulez-vous publier l'œuvre ?</h1>
+						<div>
+							<button type="button" ng-click="publish(true)" class="btn btn-add-publish">Oui, je publie</button>
+						</div>
+						<div>
+							<button type="button" ng-click="publish(false)" class="btn btn-add-publishNo">Non, j'enregiste</button>
+						</div>
 					</div>
 				</div>
 			</div>

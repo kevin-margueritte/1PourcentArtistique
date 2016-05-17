@@ -33,8 +33,7 @@ myApp.directive('repeatOwlPhotographyPost', function($timeout) {
           authorName.replace(new RegExp(" ", 'g'), "_") + '.html')
         .success(function(data){
           defer.resolve(data);
-      });
-      //return defer.promise;
+        });
       return defer.promise;
     }
     return biography;
@@ -187,6 +186,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
       $scope.hideTitle = false;
       $scope.hideOverview = false;
+      $window.document.title = "1% Artistique - " + param;
 
       /*** Ajax - read art ***/
       var rqt = {
@@ -326,44 +326,21 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             }
 
             $scope.art.authors.push(data.key.authors[idx]);
-            $scope.hideBiography = false;
-            currentSectionGray = !currentSectionGray;
-            $scope.sectionBiographyGray = currentSectionGray;
 
-/*            $scope.art.authors[idx].biography = (function (artName, authorName) {
-              var defer = $q.defer();
-              $http.get('/assets/oeuvres/' + artName.replace(new RegExp(" ", 'g'), "_") + '/biography' + 
-                  authorName.replace(new RegExp(" ", 'g'), "_") + '.html')
-                .success(function(data){
-                  defer.resolve(data);
-              });
-                $scope.test;
-               defer.promise.then(
-                function(result) {
-                   $scope.test = result;
-                }
-              );
-                console.log($scope.test);
-              return defer.promise.then(
-                function(result) {
-                   return result;
-                }
-              );
-            })($scope.art.name, $scope.art.authors[idx].name);*/
-
-
-            factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).then(
-              function(res) { 
-                $scope.art.authors[i].biography = $sce.trustAsHtml(res);
-                i++; 
+            if (data.key.authors[idx].biography != null) {
+              if ($scope.hideBiography) {
+                $scope.hideBiography = false;
+                currentSectionGray = !currentSectionGray;
+                $scope.sectionBiographyGray = currentSectionGray;
               }
-            );
-/*            $scope.art.authors[idx].biography = factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).
-              then(
-                function(result) {
-                   return result;
+
+              factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).then(
+                function(res) { 
+                  $scope.art.authors[i].biography = $sce.trustAsHtml(res);
+                  i++; 
                 }
-              );*/
+              );
+            }
           }
         }
       });
@@ -371,6 +348,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     else if (URI == 'create') {
       $('#modal-title').modal({backdrop: 'static', keyboard: false});
       $('#modal-title').modal('show');
+      $window.document.title = "1% Artistique - créer une œuvre";
     }
 
     $('.nav-update').draggabilly();
@@ -645,68 +623,55 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
     function initMap() {
 
-    var placeSearch;
+      var placeSearch;
 
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 43.602272978692746, lng: 3.8836669921875},
-      zoom: 13
-    });
-
-    var geocoder = new google.maps.Geocoder();
-    var autocomplete = new google.maps.places.Autocomplete(
-        (document.getElementById('art-adress')),{types: ['geocode']}
-      );
-
-    autocomplete.addListener('place_changed', adressEnter);
-
-    function adressEnter() {
-      adress = document.getElementById('art-adress').value;
-      geocoder.geocode({'address': adress}, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          placeMarker(results[0].geometry.location);
-        } else {
-          alert("L'adresse n'existe pas : " + status);
-        }
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 43.602272978692746, lng: 3.8836669921875},
+        zoom: 13
       });
-    }
 
-    map.addListener('click', function(event) {
-      placeMarker(event.latLng);
-      geocoder.geocode({'location': event.latLng}, function(results, status) {
-        document.getElementById('art-adress').value = results[1].formatted_address;
-      });
-    });
+      var geocoder = new google.maps.Geocoder();
+      var autocomplete = new google.maps.places.Autocomplete(
+          (document.getElementById('art-adress')),{types: ['geocode']}
+        );
 
-    function geolocate() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var geolocation = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          var circle = new google.maps.Circle({
-            center: geolocation,
-            radius: position.coords.accuracy
-          });
-          autocomplete.setBounds(circle.getBounds());
+      autocomplete.addListener('place_changed', adressEnter);
+
+      function adressEnter() {
+        adress = document.getElementById('art-adress').value;
+        geocoder.geocode({'address': adress}, function(results, status) {
+          if (status === google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            placeMarker(results[0].geometry.location);
+          } else {
+            alert("L'adresse n'existe pas : " + status);
+          }
         });
       }
-    }
-  }
 
-  function placeMarker(location) {
-    map.setCenter(location);
-    if ( marker ) {
-      marker.setPosition(location);
-    } else {
-      marker = new google.maps.Marker({
-        position: location,
-        map: map
+      map.addListener('click', function(event) {
+        placeMarker(event.latLng);
+        geocoder.geocode({'location': event.latLng}, function(results, status) {
+          document.getElementById('art-adress').value = results[1].formatted_address;
+        });
       });
-    }
-  }
 
+      function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+      }
+    }
   });
 
   /** MODAL TITLE **/
@@ -820,8 +785,14 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         break;
       }
     }
+    console.log(nbBiography());
+    if ($scope.art.authors[idx].biography != '' && nbBiography() == 1) {
+      $scope.hideBiography = true;
+    }
+    $scope.art.authors[idx].biography = '';
     art.authors.splice( idx, 1 );
     $scope.authorsArray = art.authors;
+    $scope.art.authors[i] = art.authors;
     $scope.nbAuthors--;
 
     /*** Ajax - delete author ***/
@@ -840,11 +811,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $scope.hideErrorAuthor = true;
     var exist = false;
 
-    if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) || $scope.art.authors[$scope.nbAuthors].name == '') {
+    if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].name) || $scope.art.authors[$scope.nbAuthors].name == ''
+      || $scope.art.authors[$scope.nbAuthors].name == null) {
       $scope.hideErrorAuthor = false;
       $scope.errorAuthor = 'Veuillez entrer le nom de l\'auteur.';
     }
-    else if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].yearBirth)) {
+    else if (angular.isUndefined($scope.art.authors[$scope.nbAuthors].yearBirth) || $scope.art.authors[$scope.nbAuthors].yearBirth == null) {
       $scope.hideErrorAuthor = false;
       $scope.errorAuthor = 'Veuillez entrer l\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +'.';
     }
@@ -852,8 +824,10 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       !angular.isUndefined($scope.art.authors[$scope.nbAuthors].yearBirth) &&
       $scope.art.authors[$scope.nbAuthors].yearDeath != 0 && 
       $scope.art.authors[$scope.nbAuthors].yearBirth != 0 &&
+      $scope.art.authors[$scope.nbAuthors].yearDeath != null &&
       $scope.art.authors[$scope.nbAuthors].yearDeath < $scope.art.authors[$scope.nbAuthors].yearBirth
     ){
+      console.log($scope.art.authors[$scope.nbAuthors].yearDeath);
       $scope.hideErrorAuthor = false;
       $scope.errorAuthor = 'L\'année de naissance de ' + $scope.art.authors[$scope.nbAuthors].name +' est plus grande que son année de décès.';
     }
@@ -1260,7 +1234,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $('#modal-editBiography').modal('hide');
     var emptyWysywyg = $('#wysywygBiography').summernote('isEmpty');
     var idx = 0;
-    for (var i = 1; i < $scope.art.authors.length; i++) {
+    for (var i = 0; i < $scope.art.authors.length; i++) {
       if ($scope.art.authors[i].name == $scope.authorBiographyCurrent) {
         idx = i;
         break;
@@ -1284,13 +1258,39 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
   function nbBiography() {
     var nbBiography = 0;
-    for (var i = 1; i < $scope.art.authors.length; i++) {
+    for (var i = 0; i < $scope.art.authors.length; i++) {
       if ($scope.art.authors[i].biography != '' && !angular.isUndefined($scope.art.authors[i].biography)) {
+        console.log($scope.art.authors[i]);
         nbBiography++;
       } 
     }
     return nbBiography;
   }
+
+  /*** Modal save ***/
+
+  $scope.save = function() {
+    $('#modal-save').modal('show');
+  }
+
+  $scope.publish = function(publish) {
+    if (publish) {
+      var rqt = {
+          method : 'POST',
+          url : '/php/manager/publishArt.php',
+          data : $.param({artName: art.name}),  
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+      };
+      $http(rqt).success(function(data){
+        $window.location.href = '/art/read/' + art.name.replace(new RegExp(" ", 'g'), "_");
+      });
+    }
+    else {
+      $window.location.href = '/';
+    }
+  }
+
+  /*** Autocomplete function ***/
 
   function autocompleteLocation() {
     var rqt = {
@@ -1397,6 +1397,18 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     else {
       $scope.art.architect = 'Aucun';
+    }
+  }
+
+  function placeMarker(location) {
+    map.setCenter(location);
+    if ( marker ) {
+      marker.setPosition(location);
+    } else {
+      marker = new google.maps.Marker({
+        position: location,
+        map: map
+      });
     }
   }
 });

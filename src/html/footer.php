@@ -1,3 +1,9 @@
 <footer>
-	<p>Université de Montpellier - 163 rue Auguste Broussonnet - 34090 Montpellier</p>
+	<div id="left">
+		<a>En savoir plus sur le 1% artistique de l'Université de Montpellier</a>
+	</div>
+	<div id="right">
+		<a>Mentions Légales - </a>
+		<a>Crédits</a>
+	</div>
 </footer>

@@ -80,6 +80,19 @@
     src: url('/assets/fonts/OpenSans-SemiboldItalic.ttf') format('truetype');
 }
 /* MEDIA QUERIES */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  padding-bottom: 55px;
+}
+
+body {
+  position: relative;
+}
+
 .oeuvre .title {
   background-color: #ecf0f1;
 }
@@ -133,6 +146,7 @@
     float: left;
     width: 65%;
     margin-top: 50px;
+    margin-right: 10px;
   }
 }
 
@@ -387,7 +401,7 @@
 }
 
 .oeuvre .photograph {
-  padding-bottom: 30px;
+  padding-bottom: 15px;
 }
 
 .oeuvre .photograph h1 {
@@ -417,7 +431,7 @@
 }
 
 .oeuvre .historic {
-  padding-bottom: 20px;
+  padding-bottom: 15px;
 }
 
 .oeuvre .historic h1 {
@@ -497,13 +511,17 @@
 .edit .btn-complete,
 .edit .btn-removeAuthor,
 .edit .btn-addDescriptionAuthor,
-.edit .btn-forceMap {
+.edit .btn-forceMap,
+.edit .btn-add-publish,
+.edit .btn-add-publishNo {
   color: white;
 }
 
 .edit .btn-add-author,
 .edit .btn-complete,
-.edit .btn-forceMap {
+.edit .btn-forceMap,
+.edit .btn-add-publish,
+.edit .btn-add-publishNo {
   display: block;
   width: 30%;
   margin: 0 auto;
@@ -517,12 +535,24 @@
 }
 
 .edit .btn-addDescriptionAuthor,
-.edit .btn-forceMap {
+.edit .btn-forceMap,
+.edit .btn-add-publish {
   background-color: #2ecc71;
 }
 
-.edit .btn-removeAuthor {
+.edit .btn-removeAuthor,
+.edit .btn-add-publishNo {
   background-color: #f39c12;
+}
+
+.edit .btn-add-publish,
+.edit .btn-add-publishNo {
+  width: 50%;
+}
+
+.edit .btn-add-publishNo,
+.edit .btn-add-author {
+  margin-bottom: 30px;
 }
 
 .edit .btn-add-author {
@@ -909,6 +939,10 @@ header #logo-artistique img {
   }
 }
 
+.nav-update li {
+  width: 100%;
+}
+
 nav .navbar-brand {
   font-family: 'openSans-Bold';
   font-size: 22px;
@@ -1018,7 +1052,7 @@ nav li:hover {
   color: #ff5660;
 }
 
-.modifyAccount button {
+.modifyAccount form button {
   display: block;
   width: 65%;
   margin: 0 auto;
@@ -1042,7 +1076,7 @@ nav li:hover {
   color: #ff5660;
 }
 
-.createAccount button {
+.createAccount form button {
   display: block;
   width: 50%;
   margin: 0 auto;
@@ -1066,7 +1100,7 @@ nav li:hover {
   color: #ff5660;
 }
 
-.resetPassword button {
+.resetPassword form button {
   display: block;
   width: 50%;
   margin: 0 auto;
@@ -1209,6 +1243,10 @@ nav li:hover {
 
     color: #34495e;
 }
+#menu-ui #cacher img
+{
+    width: 20px;
+}
 #menu-ui #afficher_filtres
 {
     padding-top: 10px;
@@ -1269,6 +1307,10 @@ nav li:hover {
 {
     width: 45%;
 }
+.leaflet-bottom
+{
+    bottom: 100px;
+}
 /*Effet de mise en avant pour l'element selectionné*/
 div.radio label > input:checked + div {
   opacity: 1;
@@ -1299,26 +1341,110 @@ img.menu {
 }
 /** FOOTER **/
 footer {
+  position: absolute;
   bottom: 0;
   width: 100%;
   border-top: 5px solid #ff5660;
   background-color: #34495e;
 }
 
-footer p {
-  font-size: 10px;
-  margin-bottom: inherit;
-  padding-top: 18px;
-  padding-bottom: 18px;
-  padding-left: 5px;
+footer a {
   color: white;
 }
 
-.home footer {
-  position: absolute;
+footer a:hover {
+  color: #ff5660;
+}
+
+footer #right,
+footer #left {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+@media only screen and (max-width: 480px) {
+  footer #right,
+    footer #left {
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+}
+
+footer #right {
+  float: right;
+  padding-right: 5px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+  footer #right {
+    float: inherit;
+    padding-right: inherit;
+  }
+}
+
+footer #right a {
+  font-size: 10px;
+}
+
+footer #left {
+  float: left;
+  padding-left: 5px;
+  text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+  footer #left {
+    float: inherit;
+    padding-left: inherit;
+  }
+}
+
+footer #left a {
+  font-size: 12px;
 }
 /*** Bootstrap - override ***/
 a:hover {
   text-decoration: inherit;
   color: inherit;
+}
+/**** Credits ****/
+#credits {
+  margin-right: 150px;
+  margin-left: 150px;
+  text-align: justify;
+}
+
+@media only screen and (max-width: 992px) {
+  #credits {
+    margin-right: 45px;
+    margin-left: 45px;
+  }
+}
+
+#credits #title {
+  font-family: 'openSans-Bold';
+  font-size: 30px;
+  margin-left: -15px;
+  color: #ff5660;
+}
+
+#credits span,
+#credits h2 {
+  font-family: 'openSans-Regular';
+  color: #34495e;
+}
+
+#credits h2 {
+  font-size: 14px;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+#credits #laws {
+  font-family: 'openSans-Semibold';
+  font-size: 25px;
+  margin-top: 25px;
+  margin-left: -10px;
+  color: #34495e;
 }

@@ -9,7 +9,8 @@
     <meta name="theme-color" content="#000000">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>1% Artistique</title>
+    <link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
+    <title>1% artistique - Université de Montpellier</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -34,7 +35,7 @@
   <div ng-controller="home-map">
     <div id="menu-ui">
       <div id="afficher_filtres" ng-click="listeDeroulante()">
-        <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/filtres/menu-20.png">
+        <a href='#' id='filtre' data-filter='filtre'><img class="menu" src="/assets/epingles/menu.png">
           <span>FILTRES</span>
         </a>
       </div>
@@ -44,7 +45,7 @@
             <div class="radio" ng-click="filtres('all')" >
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="all" checked/>
-                <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/all.png">
                  <span>Tous</span>
                 </div>
               </label>
@@ -52,7 +53,7 @@
             <div class="radio" ng-click="filtres('architecture')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="architecture"/>
-                <div id="texteFiltre"><img src="/assets/filtres/architecture-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/architecture.png">
                   <span>Architecture</span>
                 </div>
               </label>
@@ -60,7 +61,7 @@
             <div class="radio" ng-click="filtres('artNumérique')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="artNumérique"/>
-                <div id="texteFiltre"><img src="/assets/filtres/art_numerique-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/art numerique.png">
                   <span>Art numérique</span>
                 </div>
               </label>
@@ -68,7 +69,7 @@
             <div class="radio" ng-click="filtres('artDécoratif')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="artDécoratif"/>
-                <div id="texteFiltre"><img src="/assets/filtres/art_decoratif-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/art decoratif.png">
                   <span>Art décoratif</span>
                 </div>
               </label>
@@ -76,7 +77,7 @@
             <div class="radio" ng-click="filtres('cinéma')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="cinéma"/>
-                <div id="texteFiltre"><img src="/assets/filtres/cinema-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/cinema.png">
                   <span>Cinéma</span>
                 </div>
               </label>
@@ -84,7 +85,7 @@
             <div class="radio" ng-click="filtres('musique')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="musique"/>
-                <div id="texteFiltre"><img src="/assets/filtres/musique-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/musique.png">
                   <span>Musique</span> 
                 </div>
               </label>
@@ -92,7 +93,7 @@
             <div class="radio" ng-click="filtres('peinture')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="peinture"/>
-                <div id="texteFiltre"><img src="/assets/filtres/peinture-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/peinture.png">
                   <span>Peinture</span>
                 </div>
               </label>
@@ -100,7 +101,7 @@
             <div class="radio" ng-click="filtres('photographie')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="photographie"/>
-                <div id="texteFiltre"><img src="/assets/filtres/photographie-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/photographie.png">
                   <span>Photographie</span>
                 </div>
               </label>
@@ -108,7 +109,7 @@
             <div class="radio" ng-click="filtres('sculpture')">
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="sculpture"/>
-                <div id="texteFiltre"><img src="/assets/filtres/sculpture-20.png">
+                <div id="texteFiltre"><img src="/assets/epingles/sculpture.png">
                   <span>Sculpture</span>
                 </div>
               </label>

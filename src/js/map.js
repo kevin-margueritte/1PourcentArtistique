@@ -35,8 +35,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   /* Basemap Layers */
   var mapquestOSM = L.tileLayer("https://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
     maxZoom: 19,
-    subdomains: ["otile1-s", "otile2-s", "otile3-s", "otile4-s"],
-    attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
+    subdomains: ["otile1-s", "otile2-s", "otile3-s", "otile4-s"]
   });
 
   /*Draw the outline of the Languedoc Roussillon on the map from the file languedoc_rousillong.geojson*/
@@ -81,7 +80,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   });
 
   /*Add signature at the bottom right of the map*/
-  var attributionControl = L.control({
+/*  var attributionControl = L.control({
     position: "bottomright"
   });
   attributionControl.onAdd = function (map) {
@@ -89,7 +88,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
     div.innerHTML = "<span class='hidden-xs'>Developpé par Pierrick & Kevin dans le cadre du Projet Industriel de Polytech MONTPELLIER.";
     return div;
   };
-  map.addControl(attributionControl);
+  map.addControl(attributionControl);*/
 
   /*Add the + and - buttons to zoom on the map*/ 
   var zoomControl = L.control.zoom({
@@ -176,7 +175,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   /*Get all informations about art to display on the map*/
   var rqt = {
     method: 'GET',
-    url : '/php/manager/getAllForAccueil.php',
+    url : '/php/manager/getAllForHome.php',
     headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
   };
   $http(rqt).success(function(data){
@@ -206,7 +205,14 @@ myApp.controller('home-map', function ($scope, $http, $window) {
       pointToLayer: function(feature, latlng) {
         /*Get the image path*/
         var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(new RegExp(" ", 'g'), "_") + "/"+ feature.properties.imagefile;
+        var author;
         /*Create the content of the pop-up with the elements of the art*/
+        if (feature.properties.auteurs == null) {
+          author = 'Auteur inconnu';
+        }
+        else {
+          author = feature.properties.auteurs;
+        }
         var content = 
           "<div id=\"contenu-pop-up\" class=\"clearfix\">"+
             "<div id=\"image\">"+
@@ -214,7 +220,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
             "</div>"+
             "<div id=\"texte\">"+
               "<div id=\"nom-prenom-artiste\">"+
-                "<span>" + feature.properties.auteurs + "</span>"+
+                "<span>" + author + "</span>"+
               "</div>"+
               "<div id=\"nom-oeuvre\">"+
                 "<span>" + feature.properties.name + " (" + feature.properties.creationyear + ")</span>"+

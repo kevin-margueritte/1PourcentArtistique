@@ -1,24 +1,22 @@
 Options +FollowSymlinks
 RewriteEngine On
 
-RewriteRule /art/lecture /html/oeuvre.php
+RewriteRule /art/edit/ /html/descriptionPage.php
 
-RewriteRule /art/edit/ /html/oeuvreEdit.php
+RewriteRule /art/read/ /html/descriptionPage.php
 
-RewriteRule /art/read/ /html/oeuvreEdit.php
+RewriteRule /art/update/ /html/descriptionPage.php
 
-RewriteRule /art/update/ /html/oeuvreEdit.php
+RewriteRule /art/create/ /html/descriptionPage.php
 
-RewriteRule /art/create/ /html/oeuvreEdit.php
+RewriteRule /art/list /html/artList.php
 
 RewriteRule /art_auth /html/connexionAdmin.php
 
-RewriteRule /art/list /html/listeOeuvre.php
+RewriteRule /admin/deconnexion /html/deconnexion.php
 
-RewriteRule /art/deconnexion /html/deconnexion.php
+RewriteRule /admin/create /html/createaccount.php
 
-RewriteRule /art/createaccount /html/createaccount.php
+RewriteRule /admin/password/change /html/myaccount.php
 
-RewriteRule /art/changepassword /html/myaccount.php
-
-RewriteRule /art/resetpassword /html/resetPassword.php
+RewriteRule /admin/password/reset /html/resetPassword.php

@@ -40,7 +40,7 @@
 		}
 
 		function removeFile($nameFile) {
-			if (file_exists($this->src . $this->artName)) {
+			if (file_exists($this->src . $this->artName . '/' . $nameFile)) {
 				return unlink($this->src . $this->artName . '/' .$nameFile);
 			}
 			return false;
