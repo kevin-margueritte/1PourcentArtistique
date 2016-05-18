@@ -33,6 +33,7 @@
 				$art = new Art($artName);
 				$file = new File($artName);
 				$design = new Design($authorName, $art->getId());
+				var_dump($biographyHTMLContent);
 				if (empty($biographyHTMLContent)) {
 					$design->setBiographyHTMLFile(null);
 					$file->removeFile('biography' . str_replace(" ", "_", $authorName) . '.html');

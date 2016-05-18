@@ -68,11 +68,14 @@ $( document ).ready(function() {
     });
 
     $(this).on('click', ".leaflet-container", function() {
-    	$(".collapse").collapse("hide");
-    	$(this).removeClass( "collapse-on" );
-    	$(this).addClass( "collapse-off" );
-    	$(".glyphicon").removeClass( "glyphicon-chevron-down" );
-    	$(".glyphicon").addClass( "glyphicon-chevron-up" );
+
+      if ($(".glyphicon-collapse").hasClass("glyphicon-chevron-up")) {
+      	$(".collapse").collapse("hide");
+      	$(".collapse-trigger").removeClass( "collapse-off" );
+      	$(".collapse-trigger").addClass( "collapse-on" );
+      	$(".glyphicon-collapse").removeClass( "glyphicon-chevron-up" );
+      	$(".glyphicon-collapse").addClass( "glyphicon-chevron-down" );
+      }
     });
 
 });

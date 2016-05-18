@@ -57,7 +57,6 @@ art.id ='';
 var formatVideo = ['avi', 'wmv', 'mov', 'mkv', 'mp4', 'mpeg4'];
 var formatImage = ['jpg', 'png', 'jpeg', 'gif', 'ico', 'bnp', 'tiff'];
 var nameart;
-var currentSectionGray = true;
 var dropzoneDescription;
 var dropzonePresentationVideo;
 var dropzonePresentationSound;
@@ -86,19 +85,23 @@ var confWysywyg = {
         ['#FF5660', '#4BC2BC', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D', '#34495E', '#2C3E50'],
         ['#F1C40F', '#F39C12', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD']
       ],
+      lineHeights: ['1.0', '1.2', '1.4', '1.5', '1.6', '1.8', '2.0', '3.0'],
+      fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
       defaultFontName: 'openSans-Regular',
-/*      toolbar: [
-        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline', 'clear']],
         ['fontname', ['fontname']],
-        ['fontsize', ['fontsize']], 
+        ['fontsize', ['fontsize']],
         ['color', ['color']],
         ['para', ['ul', 'ol', 'paragraph']],
         ['height', ['height']],
         ['table', ['table']],
-        ['insert', ['link', 'picture', 'video', 'hr']],
-        ['view', ['fullscreen']],
-        ['help', ['fullscreen', 'codeview', 'help']]
-      ],*/
+        ['insert', ['link', 'picture', 'hr']],
+        ['view', ['fullscreen', 'codeview']],
+        ['help', ['help']]
+      ],
+      styleTags: ['p'],
       popover: {
         image: [
           ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
@@ -116,7 +119,6 @@ var confWysywyg = {
           ['insert', ['link', 'picture']]
         ]
       },
-      fontSizes: ['8', '9', '10', '11', '12', '13','14','15','16','17','18','19','20','21','22','23','24','25','26'],
       lang: 'fr-FR',
     };
 
@@ -220,6 +222,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             $scope.nbAuthors = data.key.authors.length;
           }
         }
+        else if(data.key.public == "0") {
+          $window.location.href = '/';
+        }
 
         $scope.art.name = data.key.artName; 
         $scope.art.date = Number(data.key.creationYear);
@@ -236,7 +241,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
 
         if (data.key.presentationHTML != null || data.key.videos !=null || data.key.soundFile != null) {
           $scope.hidePresentation = false;
-          currentSectionGray = !currentSectionGray;
 
           /**Get content presentation HTML **/
           var rqt = {
@@ -275,8 +279,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         if (data.key.photos != null) {
           $scope.nbPhotography = data.key.photos.length;
           $scope.hidePhotography = false;
-          currentSectionGray = !currentSectionGray;
-          $scope.sectionPhotographyGray = currentSectionGray;
 
           for (var i = 0; i < $scope.nbPhotography; i++) {
             $scope.art.photographyList[i] = {};
@@ -289,8 +291,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         if (data.key.historicImages !=null) {
           $scope.nbHistoric = data.key.historicImages.length;
           $scope.hideHistoric = false;
-          currentSectionGray = !currentSectionGray;
-          $scope.sectionHistoricGray = currentSectionGray;
 
           for (var i = 0; i < $scope.nbHistoric; i++) {
             $scope.art.historicList[i] = {};
@@ -330,8 +330,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             if (data.key.authors[idx].biography != null) {
               if ($scope.hideBiography) {
                 $scope.hideBiography = false;
-                currentSectionGray = !currentSectionGray;
-                $scope.sectionBiographyGray = currentSectionGray;
               }
 
               factoryBiography.text($scope.art.name, $scope.art.authors[idx].name).then(
@@ -1019,7 +1017,6 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if ( !$('#wysywygPresentation').summernote('isEmpty') || $scope.art.videoList.length > 0 || $scope.art.soundPath != '') {
       $scope.hidePresentation = false;
-      currentSectionGray = !currentSectionGray;
     }
     else {
       $scope.hidePresentation = true;
@@ -1062,14 +1059,11 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if ($scope.nbPhotography==0) {
       $scope.hidePhotography = true;
-      currentSectionGray = !currentSectionGray;
       $scope.sectionHistoricGray = !$scope.sectionHistoricGray;
       $scope.sectionBiographyGray = !$scope.sectionBiographyGray;
     }
     else {
       $scope.hidePhotography = false;
-      currentSectionGray = !currentSectionGray;
-      $scope.sectionPhotographyGray = currentSectionGray;
     }
   }
 
@@ -1152,13 +1146,10 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if ($scope.nbHistoric==0 && $scope.art.historicHTML == '') {
       $scope.hideHistoric = true;
-      currentSectionGray = !currentSectionGray;
       $scope.sectionBiographyGray = !$scope.sectionBiographyGray;
     }
     else {
       $scope.hideHistoric = false;
-      currentSectionGray = !currentSectionGray;
-      $scope.sectionHistoricGray = currentSectionGray;
     }
   }
 
@@ -1204,12 +1195,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $('#modal-biography').modal('hide');
     if (nbBiography() == 0 ) {
       $scope.hideBiography = true;
-      currentSectionGray = !currentSectionGray;
     }
     else {
       $scope.hideBiography = false;
-      currentSectionGray = !currentSectionGray;
-      $scope.sectionBiographyGray = currentSectionGray;
     }
   }
 
@@ -1234,6 +1222,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $('#modal-editBiography').modal('hide');
     var emptyWysywyg = $('#wysywygBiography').summernote('isEmpty');
     var idx = 0;
+    var content;
     for (var i = 0; i < $scope.art.authors.length; i++) {
       if ($scope.art.authors[i].name == $scope.authorBiographyCurrent) {
         idx = i;
@@ -1242,14 +1231,16 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     }
     if (emptyWysywyg) {
       $scope.art.authors[idx].biography = '';
+      content = '';
     }
     else {
       $scope.art.authors[idx].biography = $sce.trustAsHtml($('#wysywygBiography').summernote('code'));
+      content = $('#wysywygBiography').summernote('code');
     }
     var rqt = {
       method : 'POST',
       url : '/php/manager/addBiography.php',
-      data : $.param({biographyHTMLContent: $('#wysywygBiography').summernote('code'), artName: art.name, 
+      data : $.param({biographyHTMLContent: content, artName: art.name, 
         authorName: $scope.authorBiographyCurrent, id_admin: id_admin, token_admin: token_admin}),  
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };

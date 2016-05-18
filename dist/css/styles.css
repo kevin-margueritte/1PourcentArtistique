@@ -240,6 +240,11 @@ body {
   margin: auto;
 }
 
+.oeuvre .ng-binding {
+  margin-right: 100px;
+  margin-left: 100px;
+}
+
 .oeuvre .presentation {
   padding-bottom: 15px;
 }
@@ -311,8 +316,6 @@ body {
 .oeuvre .presentation span {
   font-family: 'openSans-Regular';
   display: block;
-  margin-right: 100px;
-  margin-left: 100px;
   text-align: justify;
   color: #2c3e50;
 }
@@ -464,8 +467,6 @@ body {
   font-family: 'openSans-Regular';
   display: block;
   margin-top: 30px;
-  margin-right: 100px;
-  margin-left: 100px;
   text-align: justify;
   color: #2c3e50;
 }
@@ -574,6 +575,12 @@ body {
 }
 
 .edit .note-editable {
+  font-family: 'openSans-Regular';
+  text-align: justify;
+  color: #2c3e50 !important;
+}
+
+.edit .note-editor p {
   font-family: 'openSans-Regular';
   text-align: justify;
   color: #2c3e50 !important;

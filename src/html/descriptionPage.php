@@ -30,7 +30,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<h1 class="navbar-brand">Editeur d'oeuvre</h1>
+				<h1 class="navbar-brand">Editeur d'œuvre</h1>
 			</div>
 
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -106,7 +106,7 @@
 				</div>
 			</div>
 		</div>
-		<div ng-hide="hidePhotography" class="photograph clearfix" ng-class="{'gray': sectionPhotographyGray == true}">
+		<div ng-hide="hidePhotography" class="photograph clearfix" ng-class="{'gray': hidePresentation == false}">
 			<h1 class="collapse-trigger collapse-off carousel-photography-collapse" data-toggle="collapse" data-target="#collapsePhotography">
 				PHOTOGRAPHIE(S) - {{nbPhotography + " photo(s)"}}
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
@@ -121,7 +121,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="historic clearfix" ng-hide=hideHistoric ng-class="{'gray': sectionHistoricGray == true}">
+		<div class="historic clearfix" ng-hide=hideHistoric ng-class="{'gray': (hidePresentation == true && hidePhotography == false) || (hidePresentation == false && hidePhotography == true)}">
 			<h1 class="collapse-trigger collapse-off carousel-historic-collapse" data-toggle="collapse" data-target="#collapseHistoric">
 				HISTORIQUE - {{nbHistoric + " photo(s) d'historique(s)"}}
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
@@ -137,7 +137,7 @@
 				<span ng-bind-html="art.historicHTML"></span>
 			</div>
 		</div>
-		<div class="biography clearfix" ng-hide=hideBiography ng-class="{'gray': sectionBiographyGray == true}">
+		<div class="biography clearfix" ng-hide=hideBiography ng-class="{'gray': (hidePresentation == false && hidePhotography == false && hideHistoric == false) || (hidePresentation == false && hidePhotography == true && hideHistoric == true) || (hidePresentation == true && hidePhotography == true && hideHistoric == false)}">
 			<h1 class="collapse-trigger collapse-off" data-toggle="collapse" data-target="#collapseBiography">
 				BIOGRAPHIE(S)
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>

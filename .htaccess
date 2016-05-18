@@ -20,3 +20,7 @@ RewriteRule /admin/create /html/createaccount.php
 RewriteRule /admin/password/change /html/myaccount.php
 
 RewriteRule /admin/password/reset /html/resetPassword.php
+
+RewriteRule /en-savoir-plus /html/enSavoirPlus.php
+
+RewriteRule /mentions-legales /html/mentionsLegales.php

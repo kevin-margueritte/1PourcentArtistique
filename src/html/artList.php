@@ -31,7 +31,7 @@
 			<tbody>
 				<tr class="danger" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 0">
 					<td>
-						<a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
+						<a href="#" ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
 					</td>
 					<td>{{oeuvre.auteurs}}</td>
 					<td >
@@ -43,7 +43,7 @@
 				</tr>
 				<tr class="success" ng-repeat="oeuvre in allOeuvre" ng-if="oeuvre.ispublic == 1">
 					<td>
-						<a ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
+						<a href="#" ng-click="informationsArt(oeuvre.name)">{{oeuvre.name}}</a>
 					</td>
 					<td>{{oeuvre.auteurs}}</td>
 					<td ng-if="oeuvre.ispublic == 1">

@@ -2,20 +2,28 @@
 	<div id="logo" class="clearfix collapse in">
 		<div class="clearfix" id="logoUMSlogan">
 			<div id="logo-UM">
-				<a href="/"><img src="/assets/img/logo_um.png" alt="Logo de l'universite de Montpellier"></a>
+				<a href="http://www.umontpellier.fr/"><img src="/assets/img/logo_um.png" alt="Logo de l'universite de Montpellier"></a>
 			</div>
 			<div id="responsive-logo-artistique">
-				<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
+				<a href="http://www.culturecommunication.gouv.fr/Politiques-ministerielles/Le-1-artistique">
+					<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
+				</a>
 			</div>
 			<div id="slogan">
-			  	<h1>1% artistique - Université de Montpellier</h1>
+			  	<a href="/">
+			  		<h1>1% artistique - Université de Montpellier</h1>
+			  	</a>
 			</div>
 		</div>
 		<div id="logo-artistique">
-			<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
+			<a href="http://www.culturecommunication.gouv.fr/Politiques-ministerielles/Le-1-artistique">
+				<img src="/assets/img/logo_artistique.png" alt="Logo du 1% artistique">
+			</a>
 		</div>
 		<div id="responsive-slogan">
-		  	<h1>1% artistique - Université de Montpellier</h1>
+			<a href="/">
+		  		<h1>1% artistique - Université de Montpellier</h1>
+		  	</a>
 		</div>
 	</div>
 	<div class="input-group" id="search">
