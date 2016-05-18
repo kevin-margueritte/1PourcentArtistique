@@ -456,6 +456,7 @@ body {
 .oeuvre .historic .carousel-historic {
   width: 80%;
   margin: 0 auto;
+  margin-bottom: 30px;
   text-align: center;
 }
 
@@ -466,7 +467,6 @@ body {
 .oeuvre .historic span {
   font-family: 'openSans-Regular';
   display: block;
-  margin-top: 30px;
   text-align: justify;
   color: #2c3e50;
 }
