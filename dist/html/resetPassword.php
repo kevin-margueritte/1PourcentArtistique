@@ -22,7 +22,7 @@
     <h1>Mot de passe oublié</h1>
     <div id="formResetPassword" ng-controller="resetPassword">
       <div class="form-group"> <label class="control-label">Email</label>
-        <div> <input type="email" class="form-control" ng-model="email" placeholder="Ex: xxx@yyy.zzz"> </div>
+        <div> <input type="email" class="form-control" ng-model="email"> </div>
       </div>
       <div class="form-group"> <button name="validerChangerMotDePasse" class="btn btn-success" ng-click="bouttonChangePassword(email)">Valider</button> </div>
       <div ng-hide="hideError" class="alert alert-danger"> <strong>Erreur! </strong>{{titleError}} </div>
@@ -34,6 +34,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
     <script src="/lib/input-tags/ng-tags-input.min.js"></script>
+    <script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
     <script src="/lib/cookies/angular-cookies.js"></script>
     <script src="/js/app.js"></script>
