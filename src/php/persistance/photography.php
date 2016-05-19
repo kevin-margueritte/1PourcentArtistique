@@ -1,23 +1,32 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Photography {
 
 		/**
-		Name of the photography
-		@var nameFile
+		* Name of the photography
+		* @var string
 		*/
 		private $nameFile;
 
 		/**
-		Name of the art
-		@var idArt
+		* Name of the art
+		* @var integer
 		*/
 		private $idArt;
 
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $nameFile
+		* @param integer $idArt
+		*/
 		public function __construct ($nameFile, $idArt)
 		{
 			$this->db = connection();
@@ -26,7 +35,8 @@
 		}
 
 		/**
-		* Insert into photography with nameFile and idArt
+		* Save the photography for an art with his name and the id of the art
+		* @return If it is save
 		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO PHOTOGRAPHY(nameFile, idArt) 
@@ -34,13 +44,18 @@
 			return $insert->execute(array($this->nameFile, $this->idArt));
 		}
 
+		/**
+		* Delete the photography of an art with his name and the id of the art
+		* @return If the deletion worked
+		*/
 		public function delete() {
 			$delete = $this->db->prepare("DELETE FROM PHOTOGRAPHY WHERE nameFile = ? AND idArt = ?");
 			return $delete->execute(array($this->nameFile, $this->idArt));
 		}
 
-		/** 
-		* Test if the name of the photography exist in the database
+		/**
+		* Test if the name of the photography already exist in the database by his name and the id of the art
+		* @return integer 0 or 1
 		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM PHOTOGRAPHY WHERE nameFile = ? ");
@@ -51,7 +66,7 @@
 	    /**
 	     * Gets the Name of the photography.
 	     *
-	     * @return nameFil
+	     * @return string
 	     */
 	    public function getNameFil()
 	    {
@@ -61,7 +76,7 @@
 	    /**
 	     * Sets the Name of the photography.
 	     *
-	     * @param nameFil $newNameFil the name fil
+	     * @param string $newNameFil the name fil
 	     */
 	    private function setNameFil($newNameFile)
 	    {
@@ -71,7 +86,7 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return idArt
+	     * @return integer
 	     */
 	    public function getidArt()
 	    {
@@ -81,7 +96,7 @@
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param idArt $newidArt the name art
+	     * @param integer $newidArt the name art
 	     */
 	    private function setidArt($newidArt)
 	    {

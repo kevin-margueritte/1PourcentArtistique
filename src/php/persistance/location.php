@@ -1,32 +1,38 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Location {
 		/**
-		Name of the localisation 
-		@var name
+		* Name of the localisation 
+		* @var string
 		*/
 		private $name;
 
 		/**
-		Longitude of the localisation
-		@var longitude
+		* Longitude of the localisation
+		* @var float
 		*/
 		private $longitude;
 
 		/**
-		Latitude of the localisation
-		@var latitude
+		* Latitude of the localisation
+		* @var float
 		*/
 		private $latitude;
 
 		/**
-		Connection database
-		@var $db
+		* Connexion on the database 
+		* @var string
 		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $name
+		* @param float $longitude
+		* @param float latitude
+		*/
 		public function __construct ($name = null, $longitude = null, $latitude = null)
 		{
 			$this->db = connection();
@@ -35,12 +41,20 @@
 			$this->latitude = $latitude;
 		}
 
+		/**
+		* Save the location in the database with the latitude, location and his name
+		* @return If it is save
+		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO LOCATION(name, longitude, latitude) 
 				VALUES (?, ?, ?)");
 			return $insert->execute(array($this->name, $this->longitude, $this->latitude));
 		}
 
+		/**
+		 * Update the longitude and latitude by the name of the location
+		 * @return If the update worked
+		 */
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE LOCATION SET
@@ -51,6 +65,10 @@
 				$this->name));
 		}
 
+		/**
+		 * Retrieves all informations about locations in the database
+		 * @return All locations
+		 */
 		function getAll() {
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$get = $this->db->prepare("SELECT * FROM LOCATION");
@@ -58,12 +76,20 @@
 			return $get->fetchAll();
 		}
 
+		/**
+		* Test if the location already existe in the databse by his name 
+		* @return integer 0 or 1
+		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE name = ? ");
 			$exist->execute(array($this->name));
 			return count($exist->fetchAll()) >= 1;
 		}
 
+		/**
+		 * Change the longitude and latitude of the name
+		 * @return If the changement worked
+		 */
 		function changed() {
 			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE longitude = ? AND  latitude = ?");
 			$exist->execute(array($this->longitude, $this->latitude));
@@ -73,7 +99,7 @@
 	    /**
 	     * Gets the Name of the localisation.
 	     *
-	     * @return name
+	     * @return string name
 	     */
 	    public function getName()
 	    {
@@ -83,7 +109,7 @@
 	    /**
 	     * Sets the Name of the localisation.
 	     *
-	     * @param name $newName the name
+	     * @param string $newName the name
 	     */
 	    private function setName($newName)
 	    {
@@ -93,7 +119,7 @@
 	    /**
 	     * Gets the Longitude of the localisation.
 	     *
-	     * @return longitude
+	     * @return float longitude
 	     */
 	    public function getLongitude()
 	    {
@@ -103,7 +129,7 @@
 	    /**
 	     * Sets the Longitude of the localisation.
 	     *
-	     * @param longitude $newLongitude the longitude
+	     * @param float $newLongitude the longitude
 	     */
 	    private function setLongitude($newLongitude)
 	    {
@@ -113,7 +139,7 @@
 	    /**
 	     * Gets the Latitude of the localisation.
 	     *
-	     * @return latitude
+	     * @return float latitude
 	     */
 	    public function getLatitude()
 	    {
@@ -123,7 +149,7 @@
 	    /**
 	     * Sets the Latitude of the localisation.
 	     *
-	     * @param latitude $newLatitude the latitude
+	     * @param float $newLatitude the latitude
 	     */
 	    private function setLatitude($newLatitude)
 	    {
@@ -133,7 +159,7 @@
 	    /**
 	     * Gets the Name of the art at this localisation.
 	     *
-	     * @return nameArt
+	     * @return string nameArt
 	     */
 	    public function getNameArt()
 	    {
@@ -143,7 +169,7 @@
 	    /**
 	     * Sets the Name of the art at this localisation.
 	     *
-	     * @param nameArt $newNameArt the name art
+	     * @param String $newNameArt the name art
 	     */
 	    private function setNameArt($newNameArt)
 	    {

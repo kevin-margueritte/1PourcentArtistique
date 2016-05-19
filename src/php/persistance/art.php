@@ -1,67 +1,86 @@
 <?php
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Art {
 		/**
-		Name of the art
-		@var name
+		* Name of the art
+		* @var string
 		*/
 		private $name;
 
 		/**
-		Date of creation
-		var @creationYear
+		* Date of creation
+		* @var string
 		*/
 		private $creationYear;
 
 		/**
+		 * Name of the file how content the presentation
+		 * @var string
 		*/
 		private $presentationHTMLFile;
 
 		/**
+		 * Name of the file how content the historic
+		 * @var string
 		*/
 		private $historicHTMLFile;
 
 		/**
+		 * Name of the file how content the sound
+		 * @var string
 		*/
 		private $soundFile;
 
 		/**
-		Know if the art is public or not
-		@var isPublic
+		* Know if the art is public or not
+		* @var integer
 		*/
 		private $isPublic;
 
 		/**
-		Type of the art
-		@var type
+		* Type of the art
+		* @var string
 		*/
 		private $type;
 
 		/**
-		Id of the art
-		@var id
+		* Id of the art
+		* @var string
 		*/
 		private $id;
 
 		/**
-		Location of the art
-		@var nameLocation
+		* Location of the art
+		* @var string
 		*/
 		private $nameLocation;
 
 		/**
-		Image of the art
-		@var imageFile
+		* Name of the image
+		* @var string
 		*/
 		private $imageFile;
 
 		/**
-		Connection database
-		@var $db
+		* Connexion on the database 
+		* @var string
 		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $name
+		* @param string $creationYear
+		* @param string $nameLocation
+		* @param string $presentationHTMLFile
+		* @param string $historicHTMLFile
+		* @param string $soundFile
+		* @param string $isPublic
+		* @param integer $id
+		* @param string $imageFile
+		*/
 		public function __construct ($name = null, $creationYear = null, $nameLocation = null, $presentationHTMLFile = null, $historicHTMLFile = null, $soundFile = null, 
 			$isPublic = null, $type = null, $id = null, $imageFile = null)
 		{
@@ -78,6 +97,10 @@
 			$this->imageFile = $imageFile;
 		}
 
+		/**
+		* Save in the database
+		* @return If it is save
+		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO ART(name, creationYear, presentationHTMLFile, 
 				historicHTMLFile, soundFile, isPublic, type, nameLocation, imageFile) 
@@ -86,6 +109,10 @@
 				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile));
 		}
 
+		/**
+		 * Update the changement in the database with the id of the art
+		 * @return If the update work
+		*/
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE ART SET
@@ -103,18 +130,30 @@
 				$this->historicHTMLFile, $this->soundFile, $this->isPublic, $this->type, $this->nameLocation, $this->imageFile, $this->id));
 		}
 
+		/**
+		* Test if the art exist in the database by his name
+		* @return integer 0 or 1
+		*/
 		function existByName() {
 			$exist = $this->db->prepare("SELECT 1 FROM ART WHERE name = ? ");
 			$exist->execute(array($this->name));
 			return count($exist->fetchAll()) >= 1;
 		}
 
+		/**
+		* Test if the art exist in the database by his id
+		* @return integer 0 or 1
+		*/
 		function existById() {
 			$exist = $this->db->prepare("SELECT 1 FROM ART WHERE id = ? ");
 			$exist->execute(array($this->id));
 			return count($exist->fetchAll()) >= 1;
 		}
 
+		/**
+		* Retrieve arts 
+		* @return All arts informations
+		*/
 		function selectAllArts()
 		{
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
@@ -153,6 +192,10 @@ ORDER BY(name) ASC");*/
 			return $query->fetchAll();
 		}
 
+		/**
+		* Retrieve arts for the search bar
+		* @return All arts informations for the search bar
+		*/
 		function getAllArtsForSearch()
 		{
 			/*$query = $this->db->prepare("SELECT art.name, art.creationYear, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR \", \") AS auteurs
@@ -176,6 +219,10 @@ GROUP BY art.name");*/
 			return $query->fetchAll();
 		}
 
+		/**
+		* Change the status to public or unpublic
+		* @return If the changement is worked
+		*/
 		function updateIsPublic() {
 			$query = $this->db->prepare(
 				"UPDATE ART SET isPublic = :isPublic where name = :name");
@@ -186,6 +233,10 @@ GROUP BY art.name");*/
 			return $query;
 		}
 
+		/**
+		* Delete an art with her name
+		* @return If the deletion worked
+		*/
 		function delete() {
 			$query = $this->db->prepare(
 				"DELETE FROM ART WHERE name = :name");
@@ -194,6 +245,11 @@ GROUP BY art.name");*/
 				));
 			return $query;
 		}
+
+		/**
+		* Retrieve arts for the map
+		* @return All arts informations for the map
+		*/
 		function getAllForHome() {
 			/*$query = $this->db->prepare("SELECT ART.name, ART.creationYear, ART.type, ART.imageFile, LOCATION.longitude, LOCATION.latitude, GROUP_CONCAT(DESIGN.nameAuthor SEPARATOR ", ") AS auteurs
 fROM ART, LOCATION, DESIGN
@@ -222,6 +278,10 @@ GROUP BY ART.name;");*/
 			return $query->fetchAll();
 		}
 
+		/**
+		* Retrieve arts for the description page with her name
+		* @return All arts informations for description page
+		*/
 		function getAllInfoForAnArt() {
 /*			$query = $this->db->prepare("SELECT art.id, art.name, art.creationYear, art.imageFile, art.presentationHTMLFile, art.historiqueHTMLFile, art.soundFile, art.type, LOCATED.nameLocation, GROUP_CONCAT(DISTINCT CONCAT_WS(\", \", DESIGN.nameAuthor, AUTHOR.yearBirth, AUTHOR.yearDEATH) SEPARATOR \"; \") AS auteurs ,GROUP_CONCAT(DISTINCT COMPOSE.nameMaterial SEPARATOR \", \") AS materiaux, GROUP_CONCAT(DISTINCT PARTICIPATE.fullName SEPARATOR \", \") AS architectes, GROUP_CONCAT(DISTINCT VIDEO.titleFile SEPARATOR \", \") AS videos, GROUP_CONCAT(DISTINCT PHOTOGRAPHY.nameFile SEPARATOR \", \") AS photographies, GROUP_CONCAT(DISTINCT HISTORIC.nameFile SEPARATOR \", \") AS photographies_historique FROM ART, LOCATION, LOCATED, DESIGN, AUTHOR, PARTICIPATE, COMPOSE, VIDEO, PHOTOGRAPHY, HISTORIC WHERE ART.name = LOCATED.nameArt AND LOCATION.name = LOCATED.nameLocation AND DESIGN.nameArt = ART.name AND AUTHOR.fullName = DESIGN.nameAuthor  AND PARTICIPATE.nameArt = art.name AND COMPOSE.nameArt = art.name AND VIDEO.nameArt = art.name AND PHOTOGRAPHY.nameArt = art.name AND HISTORIC.nameArt = art.name AND art.name = :name GROUP BY ART.name");*/
 			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
@@ -283,7 +343,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of name.
 	     *
-	     * @param $newName the name
+	      * @param string $newName the name
 	     */
 	    public function setNameById($newName)
 	    {
@@ -305,7 +365,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of imageFile by name of the art.
 	     *
-	     * @param $newName the imageFile
+	      * @param string $newName the imageFile
 	     */
 	    public function setImageFileByName($newImage)
 	    {
@@ -327,7 +387,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of creationYear.
 	     *
-	     * @param  $newcreationYear the creation date
+	      * @param string $newcreationYear the creation date
 	     */
 	    public function setCreationYear($newcreationYear)
 	    {
@@ -349,7 +409,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of presentationHTMLFile.
 	     *
-	     * @param  $newPresentationHTMLFile the presentation HTML lfile
+	      * @param string $newPresentationHTMLFile the presentation HTML lfile
 	     */
 	    public function setPresentationHTMLFileByName($newPresentationHTMLFile)
 	    {
@@ -371,7 +431,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of historicHTMLFile.
 	     *
-	     * @param  $newhistoricHTMLFile the historique HTML file
+	      * @param string $newhistoricHTMLFile the historique HTML file
 	     */
 	    public function sethistoricHTMLFile($newhistoricHTMLFile)
 	    {
@@ -398,7 +458,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of soundFile.
 	     *
-	     * @param  $newsoundFile the sound file
+	      * @param string $newsoundFile the sound file
 	     */
 	    public function setSoundFile($newsoundFile)
 	    {
@@ -408,7 +468,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of soundFile by the name of the art.
 	     *
-	     * @param  $newsoundFile
+	      * @param string $newsoundFile
 	     */
 	    public function setSoundFileByName($newsoundFile)
 	    {
@@ -430,7 +490,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of isPublic.
 	     *
-	     * @param  $newIsPublic the is public
+	      * @param integer $newIsPublic the is public
 	     */
 	    public function setIsPublicById($newIsPublic)
 	    {
@@ -452,7 +512,7 @@ GROUP BY ART.name;");*/
 	    /**
 	     * Sets the value of type.
 	     *
-	     * @param  $newType the type
+	      * @param string $newType the type
 	     */
 	    public function setType($newType)
 	    {

@@ -1,17 +1,17 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Located {
 		/**
-		Name of the localisation 
-		@var nameLocation
+		* Name of the localisation 
+		* @var string
 		*/
 		private $nameLocation;
 
 		/**
-		Name of the art
-		@var idArt
+		*Name of the art
+		* @var integer
 		*/
 		private $idArt;
 
@@ -19,8 +19,18 @@
 		Connection database
 		@var $db
 		*/
+		
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $name
+		* @param integer $idArt
+		*/
 		public function __construct ($name, $idArt)
 		{
 			$this->db = connection();
@@ -28,12 +38,20 @@
 			$this->idArt = $idArt;
 		}
 
+		/**
+		* Save the name of the located position in the database
+		* @return If it is save
+		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO LOCATED(nameLocation, idArt) 
 				VALUES (?, ?)");
 			return $insert->execute(array($this->nameLocation, $this->idArt));
 		}
 
+		/**
+		 * Update the name name of the location or the id of the art by the name of the location and the id of the art
+		 * @return If the update worked
+		 */
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE LOCATED SET
@@ -47,7 +65,7 @@
 	    /**
 	     * Gets the Name of the localisation.
 	     *
-	     * @return name
+	     * @return string name
 	     */
 	    public function getNameLocation()
 	    {
@@ -57,7 +75,7 @@
 	    /**
 	     * Sets the Name of the localisation.
 	     *
-	     * @param name $newName the name
+	     * @param string $newName the name
 	     */
 	    private function setNameLocation($newName)
 	    {
@@ -67,7 +85,7 @@
 	    /**
 	     * Gets the Name of the art.
 	     *
-	     * @return idArt
+	     * @return integer idArt
 	     */
 	    public function getidArt()
 	    {
@@ -77,7 +95,7 @@
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param idArt $newidArt the name art
+	     * @param integer $newidArt the name art
 	     */
 	    private function setidArt($newidArt)
 	    {
