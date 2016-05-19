@@ -1,11 +1,12 @@
 <?php
-	
+	/*Access to the database*/
 	require_once '../persistance/art.php';
 	require_once '../persistance/file.php';
 	require_once '../persistance/location.php';
 	require_once '../persistance/located.php';
 	require_once '../persistance/admin.php';
 
+	/*Get the arguments*/
 	$name = $_POST['name'];
 	$creationYear = $_POST['creationYear'];
 	$isPublic = $_POST['isPublic'];
@@ -17,12 +18,17 @@
 	$id_admin = $_POST['id_admin'];
 	$token_admin = $_POST['token_admin'];
 
+	/*Test if the user have admin cookies
+	  If not, returned an error message*/
 	if(empty($id_admin)) {
 		$res = array('error' => true, 'key' => 'Entrer un ID');
 	}
 	else if(empty($token_admin)) {
 		$res = array('error' => true, 'key' => 'Entrer un token');
 	}
+	/* If the user have admin cookies, we check in the database with the token if it is a valid admin
+	   If not, we return an error message
+	   If yes, we check if the data are empty or not. After that, we create the art in the database and the folder containing the information of the art. */
 	else {
 		$admin = new Admin($id_admin, "", "", "");
 		$tokenDatabase = $admin->getTokenById();
@@ -64,7 +70,7 @@
 					}
 				}
 				else {
-					if ($art->existById()) { //MAJ - name
+					if ($art->existById()) { //UPDATE - name
 						$file->renameFolder($art->getName());
 						$art->setNameById($name);
 						$art->setCreationYear($creationYear);

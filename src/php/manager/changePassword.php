@@ -1,11 +1,15 @@
 <?php
+	/*Access to the database*/
 	require_once '../persistance/admin.php';
 
+	/*Get the argument*/
 	$password = md5($_POST['password']);
 
+	/*If the password is empty, we return an error message.*/
 	if (empty($password)) {
 		$res = array('error' => true, 'key' => 'Entrer un mot de passe.');
 	}
+	/*If is not empty, we change the password. */
 	else {
 		$recupereAdmin = new Admin($_COOKIE['id_admin'], "", $password, "");
         $res = $recupereAdmin->changePassword();

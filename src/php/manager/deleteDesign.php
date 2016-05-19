@@ -1,21 +1,27 @@
 <?php
-	
+	/*Access to the database*/
 	require_once '../persistance/design.php';
 	require_once '../persistance/admin.php';
 	require_once '../persistance/art.php';
 	require_once '../persistance/file.php';
 
+	/*Get the arguments*/
 	$artId = $_POST['idArt'];
 	$authorName = $_POST['authorName'];
 	$id_admin = $_POST['id_admin'];
 	$token_admin = $_POST['token_admin'];
 
+	/*Test if the user have admin cookies
+	  If not, returned an error message*/
 	if(empty($id_admin)) {
 		$res = array('error' => true, 'key' => 'Entrer un ID');
 	}
 	else if(empty($token_admin)) {
 		$res = array('error' => true, 'key' => 'Entrer un token');
 	}
+	/* If the user have admin cookies, we check in the database with the token if it is a valid admin
+	   If not, we return an error message
+	   If yes, we delete the relation between the author and the art and the file who contain the biography of the author. */
 	else {
 		$admin = new Admin($id_admin, "", "", "");
 		$tokenDatabase = $admin->getTokenById();

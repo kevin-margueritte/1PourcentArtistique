@@ -1,11 +1,15 @@
 <?php
+	/*Access to the database*/
 	require_once '../persistance/art.php';
 
+	/*Get the parameter*/
 	$nameArt = $_POST['nameArt'];
 
+	/*Test if the parameter is empty, if yes we return an error message*/
 	if (empty($nameArt)) {
 		$res = array('error' => true, 'key' => 'Entrer un nom d\'oeuvre');
 	}
+	/*If it is not empty, we get the informations for the descriptive page of an art and create a json with a good design. */
 	else {
 		$art = new Art($nameArt, "", "", "", "", "", "", "", "", "");
 		$res = $art->getAllInfoForAnArt();
