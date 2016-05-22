@@ -1,17 +1,25 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Architect {
 
 		/**
-		Full name of the architect (name & surname)
-		@var fullName
+		*Full name of the architect (name & surname)
+		*@var string
 		*/
 		private $fullName;
 
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $fullName
+		*/
 		public function __construct ($fullName)
 		{
 			$this->db = connection();
@@ -20,6 +28,7 @@
 
 		/**
 		* Save in the database
+		* @return If it is save
 		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO ARCHITECT(fullName) 
@@ -27,6 +36,10 @@
 			return $insert->execute(array($this->fullName));
 		}
 
+		/**
+		* Test if the architect exist in the database
+		* @return integer 0 or 1
+		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM ARCHITECT WHERE fullName = ? ");
 			$exist->execute(array($this->fullName));
@@ -36,7 +49,7 @@
 	    /**
 	     * Gets the Full name of the architect (name & surname).
 	     *
-	     * @return fullName
+	     * @return string $fullName
 	     */
 	    public function getFullName()
 	    {
@@ -46,7 +59,7 @@
 	    /**
 	     * Sets the Full name of the architect (name & surname).
 	     *
-	     * @param fullName $newFullName the full name
+	     * @param string $newFullName the full name
 	     */
 	    private function setFullName($newFullName)
 	    {

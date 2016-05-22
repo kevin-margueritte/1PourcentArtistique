@@ -1,4 +1,5 @@
 <?php
+	/*Access to the database*/
 	require_once '../persistance/admin.php';
 
 	/*Get the ID and TOKEN of the admin*/

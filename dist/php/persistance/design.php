@@ -1,32 +1,38 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Design {
 		/**
-		Full name of the author
-		@var nameAuthor
+		* Full name of the author
+		* @var string
 		*/
 		private $nameAuthor;
 
 		/**
-		ID of the art
-		@var idArt
+		* ID of the art
+		* @var integer
 		*/
 		private $idArt;
 
 		/**
-		Biography of the author
-		@var biographyHTMLFile
+		* Biography of the author
+		* @var string
 		*/
 		private $biographyHTMLFile;
 
 		/**
-		Connection database
-		@var $db
+		* Connexion on the database 
+		* @var string
 		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $nameAuthor
+		* @param integer $idArt
+		* @param string biographyHTMLFile
+		*/
 		public function __construct ($nameAuthor, $idArt, $biographyHTMLFile = null)
 		{
 			$this->db = connection();
@@ -37,6 +43,7 @@
 
 		/**
 		* Save in the database
+		* @return If it is save
 		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO DESIGN(nameAuthor, idArt, biographyHTMLFile) 
@@ -45,7 +52,8 @@
 		}
 
 		/**
-		* Test if exist in the database 
+		* Test if an author have designed an art by the name of the author an the id of the art
+		* @return integer 0 or 1
 		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM DESIGN WHERE nameAuthor = ? AND idArt = ?");
@@ -54,7 +62,7 @@
 		}
 
 		/**
-		* Update the biography for an architech correspond to an art
+		* Update the biography for an author correspond to an art
 		*/
 		function update () {
 			$update = $this->db->prepare(
@@ -65,7 +73,8 @@
 		}
 
 		/**
-		* Delete design
+		* Delete the designed by the name of the author and the id of the art
+		* @return If the deletion worked
 		*/
 		function delete() {
 			$delete = $this->db->prepare("DELETE FROM DESIGN WHERE idArt = ? AND nameAuthor = ?");
@@ -85,7 +94,7 @@
 	    /**
 	     * Sets the Biography of the author.
 	     *
-	     * @param biographyHTMLFile $newBiographyHTMLFile the biography HTML file
+	     * @param string $newBiographyHTMLFile the biography HTML file
 	     */
 	    public function setBiographyHTMLFile($newBiographyHTMLFile)
 	    {
@@ -107,7 +116,7 @@
 	    /**
 	     * Sets the Full name of the author.
 	     *
-	     * @param nameAuthor $newNameAuthor the name author
+	     * @param string $newNameAuthor the name author
 	     */
 	    private function setNameAuthor($newNameAuthor)
 	    {
@@ -127,7 +136,7 @@
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param idArt $newidArt the name art
+	     * @param integer $newidArt the name art
 	     */
 	    private function setidArt($newidArt)
 	    {

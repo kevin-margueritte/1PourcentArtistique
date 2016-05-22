@@ -1,17 +1,25 @@
 <?php
-
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 
 	class Material {
 
 		/**
-		Name of the material used for the art
-		@var name
+		* Name of the material used for the art
+		* @var string
 		*/
 		private $name;
 
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $name
+		*/
 		public function __construct ($name = null)
 		{
 			$this->db = connection();
@@ -19,7 +27,8 @@
 		}
 
 		/**
-		* Insert into material
+		* Save the material in the database with his name
+		* @return If it is save
 		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO MATERIAL VALUES (?)");
@@ -27,7 +36,8 @@
 		}
 
 		/**
-		* Test if the material exist in the database
+		* Test if the material already existe in the databse by his name 
+		* @return integer 0 or 1
 		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM MATERIAL WHERE name = ? ");
@@ -36,8 +46,9 @@
 		}
 
 		/**
-		* Update the name of the material in the database
-		*/
+		 * Update the name of the material by his name
+		 * @return If the update worked
+		 */
 		function update () {
 			$update = $this->db->prepare(
 				"UPDATE MATERIAL SET
@@ -47,8 +58,9 @@
 		}
 
 		/**
-		* Get all material
-		*/
+		 * Retrieves all informations about material in the database
+		 * @return All material
+		 */
 		function getAll() {
 			$get = $this->db->prepare("SELECT name FROM MATERIAL");
 			$get->execute();
@@ -58,7 +70,7 @@
 	    /**
 	     * Gets the Name of the material used for the art.
 	     *
-	     * @return name
+	     * @return string
 	     */
 	    public function getName()
 	    {
@@ -68,7 +80,7 @@
 	    /**
 	     * Sets the Name of the material used for the art.
 	     *
-	     * @param name $newName the name
+	     * @param string $newName the name
 	     */
 	    private function setName($newName)
 	    {

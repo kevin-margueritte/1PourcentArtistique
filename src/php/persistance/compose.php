@@ -1,23 +1,32 @@
 <?php
-	
+	/*Connects to the database*/
 	require_once 'connectionDB.php';
 	
 	class Compose {
 
 		/**
-		Name of the material used by art
-		@var nameMaterial
+		*Name of the material used by art
+		* @var string
 		*/
 		private $nameMaterial;
 
 		/**
-		Id of the art
-		@var idArt
+		* Id of the art
+		* @var integer
 		*/
 		private $idArt;
 
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
 		private $db;
 
+		/**
+		* Constructor
+		* @param string $nameMaterial
+		* @param integer $idArt
+		*/
 		public function __construct ($nameMaterial, $idArt)
 		{
 			$this->db = connection();
@@ -26,7 +35,8 @@
 		}
 
 		/**
-		* Save in the database 
+		* Save in the database
+		* @return If it is save
 		*/
 		public function save () {
 			$insert = $this->db->prepare("INSERT INTO COMPOSE(nameMaterial, idArt) 
@@ -35,7 +45,8 @@
 		}
 
 		/**
-		* Test if exist in the database 
+		* Test if the material compose an art in the database by the name of the material an the id of the art
+		* @return integer 0 or 1
 		*/
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM COMPOSE WHERE nameMaterial = ? AND idArt = ?");
@@ -43,6 +54,10 @@
 			return count($exist->fetchAll()) >= 1;
 		}
 
+		/**
+		* Delete by the name of the material and the id of the art
+		* @return If the deletion worked
+		*/
 		function delete() {
 			$delete = $this->db->prepare("DELETE FROM COMPOSE WHERE nameMaterial = ? AND idArt = ?");
 			return $delete->execute(array($this->nameMaterial, $this->idArt));
@@ -61,7 +76,7 @@
 	    /**
 	     * Sets the Name of the material used by art.
 	     *
-	     * @param nameMaterial $newNameMaterial the name material
+	     * @param string $newNameMaterial the name material
 	     */
 	    private function setNameMaterial($newNameMaterial)
 	    {
@@ -81,7 +96,7 @@
 	    /**
 	     * Sets the Name of the art.
 	     *
-	     * @param idArt $newidArt the name art
+	     * @param integer $newidArt the name art
 	     */
 	    private function setIdArt($newidArt)
 	    {
