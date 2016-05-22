@@ -1,4 +1,4 @@
-/* Colours */
+/* Colors */
 /* Fonts */
 @font-face {
   font-family: 'openSans-Bold';
@@ -679,6 +679,7 @@ header #logoUMSlogan #logo-UM img {
 }
 
 header #logoUMSlogan #slogan {
+  display: none;
   float: left;
   padding-top: 30px;
 }
@@ -689,12 +690,9 @@ header #logoUMSlogan #slogan h1 {
   width: 240px;
   margin: inherit;
   color: #bdc3c7;
-}
-
-@media only screen and (max-width: 480px) {
-  header #logoUMSlogan #slogan h1 {
-    font-size: 20px !important;
-  }
+    /*@media @phone-low {
+					font-size: 20px !important;
+				}*/
 }
 
 header .collapse-trigger {
@@ -760,17 +758,34 @@ header #logo-artistique img {
   width: 85px;
 }
 
+header #responsive-slogan h1 {
+  font-family: 'openSans-BoldItalic';
+  font-size: 32px;
+  width: 55%;
+  margin: 0 auto;
+  text-align: center;
+  color: #bdc3c7;
+}
+
 @media only screen and (min-width: 768px) {
-  header #responsive-logo-artistique {
-    display: none;
+  header {
+        /*#responsive-slogan {
+			display: none;
+		}*/
   }
 
-  header #responsive-slogan {
+  header #responsive-logo-artistique {
     display: none;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+  header {
+        /*#responsive-slogan {
+			display: none;
+		}*/
+  }
+
   header #logoUMSlogan {
     margin-left: inherit;
   }
@@ -783,21 +798,19 @@ header #logo-artistique img {
     display: none;
   }
 
-  header #responsive-slogan {
-    display: none;
-  }
-
   header #logo-artistique {
     margin-right: 25px;
   }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-  header #responsive-logo-artistique {
-    display: none;
+  header {
+        /*#responsive-slogan {
+			display: none;
+		}*/
   }
 
-  header #responsive-slogan {
+  header #responsive-logo-artistique {
     display: none;
   }
 
@@ -831,12 +844,7 @@ header #logo-artistique img {
   }
 
   header #responsive-slogan h1 {
-    font-family: 'openSans-BoldItalic';
-    font-size: 15px;
-    width: 55%;
-    margin: 0 auto;
-    text-align: center;
-    color: #bdc3c7;
+    font-size: 22px;
   }
 
   header #logo-artistique {
@@ -1191,7 +1199,7 @@ nav li:hover {
 {
     position: absolute;
     z-index: 1;
-    top: 80%;
+    top: 40%;
     left: 15px;
 
     width: 200px;
@@ -1361,6 +1369,10 @@ footer a {
 
 footer a:hover {
   color: #ff5660;
+}
+
+footer a:focus {
+  color: white;
 }
 
 footer #right,

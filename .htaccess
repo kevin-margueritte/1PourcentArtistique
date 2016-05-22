@@ -23,4 +23,6 @@ RewriteRule /admin/password/reset /html/resetPassword.php
 
 RewriteRule /en-savoir-plus /html/enSavoirPlus.php
 
+RewriteRule /les-credits /html/credits.php
+
 RewriteRule /mentions-legales /html/mentionsLegales.php

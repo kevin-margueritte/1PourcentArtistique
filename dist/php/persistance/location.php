@@ -58,6 +58,17 @@
 			return $get->fetchAll();
 		}
 
+		function getAllForSearch() {
+			$this->db->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
+			$get = $this->db->prepare("
+				SELECT DISTINCT LOCATION.* 
+				FROM LOCATION, ART
+				WHERE ART.nameLocation = LOCATION.name AND ART.isPublic = 1"
+				);
+			$get->execute();
+			return $get->fetchAll();
+		}
+
 		function exist() {
 			$exist = $this->db->prepare("SELECT 1 FROM LOCATION WHERE name = ? ");
 			$exist->execute(array($this->name));

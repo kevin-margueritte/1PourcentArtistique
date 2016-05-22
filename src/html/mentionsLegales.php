@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href="/lib/back-to-top/css/style.css" rel="stylesheet">
+	<link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/css/styles.css">
 	<link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
 	<title>1% artistique - Mentions légales</title>
@@ -64,8 +65,10 @@
 	<script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
 	<script src="/lib/back-to-top/js/modernizr.js"></script>
 	<script src="/lib/back-to-top/js/backtotop.js"></script>
+	<script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
 	<script src="/js/header.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/search.js"></script>
+	<script src="/js/navAdmin.js"></script>
 </body>
 </html>

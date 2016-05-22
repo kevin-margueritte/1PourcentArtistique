@@ -143,10 +143,10 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   icones["architecture"] = L.icon({
     iconUrl: '/assets/epingles/architecture.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
   });
-  icones["art décoratif"] = L.icon({
+  icones["arts décoratifs"] = L.icon({
     iconUrl: '/assets/epingles/art decoratif.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
   });
-  icones["art numérique"] = L.icon({
+  icones["arts numériques"] = L.icon({
     iconUrl: '/assets/epingles/art numerique.png', iconAnchor: [26, 52], popupAnchor:  [0, -50]
   });
   icones["cinéma"] = L.icon({
@@ -181,6 +181,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
   $http(rqt).success(function(data){
     /* convert the JSON returned by the database in GEOJSON (for a better supported in*/
     artGeoJson = GeoJSON.parse(data, {Point: ['latitude', 'longitude']});
+    console.log(artGeoJson);
     $scope.filtres("all");
   });
 
@@ -194,10 +195,10 @@ myApp.controller('home-map', function ($scope, $http, $window) {
     var filter;
     filter = /*$('input[name=oeuvres]:checked', '#formulaire_Filtre').val();*/ name;
     if (filter == 'artDécoratif') {
-      filter = 'art décoratif';
+      filter = 'arts décoratifs';
     }
     else if (filter == 'artNumérique') {
-      filter = 'art numérique';
+      filter = 'arts numériques';
     }
     $('input[value=' + name + ']').prop('checked', true);
 
@@ -232,6 +233,7 @@ myApp.controller('home-map', function ($scope, $http, $window) {
           "</div>";
 
         /*Create each point based on its coordinates with its content and its icon*/
+        console.log(feature.properties.type.toLowerCase());
         return markers.addLayer(
           new L.Marker(new L.LatLng(
             feature.geometry.coordinates[1],

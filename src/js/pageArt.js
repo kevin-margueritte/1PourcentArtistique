@@ -29,8 +29,8 @@ myApp.directive('repeatOwlPhotographyPost', function($timeout) {
       //var authorName = data.key.authors[idx].name;
       var defer = $q.defer();
       var test;
-      $http.get('/assets/oeuvres/' + artName.replace(new RegExp(" ", 'g'), "_") + '/biography' + 
-          authorName.replace(new RegExp(" ", 'g'), "_") + '.html')
+      $http.get('/assets/oeuvres/' + unescape(encodeURIComponent(artName.replace(new RegExp(" ", 'g'), "_"))) + '/biography' + 
+          unescape(encodeURIComponent(authorName.replace(new RegExp(" ", 'g'), "_") + '.html')))
         .success(function(data){
           defer.resolve(data);
         });
@@ -161,7 +161,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     initMap();
 
     URI = $location.absUrl().split('/')[4];
-    var param = $location.absUrl().split('/')[5].replace(new RegExp("_", 'g'), " ");
+    var param = decodeURIComponent($location.absUrl().split('/')[5].replace(new RegExp("_", 'g'), " "));
+    console.log(param);
     player = document.getElementsByTagName("video")[0];
     
     if (URI == 'create' || URI == 'update') {
@@ -235,7 +236,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         showArchitectOnOverview(data.key.architects);
         if (data.key.presentationImage != null) {
           $scope.art.imagePath = '/assets/oeuvres/' + 
-           $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.presentationImage;
+           unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_"))) + "/" + 
+           unescape(encodeURIComponent(data.key.presentationImage));
           $scope.art.imageAlt = data.key.presentationImage;
         }
 
@@ -245,7 +247,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           /**Get content presentation HTML **/
           var rqt = {
             method : 'GET',
-            url : '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + '/description.html',
+            url : '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_"))) + '/description.html',
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -258,7 +260,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
               $scope.art.videoList[i] = {};
               $scope.art.videoList[i].fullName = data.key.videos[i];
               $scope.art.videoList[i].name = data.key.videos[i].split('.')[0];
-              $scope.art.videoList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.videos[i];
+              $scope.art.videoList[i].path = '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_")))
+               + "/" + unescape(encodeURIComponent(data.key.videos[i]));
             }
             if (data.key.videos.length !=0 ) {
               $scope.videoHide = false;
@@ -272,7 +275,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             $scope.soundHide = false;
             $scope.art.soundFullName = data.key.soundFile;
             $scope.art.soundName = data.key.soundFile.split('.')[0];
-            $scope.art.soundPath = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.soundFile;
+            $scope.art.soundPath = '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_")))
+             + "/" + unescape(encodeURIComponent(data.key.soundFile));
           }
         }
 
@@ -284,7 +288,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             $scope.art.photographyList[i] = {};
             $scope.art.photographyList[i].fullName = data.key.photos[i];
             $scope.art.photographyList[i].name = data.key.photos[i].split('.')[0];
-            $scope.art.photographyList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.photos[i];
+            $scope.art.photographyList[i].path = '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_")))
+             + "/" + unescape(encodeURIComponent(data.key.photos[i]));
           }
         }
 
@@ -296,7 +301,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             $scope.art.historicList[i] = {};
             $scope.art.historicList[i].fullName = data.key.historicImages[i];
             $scope.art.historicList[i].name = data.key.historicImages[i].split('.')[0];
-            $scope.art.historicList[i].path = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + data.key.historicImages[i];
+            $scope.art.historicList[i].path = '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_")))
+              + "/" + unescape(encodeURIComponent(data.key.historicImages[i]));
           }
         }
 
@@ -304,7 +310,7 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           /*** Get content historic text **/
           var rqt = {
             method : 'GET',
-            url : '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + '/historic.html',
+            url : '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_"))) + '/historic.html',
             headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
           };
           $http(rqt).success(function(data){
@@ -380,7 +386,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       },
       addRemoveLinks: true,
       sending: function(file, xhr, formData) {
-        $scope.art.imagePath = '/assets/oeuvres/' + $scope.art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.imagePath = '/assets/oeuvres/' + unescape(encodeURIComponent($scope.art.name.replace(new RegExp(" ", 'g'), "_"))) + "/" + 
+          unescape(encodeURIComponent(file.name));
         $scope.art.imageAlt = file.name;
         formData.append("nameArt", $scope.art.name);
       },
@@ -439,7 +446,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       sending: function(file, xhr, formData) {
         $scope.art.videoList[nbVideos] = {};
         $scope.art.videoList[nbVideos].name = file.name.split('.')[0];
-        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.videoList[nbVideos].path = '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_"))) + "/" + 
+          unescape(encodeURIComponent(file.name));
         if (nbVideos!=0) {
           $scope.art.videoList[nbVideos].active = false;
         }
@@ -488,7 +496,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       sending: function(file, xhr, formData) {
         $scope.soundHide = false;
         $scope.art.soundName = file.name.split('.')[0];
-        $scope.art.soundPath = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.soundPath = '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_"))) + "/" + 
+          unescape(encodeURIComponent(file.name));
         formData.append("nameArt", art.name);
       },
       dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
@@ -530,7 +539,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       sending: function(file, xhr, formData) {
         $scope.art.photographyList[$scope.nbPhotography] = {};
         $scope.art.photographyList[$scope.nbPhotography].name = file.name.split('.')[0];
-        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.photographyList[$scope.nbPhotography].path = '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_")))
+         + "/" + unescape(encodeURIComponent(file.name));
         $scope.nbPhotography++;
         owlPhotographyIsSet = false;
         destroyCarouselPhotograph();
@@ -591,7 +601,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
       sending: function(file, xhr, formData) {
         $scope.art.historicList[$scope.nbHistoric] = {};
         $scope.art.historicList[$scope.nbHistoric].name = file.name.split('.')[0];
-        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/" + file.name;
+        $scope.art.historicList[$scope.nbHistoric].path = '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_")))
+         + "/" + unescape(encodeURIComponent(file.name));
         $scope.nbHistoric++;
         owlHistoricIsSet = false;
         destroyCarouselHistoric();
@@ -1205,7 +1216,8 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
     $('#modal-editBiography').modal('show');
     var rqt = {
       method : 'GET',
-      url : '/assets/oeuvres/' + art.name.replace(new RegExp(" ", 'g'), "_") + "/biography" + name.replace(new RegExp(" ", 'g'), "_") + ".html",
+      url : '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_"))) + "/biography" + 
+        unescape(encodeURIComponent(name.replace(new RegExp(" ", 'g'), "_") + ".html")),
       headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt)

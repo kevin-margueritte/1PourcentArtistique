@@ -9,7 +9,10 @@
 	$id_admin = $_POST['id_admin'];
 	$token_admin = $_POST['token_admin'];
 
-	if(empty($id_admin)) {
+	if (empty($materialName)) {
+		$res = array('error' => true, 'key' => 'Entrer le nom d\'un matériau');
+	}
+	else if(empty($id_admin)) {
 		$res = array('error' => true, 'key' => 'Entrer un ID');
 	}
 	else if(empty($token_admin)) {

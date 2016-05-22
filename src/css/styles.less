@@ -1,4 +1,4 @@
-/* Colours */
+/* Colors */
 @rouge_um: #FF5660;
 @bleu_de_soutien: #4BC2BC;
 @clouds: #ECF0F1;
@@ -623,7 +623,7 @@ header {
 		}
 
 		#slogan {
-
+			display: none;
 			float: left;
 			padding-top: 30px;
 
@@ -634,9 +634,9 @@ header {
 				font-family: @openSans-BoldItalic;
 				font-size: 20px;
 
-				@media @phone-low {
+				/*@media @phone-low {
 					font-size: 20px !important;
-				}
+				}*/
 
 			}
 
@@ -710,14 +710,25 @@ header {
     	}
 	}
 
+	#responsive-slogan {
+		h1 {
+			color: @silver;
+			font-family: @openSans-BoldItalic;
+			width: 55%;
+			margin: 0 auto;
+			text-align: center;
+			font-size: 32px;
+		}
+	}
+
 	@media @tablet {
 		#responsive-logo-artistique {
 			display: none;
 		}
 
-		#responsive-slogan {
+		/*#responsive-slogan {
 			display: none;
-		}
+		}*/
 	}
 
 	@media @tablet-strict {
@@ -733,9 +744,9 @@ header {
 			display: none;
 		}
 
-		#responsive-slogan {
+		/*#responsive-slogan {
 			display: none;
-		}
+		}*/
 
 		#logo-artistique {
 			margin-right: 25px; 
@@ -747,9 +758,9 @@ header {
 			display: none;
 		}
 
-		#responsive-slogan {
+		/*#responsive-slogan {
 			display: none;
-		}
+		}*/
 
 		#slogan {
 			h1 {
@@ -785,12 +796,7 @@ header {
 
 		#responsive-slogan {
 			h1 {
-				color: @silver;
-				font-family: @openSans-BoldItalic;
-				width: 55%;
-				margin: 0 auto;
-				text-align: center;
-				font-size: 15px;
+				font-size: 22px;
 			}
 		}
 
@@ -1251,7 +1257,7 @@ nav {
 #menu-ui {
     background: #fff;
     position: absolute;
-    top: 80%;
+    top: 40%;
     left: 15px;
     z-index: 1;
     border-radius: 3px;
@@ -1412,6 +1418,10 @@ footer {
 
     a:hover {
     	color: @rouge_um;
+    }
+
+    a:focus {
+    	color: white;
     }
 
     #right, #left {

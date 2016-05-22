@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link href="/lib/back-to-top/css/style.css" rel="stylesheet">
-	<link rel="stylesheet" href="/css/styles.css">
 	<link href="/lib/autocomplete/easy-autocomplete.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/styles.css">
 	<link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
 	<title>1% artistique - Mentions légales</title>
 </head>
@@ -13,19 +13,25 @@
 	<?php include($_SERVER['DOCUMENT_ROOT']."/html/headerAdmin.php") ?>
 	<?php include($_SERVER['DOCUMENT_ROOT']."/html/header.php") ?>
 	<div id="credits">
-		<h1 id="title">LE 1% ARTISTIQUE À L'UNIVERSITÉ DE MONTPELLIER</h1>
-		<h2>
-			Le 1% artistique est un dispositif créé en 1951 afin de soutenir la création contemporaine, sensibiliser les citoyens à l’art et offrir au plus grand nombre un contact direct avec des œuvres d’art. Cette démarche prévoit l’affectation d’1% du coût des travaux de construction, d’extension ou de réhabilitation de certains bâtiments publics à la réalisation d’une ou de plusieurs œuvres conçues pour le lieu qui les accueille.
-		</h2>
+		<p id="title">CRÉDITS</p>
+		<span>
+			Application développée par Pierrick Giuliani et Kevin Margueritte dans le cadre du projet industriel de fin d’étude - Département Informatique & Gestion- Polytech Montpellier – UM.
+			</br>
+			Conception, réalisation et hébergement du site : Université de Montpellier
+			Coordination : Direction vie des campus - Service art & culture
+			Contenu éditorial et rédaction : Direction Culture Scientifique et Patrimoine Historique - Service Patrimoine Historique
+			Conseil et assistance technique, hébergement, maintenance et valorisation : Direction du Système d’Information et du Numérique (DSIN) et Fontaine numérique (UM).
+		</span>
+		<p id="laws">Copyright et crédits photographiques<p>
+		<span>
+			Université de Montpellier
+		</span>
 		</br>
-		<h2>
-			À l’Université de Montpellier (UM), les premières œuvres réalisées dans le cadre de ce dispositif datent de la construction du campus Triolet dans les années 1960-1970. Les architectes Philippe Jaulmes et Jean de Richemond conçoivent alors un programme de décoration ambitieux et font appel à des artistes de renom comme Pol Bury, Yaacov Agam et Albert Dupin. La plupart des œuvres réalisées sont de style « Op Art » (ou art optique) et de style cinétique (œuvres en mouvement).
-		</h2>
+		<p id="laws">Comité de suivi éditorial et technique<p>
+		<span>
+			Denis Guthfreund (bibliothécaire, coordinateur de la fontaine numérique), Noémie Miralles (chargée de collections muséales), Guilhem Mouton (responsable web et multimédia - DSIN), Catherine Nguyen (Assistante ingénieure pédagogique - DSIN), Audrey Théron (chargée de collections muséales), Eléonore Szturemski (responsable du service art & culture).
+		</span>
 		</br>
-		<h2>
-			Par la suite, chaque nouveau bâtiment construit au sein de l’UM a pu bénéficier de cette procédure spécifique de commandes d’œuvres comme sur les sites de l’IUT de Béziers, de Richter, de Saint-Priest et le site nord de l’UFR médecine.
-			L’UM continue d’instituer la création d’œuvres par des artistes-plasticiens associée aux créations architecturales publiques afin de sensibiliser la communauté universitaire à l’art contemporain.
-		</h2>
 	</div>
 	<a href="#0" class="cd-top">Top</a>
 	<?php include($_SERVER['DOCUMENT_ROOT']."/html/footer.php") ?>
@@ -39,8 +45,8 @@
 	<script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
 	<script src="/lib/back-to-top/js/modernizr.js"></script>
 	<script src="/lib/back-to-top/js/backtotop.js"></script>
-	<script src="/js/header.js"></script>
 	<script src="/lib/autocomplete/jquery.easy-autocomplete.js"></script>
+	<script src="/js/header.js"></script>
 	<script src="/js/app.js"></script>
 	<script src="/js/search.js"></script>
 	<script src="/js/navAdmin.js"></script>

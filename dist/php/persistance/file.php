@@ -29,7 +29,7 @@
 
 		function renameFolder($newName) {
 			if (!file_exists($this->src . $newName)) {
-				rename($this->src . $newName, $this->src . $this->artName);
+				rename($this->src . str_replace(' ','_', $newName), $this->src . $this->artName);
 			}
 		}
 

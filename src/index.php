@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Application de géolocalisation des oeuvres d'arts présente dans les campus de l'Université de Montpellier dans le cadre du 1% Artistique">
     <link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
     <title>1% artistique - Université de Montpellier</title>
 
@@ -62,7 +62,7 @@
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="artNumérique"/>
                 <div id="texteFiltre"><img src="/assets/epingles/art numerique.png">
-                  <span>Art numérique</span>
+                  <span>Arts numériques</span>
                 </div>
               </label>
             </div>
@@ -70,7 +70,7 @@
               <label>
                 <input type="radio" id="checkBox"  name="oeuvres" value="artDécoratif"/>
                 <div id="texteFiltre"><img src="/assets/epingles/art decoratif.png">
-                  <span>Art décoratif</span>
+                  <span>Arts décoratifs</span>
                 </div>
               </label>
             </div>

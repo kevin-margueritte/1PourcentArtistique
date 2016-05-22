@@ -123,7 +123,7 @@
 		</div>
 		<div class="historic clearfix" ng-hide=hideHistoric ng-class="{'gray': (hidePresentation == true && hidePhotography == false) || (hidePresentation == false && hidePhotography == true)}">
 			<h1 class="collapse-trigger collapse-off carousel-historic-collapse" data-toggle="collapse" data-target="#collapseHistoric">
-				HISTORIQUE - {{nbHistoric + " photo(s) d'historique(s)"}}
+				HISTORIQUE - {{nbHistoric + " photo(s) d'historique"}}
 				<i class='glyphicon glyphicon-collapse glyphicon-chevron-up'></i>
 			</h1>
 			<div class="collapse on" id="collapseHistoric">
@@ -365,7 +365,7 @@
 							<button type="button" ng-click="publish(true)" class="btn btn-add-publish">Oui, je publie</button>
 						</div>
 						<div>
-							<button type="button" ng-click="publish(false)" class="btn btn-add-publishNo">Non, j'enregiste</button>
+							<button type="button" ng-click="publish(false)" class="btn btn-add-publishNo">Non, j'enregistre</button>
 						</div>
 					</div>
 				</div>
