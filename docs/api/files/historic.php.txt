@@ -1,0 +1,105 @@
+<?php
+	/*Connects to the database*/
+	require_once 'connectionDB.php';
+	
+	class Historic {
+
+		/**
+		* Name of the photography
+		* @var string
+		*/
+		private $nameFile;
+
+		/**
+		* Name of the art
+		* @var integer
+		*/
+		private $idArt;
+
+		/**
+		* Connexion on the database 
+		* @var string
+		*/
+		private $db;
+
+		/**
+		* Constructor
+		* @param string $nameFile
+		* @param integer $idArt
+		*/
+		public function __construct ($nameFile, $idArt)
+		{
+			$this->db = connection();
+			$this->nameFile = $nameFile;
+			$this->idArt = $idArt;
+		}
+
+		/**
+		* Save the historic in the database
+		* @return If it is save
+		*/
+		public function save () {
+			$insert = $this->db->prepare("INSERT INTO HISTORIC(nameFile, idArt) 
+				VALUES (?, ?)");
+			return $insert->execute(array($this->nameFile, $this->idArt));
+		}
+
+		/**
+		* Test if the historic file already exist in the database by the name of the file an the id of the art
+		* @return integer 0 or 1
+		*/
+		function exist() {
+			$exist = $this->db->prepare("SELECT 1 FROM HISTORIC WHERE nameFile = ? AND idArt  = ? ");
+			$exist->execute(array($this->nameFile, $this->idArt));
+			return count($exist->fetchAll()) >= 1;
+		}
+
+		/**
+		* Delete the historic file by the name of the file and the id of the art
+		* @return If the deletion worked
+		*/
+		public function delete() {
+			$delete = $this->db->prepare("DELETE FROM HISTORIC WHERE nameFile = ? AND idArt = ?");
+			return $delete->execute(array($this->nameFile, $this->idArt));
+		}
+	
+	    /**
+	     * Gets the Name of the photography.
+	     *
+	     * @return string nameFile
+	     */
+	    public function getNameFil()
+	    {
+	        return $this->nameFile;
+	    }
+
+	    /**
+	     * Sets the Name of the photography.
+	     *
+	     * @param string $newNameFile the name file
+	     */
+	    private function setNameFil($newNameFile)
+	    {
+	        $this->nameFile = $newNameFile;
+	    }
+
+	    /**
+	     * Gets the Name of the art.
+	     *
+	     * @return integer idArt
+	     */
+	    public function getidArt()
+	    {
+	        return $this->idArt;
+	    }
+
+	    /**
+	     * Sets the Name of the art.
+	     *
+	     * @param integer $newidArt the name art
+	     */
+	    private function setidArt($newidArt)
+	    {
+	        $this->idArt = $newidArt;
+	    }
+	}

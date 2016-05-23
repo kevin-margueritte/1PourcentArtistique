@@ -7,9 +7,14 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
-    <meta name="description" content="">
-    <meta name="author" content="Application de géolocalisation des oeuvres d'arts présente dans les campus de l'Université de Montpellier dans le cadre du 1% Artistique">
-    <link rel="shortcut icon" href="/assets/img/logo_artistique.ico" />
+    <meta name="description" content="Application de géolocalisation des œuvres d'art présentent dans les campus 
+    de l'Université de Montpellier dans le cadre du 1% Artistique. À l’Université de Montpellier (UM), les premières 
+    œuvres réalisées dans le cadre de ce dispositif datent de la construction du campus Triolet dans les années 1960-1970. 
+    Les architectes Philippe Jaulmes et Jean de Richemond conçoivent alors un programme de décoration ambitieux et font 
+    appel à des artistes de renom comme Pol Bury, Yaacov Agam et Albert Dupin. La plupart des œuvres réalisées sont de 
+    style « Op Art » (ou art optique) et de style cinétique (œuvres en mouvement).">
+    <link rel="shortcut icon" href="/assets/img/logo_artistique.ico">
+    <meta name="author" content="Kévin Margueritte & Pierrick Giuliani"/>
     <title>1% artistique - Université de Montpellier</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">

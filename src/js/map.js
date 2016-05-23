@@ -205,7 +205,8 @@ myApp.controller('home-map', function ($scope, $http, $window) {
     geojson = L.geoJson(artGeoJson, {
       pointToLayer: function(feature, latlng) {
         /*Get the image path*/
-        var pathImage = "/assets/oeuvres/" + feature.properties.name.replace(new RegExp(" ", 'g'), "_") + "/"+ feature.properties.imagefile;
+        var pathImage = "/assets/oeuvres/" + unescape(encodeURIComponent(feature.properties.name.replace(new RegExp(" ", 'g'), "_"))) + "/"+ 
+          unescape(encodeURIComponent(feature.properties.imagefile));
         var author;
         /*Create the content of the pop-up with the elements of the art*/
         if (feature.properties.auteurs == null) {

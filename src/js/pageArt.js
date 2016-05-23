@@ -120,6 +120,13 @@ var confWysywyg = {
         ]
       },
       lang: 'fr-FR',
+      callbacks: {
+        onPaste: function (e) {
+            var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+            e.preventDefault();
+            document.execCommand('insertText', false, bufferText);
+        }
+      }
     };
 
 myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, factoryBiography, $window, $cookies, $cookieStore) {
@@ -406,6 +413,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             done("Fichier déjà ajouté dans la section historique");
           }
         }
+        if (file.name.indexOf('%') > -1) {
+          done("Le caractère % est strictement interdit");
+        }
         done();
       },
       dictDefaultMessage: 'Glisser une photo de présentation de l\'oeuvre (JPG, PNG, JPEG, GIF)',
@@ -464,6 +474,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             done("Fichier déjà ajouté");
           }
         }
+        if (file.name.indexOf('%') > -1) {
+          done("Le caractère % est strictement interdit");
+        }
         done();
       },
       dictDefaultMessage: 'Glisser des vidéos de présentation (AVI, WMV, MOV, MP4, MPEG4)'
@@ -499,6 +512,12 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
         $scope.art.soundPath = '/assets/oeuvres/' + unescape(encodeURIComponent(art.name.replace(new RegExp(" ", 'g'), "_"))) + "/" + 
           unescape(encodeURIComponent(file.name));
         formData.append("nameArt", art.name);
+      },
+      accept: function (file, done) {
+        if (file.name.indexOf('%') > -1) {
+          done("Le caractère % est strictement interdit");
+        }
+        done();
       },
       dictDefaultMessage: 'Glisser un son de présentation (WAV, MP3, WMA, OGG)'
     });
@@ -561,6 +580,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
             done("Fichier déjà ajouté dans la section historique");
           }
         }
+        if (file.name.indexOf('%') > -1) {
+          done("Le caractère % est strictement interdit");
+        }
         done();
       },
       dictDefaultMessage: 'Glisser des photographies de l\'oeuvre (JPG, PNG, JPEG, GIF)'
@@ -622,6 +644,9 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
           if ($scope.art.historicList[i].name == fileNameWithoutExt) {
             done("Fichier déjà ajouté");
           }
+        }
+        if (file.name.indexOf('%') > -1) {
+          done("Le caractère % est strictement interdit");
         }
         done();
       },
@@ -704,6 +729,10 @@ myApp.controller('page-art', function ($scope, $http, $sce, $location, $q, facto
   $scope.completeTitle = function() {
     if (angular.isUndefined($scope.art.name) || $scope.art.name == '') {
       $scope.titleError = "Veuillez saisir le nom de l'art";
+      $scope.hideErrorTitle = false;
+    }
+    else if ($scope.art.name.indexOf('%') > -1) {
+      $scope.titleError = "Il est strictement interdit d'utiliser le caractère %";
       $scope.hideErrorTitle = false;
     }
     else if ($scope.art.date == 0 || !Number.isInteger($scope.art.date)) {

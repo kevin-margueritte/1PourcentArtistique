@@ -4,5 +4,5 @@
 
 	/*Ask the database to have all location. */
 	$location = new Location();
-	$res = array('error' => false, 'key' => $location->getAllForSearch());
+	$res = array('error' => false, 'key' => $location->getAll());
 	echo json_encode($res);

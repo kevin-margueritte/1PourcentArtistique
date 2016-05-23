@@ -27,7 +27,7 @@ myApp.controller('search', function ($scope, $http, $window) {
     /*Get informations about location in the databases*/
     var rqt = {
 		method : 'GET',
-		url : '/php/manager/getAllLocation.php', 
+		url : '/php/manager/getAllLocationForSearch.php', 
 		headers : { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
     };
     $http(rqt).success(function(data){
