@@ -396,7 +396,7 @@
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.js"></script>
 	<script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
-	<script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
+	<script src="https://unpkg.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDj9L77r-tVMiQNKm0iDaqYVnbjRO57HPc&sensor=false&signed_in=true&libraries=drawing,places"></script>
 	<script src="/lib/back-to-top/js/modernizr.js"></script>
 	<script src="/lib/back-to-top/js/backtotop.js"></script>
