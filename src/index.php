@@ -136,7 +136,7 @@
   <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
   <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
   <script src="/lib/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
-  <script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
+  <script src="https://unpkg.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="https://code.angularjs.org/1.4.5/angular-touch.js"></script>
   <script src="/lib/cookies/angular-cookies.js"></script>
